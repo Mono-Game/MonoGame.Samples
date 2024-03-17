@@ -15,7 +15,7 @@ Discusses the implementation of the remaining game elements, such as barriers, f
 
 It is time to add the remaining models: the fuel cells and the fuel carrier. They represent the various barriers encountered in the game.
 
-The fuel cell model (`fuelcell.x`) is a simple canister-like object with a single texture (`fuelcell.png`). Typically, you only need to add the model file and not the texture. The texture file is automatically used when the Content Pipeline processes the model file. The barrier models are similar to the fuel cell model. They each have a specific model and a single texture. Since the game has three barrier types, we will be adding three different models (`cube10uR`/`cylinder10uR`/`pyramid10uR.x`) and a set of textures (`BarrierBlue`/`BarrierPurple`/`BarrierRed.png`). Unlike the fuel cell model, the barrier textures are simple and can be used with any barrier model.
+The fuel cell model (`fuelcellmodel.x`) is a simple canister-like object with a single texture (`fuelcell.png`). Typically, you only need to add the model file and not the texture. The texture file is automatically used when the Content Pipeline processes the model file. The barrier models are similar to the fuel cell model. They each have a specific model and a single texture. Since the game has three barrier types, we will be adding three different models (`cube10uR.x`/`cylinder10uR.x`/`pyramid10uR.x`) and a set of textures (`BarrierBlue`/`BarrierPurple`/`BarrierRed.png`). Unlike the fuel cell model, the barrier textures are simple and can be used with any barrier model.
 
 > [!NOTE]
 > The rather unique model names are the result of keeping the scale relatively uniform among all models. The naming convention begins with the model name and then the radius, measured in the units of the 3D modelling application used. Therefore, pyramid10uR is the name of the pyramid model whose radius is 10 units in length.
@@ -24,7 +24,7 @@ The fuel cell model (`fuelcell.x`) is a simple canister-like object with a singl
 - Right-click the Models directory icon of the Content project.
 - Click Add and then New Existing Item....
 - Download and then add the following files:
-  - [fuelcell.x](../FuelCell.Core/Content/Models/fuelcell.x) and [fuelcell.png](../FuelCell.Core/Content/Models/fuelcell.png)
+  - [fuelcellmodel.x](../FuelCell.Core/Content/Models/fuelcellmodel.x) and [fuelcell.png](../FuelCell.Core/Content/Models/fuelcell.png)
   - [fuelcarrier.x](../FuelCell.Core/Content/Models/fuelcarrier.x) and [carriertextures.png](../FuelCell.Core/Content/Models/carriertextures.png)
   - [cube10uR.x](../FuelCell.Core/Content/Models/cube10uR.x), [cylinder10uR.x](../FuelCell.Core/Content/Models/cylinder10uR.x), and [pyramid10uR.x](../FuelCell.Core/Content/Models/pyramid10uR.x)
   - [BarrierBlue.png](../FuelCell.Core/Content/Models/BarrierBlue.png), [BarrierPurple.png](../FuelCell.Core/Content/Models/BarrierPurple.png), and [BarrierRed.png](../FuelCell.Core/Content/Models/BarrierRed.png)
@@ -93,7 +93,10 @@ public void Draw(Matrix view, Matrix projection)
 }
 ```
 
-This will automatically scale the fuel cell model by selecting the newly-added model from Content Project and set the `Scale` property to `.03`, located on the property page of the model asset in the MGCB editor. The Scale property is found by expanding the Processor field.
+We need to override the scale of the fuel cell model (`fuelcellmodel.x`) by selecting the newly-added model from Content Project and set the `Scale` property to `.03`, located on the property page of the model asset in the MGCB editor. The Scale property is found by expanding the Processor field.
+
+![Content Processor scale setting](Images/03-01-contentpipeline.png)
+
 One of the cool features of MonoGame (specifically, the content pipeline) are processor parameters. You can change common values for a processor by changing the related property of a selected game asset using the Properties window. If you didn't use this feature, you would need to use a scaling matrix to shrink the fuel cell model before rendering it on the screen.
 
 > [!NOTE]
@@ -105,7 +108,8 @@ That completes the implementation of the fuel class. Next stop, the barrier clas
 
 The Barrier class implements the geometrical barriers that are randomly scattered across the playing field. They are an important part of the game because they provide a new experience for every game (since they are placed randomly) and they provide a challenge to the player who is trying to find fuel cells (also randomly placed) before time runs out. In a later step, when collision detection is added, these barriers become impassable and must be driven around.
 
-We automatically scale the barrier models by selecting each barrier model from Content Project and setting the `Scale` property to `.3`, located on the property page of the model asset. The Scale property is found by expanding the Processor field.
+> [!NOTE]
+> We need to scale the barrier models by selecting each barrier model (`cube10uR.x`/`cylinder10uR.x`/`pyramid10uR.x`) in the Content Project and sett the `Scale` property to `.3`, located on the property page of the model asset. The Scale property is found by expanding the Processor field, as we did previously for the `FuelCell` model.
 
 Create a new class file called `Barrier.cs`, add replace its contents with the following:
 
@@ -170,9 +174,19 @@ In game development terms, the fuel carrier is the avatar of the player. It is t
 
 The process for implementing the fuel carrier class is similar to the `FuelCell` and `Barrier` class implementations.
 
-We automatically scale the fuel carrier model by selecting it in the Content Project and setting the `Scale` property to `.1`, located on the property page of the model asset. The `Scale` property is found by expanding the Processor field.
+Firstly, to support some new "defaults" for the FuelCarrier", add the following additional constants to the end of the `GameConstants` class, located in `GameConstants.cs`:
 
-Create a new class file called `FuelCarrier.cs`, add replace its contents with the following:
+```csharp
+//ship constants
+public const float Velocity = 0.75f;
+public const float TurnSpeed = 0.025f;
+public const int MaxRange = 98;
+```
+
+> [!NOTE]
+> We scale the fuel carrier model by selecting it in the Content Project and setting the `Scale` property to `.1`, located on the property page of the model asset. The `Scale` property is found by expanding the Processor field.
+
+Next, create a new class file called `FuelCarrier.cs`, add replace its contents with the following:
 
 ```csharp
 using Microsoft.Xna.Framework.Content;
@@ -200,7 +214,14 @@ namespace FuelCell.Core.Game
 }
 ```
 
-Implement the `Draw` method by adding the following code to the `FuelCarrier` class declaration:
+As usual, the Fuel Carrier data members are specific to the class. In this case, there is:
+
+- A `ForwardDirection` property that stores the current direction (in radians) that the fuel carrier is facing. This property is also used by the camera class to orientate along the same vector.
+- The `MaxRange` member is used later to prevent the fuel carrier from driving off the playing field. This is something that would completely break the gameplay illusion.
+
+As mentioned earlier, the methods are similar to the implementation code for the fuel cell and barrier classes. However, in the next part, you will add code that allows the player to drive the fuel carrier around the playing field. In fact, the fuel carrier has the singular honor of being the only moving part in the game!
+
+Finally, implement the `Draw` method by adding the following code to the `FuelCarrier` class declaration:
 
 ```csharp
 public void Draw(Matrix view, Matrix projection)
@@ -226,22 +247,6 @@ public void Draw(Matrix view, Matrix projection)
     }
 }
 ```
-
-To support the new "defaults" we need for the FuelCarrier", add the following additional constants to the end of the `GameConstants` class, located in `GameConstants.cs`:
-
-```csharp
-//ship constants
-public const float Velocity = 0.75f;
-public const float TurnSpeed = 0.025f;
-public const int MaxRange = 98;
-```
-
-As usual, the Fuel Carrier data members are specific to the class. In this case, there is:
-
-- A `ForwardDirection` property that stores the current direction (in radians) that the fuel carrier is facing. This property is also used by the camera class to orientate along the same vector.
-- The `MaxRange` member is used later to prevent the fuel carrier from driving off the playing field. This is something that would completely break the gameplay illusion.
-
-As mentioned earlier, the methods are similar to the implementation code for the fuel cell and barrier classes. However, in the next part, you will add code that allows the player to drive the fuel carrier around the playing field. In fact, the fuel carrier has the singular honor of being the only moving part in the game!
 
 ## Setting the Stage
 
@@ -309,7 +314,7 @@ fuelCarrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
 
 Build and run the project and you will now see, in addition to the playing field, several cool things on the screen. You see some barriers, with a fuel cell slightly behind them, and a funny blue ovoid in the foreground. That is actually the fuel carrier. It's a (very) simple model, but it suits the purpose of the game. The next step implements user control of the game avatar.
 
-![Project status]()
+![Project status](Images/03-02-status.png)
 
 ## See Also
 
