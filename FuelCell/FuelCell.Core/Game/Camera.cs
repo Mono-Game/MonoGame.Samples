@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 
 namespace FuelCell
 {
-    class Camera
+    public class Camera
     {
         public Vector3 AvatarHeadOffset { get; set; }
         public Vector3 TargetOffset { get; set; }

@@ -2,19 +2,17 @@
 
 ## In this article
 
-- The Complete Sample
-- Overview
-- Objects in the Game
-- The Camera
-- Game Constants
-- Getting a Grip
-- Opening Your "Eye"
-- See Also
+- [Overview](#overview)
+- [Objects in the Game](#objects-in-the-game)
+- [The Camera](#the-camera)
+- [Game Constants](#game-constants)
+- [Getting a Grip](#getting-a-grip)
+- [Adding the Ground Content](#adding-the-ground-content)
+- [Time to start building the Game](#time-to-start-building-the-game)
+- [Opening Your "Eye"](#opening-your-eye)
+- [See Also](#see-also)
 
 Discusses the implementation of a playing field for the game and a simple, fixed camera.
-
-> [!NOTE]
-> You must download the above sample code in order to access the 3D models used in this tutorial step.
 
 ## Overview
 
@@ -35,29 +33,23 @@ In addition to the camera code, you will also use code from [How To: Render a Mo
 A class is the obvious solution for storing and tracking all these variables. However, before we can add this class, you need to first create a new project for the FuelCell game.
 
 - Create a new MonoGame project called FuelCell.
-- In this project, create a new class called `GameObject`.
+- In this project, create a new class file called `GameObject.cs`.
 
 The `GameObject` class will contain all those properties mentioned earlier and a constructor that sets the various properties to known values. The file containing this new class only has a few references by default (located at the top). To grant easy access to the MonoGame Framework assemblies, you'll need to add some MonoGame specific ones. At the top of the file, add the following references:
 
-C#
-
 ```csharp
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 ```
 
 These new references make it possible to use the short form of reference for MonoGame Framework-specific classes. For instance, instead of declaring a variable of type `Vector2` by specifying `Microsoft.Xna.Framework.Vector2`, we can use `Vector2` instead. That will save a lot of typing during the development of FuelCell!
 
-You're ready to modify the default class declaration to better fit your needs. Replace the existing `GameObject` class declaration with the following:
-
-C#
+You're ready to modify the default class declaration to better fit your needs. Add or Replace the `GameObject` class declaration with the following:
 
 ```csharp
 namespace FuelCell
 {
-    class GameObject
+    public class GameObject
     {
         public Model Model { get; set; }
         public Vector3 Position { get; set; }
@@ -79,7 +71,7 @@ This new version now tracks the position, model, and bounding sphere of an objec
 
 ## The Camera
 
-The `GameObject.cs` file will also contain the camera class declaration, which is taken from the [How To: Make a First-Person Camera]() topic. As mentioned earlier, the main purpose behind this developer diary is to demonstrate how you (or any developer) can use various How To articles as stepping stones when developing an MonoGame Framework game. For this first usage, this concept is clearly illustrated by not changing any of the variable names or classes, whenever possible. This may cause a bit of confusion or head-scratching when you come across variable names like `_avatarHeadOffset` and `avatarYaw`, but it serves to tie the source How To more closely to the actual game code. This creates the ability to easily determine where the source code of a How To ends up in a typical game project by searching for the variable name used in the How To.
+The `Camera.cs` contains the camera class declaration, which is taken from the [How To: Make a First-Person Camera]() topic. As mentioned earlier, the main purpose behind this developer diary is to demonstrate how you (or any developer) can use various How To articles as stepping stones when developing an MonoGame Framework game. For this first usage, this concept is clearly illustrated by not changing any of the variable names or classes, whenever possible. This may cause a bit of confusion or head-scratching when you come across variable names like `_avatarHeadOffset` and `avatarYaw`, but it serves to tie the source How To more closely to the actual game code. This creates the ability to easily determine where the source code of a How To ends up in a typical game project by searching for the variable name used in the How To.
 
 For example, in this step, some of the property names match the names used in the original sample code: `_avatarHeadOffset` is the camera's distance above the playing field and `_targetOffset` is the offset from the target. In this case, it is a fixed distance in front of the fuel carrier vehicle. These values are used when calculating the camera position from the current position of the fuel carrier vehicle (for example, `position`) in the world coordinate system.
 
@@ -94,7 +86,7 @@ using Microsoft.Xna.Framework;
 
 namespace FuelCell
 {
-    class Camera
+    public class Camera
     {
         public Vector3 AvatarHeadOffset { get; set; }
         public Vector3 TargetOffset { get; set; }
@@ -130,14 +122,14 @@ namespace FuelCell
 
 This is the camera class declaration. The major difference between this declaration and its appearance in the original How To is that the camera's functionality has been internalized into a class. This means that previously global variables that tracked camera position, the transformation matrices, and other properties are now stored within the class. These properties can be divided into two parts: offset variables and transform matrices. The offset variables (`AvatarHeadOffset` and `TargetOffset`) force the camera to a specific position behind and above the vehicle's current position. Hence, the name chase camera.
 
-|Researching Transformation Matrices|
-|-|
-|The transformation matrices are used to rotate, move, or scale objects in a world coordinate system and then (along with the view matrix) to a perspective 2D coordinate system: your screen. The theory and application of this concept involves a truckload of math. However, you can read more about these concepts in other areas of the MonoGame documentation:
-
-- [Math Overview]()
-- [Step 4 (of Tutorial 1: Displaying a 3D Model on the Screen)]() discusses the usage of all three matrices.
-- [Viewports and Frustums]()
-|
+> [!TIP]
+> **_Researching Transformation Matrices_**
+>
+> The transformation matrices are used to rotate, move, or scale objects in a world coordinate system and then (along with the view matrix) to a perspective 2D coordinate system: your screen. The theory and application of this concept involves a truckload of math. However, you can read more about these concepts in other areas of the MonoGame documentation:
+>
+> - [Math Overview]()
+> - [Step 4 (of Tutorial 1: Displaying a 3D Model on the Screen)]() discusses the usage of all three matrices.
+> - [Viewports and Frustums]()
 
 The Update method is where the main math for updating the camera takes place. This function takes the current rotation of the vehicle and creates a transformation matrix, which in turn is used to transform the camera's offset values. These values are then added to the current vehicle position, creating a point, in the world coordinate system, where the camera "sits." The final step generates the view and perspective matrices, used when rendering the 3D game world view onto your 2D monitor screen.
 
@@ -145,23 +137,12 @@ The Update method is where the main math for updating the camera takes place. Th
 
 Did you notice that some of the method arguments were from a `GameConstants` class? Let's create this class and then I'll explain its purpose.
 
-Add a new class to the project, called `GameConstants.cs`.
-
-Since you will also be using MonoGame Framework references in this file, add the following references to the beginning of the file:
-
-```csharp
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-```
-
-Now add the following to the GameConstants class declaration:
+Add a new class to the project, called `GameConstants.cs` and replace its contents with the following:
 
 ```csharp
 namespace FuelCell
 {
-    class GameConstants
+    public class GameConstants
     {
         //camera constants
         public const float NearClip = 1.0f;
@@ -184,21 +165,47 @@ Up until now, the new code has focused on setting up a viewpoint in the game wor
 Every project template created by MonoGame has a sub-project called Content. This project must contain all your game assets. Although it isn't required, it's a good idea to organize this content project such that similar assets are in the same folder. A common organization uses several folders: Models, Textures, Fonts, and Audio. These folders cover the main parts of a game. Let's add a Models folder, and a model, to our game.
 
 > [!WARNING]
-> This diary assumes you are using the game assets located in the FuelCell sample file downloaded earlier. These assets have been sized in relation to each other so that none are too small or too large. You can use other models, but their scale (the size in the world coordinate system) might be radically different from the FuelCell models. This can cause a model to be rendered as a massive or miniscule object in the game world. In some cases, the camera (due to its position) might not be able to see the model at all. Therefore, it is recommended that you use the included FuelCell models when following these steps. After gaining some experience working with the camera class and rendering a 3D scene, you can experiment by adding your own models.
+> This tutorial assumes you are using the game assets provided in this FuelCell sample. These assets have been sized in relation to each other so that none are too small or too large. You can use other models, but their scale (the size in the world coordinate system) might be radically different from the FuelCell models. This can cause a model to be rendered as a massive or miniscule object in the game world. In some cases, the camera (due to its position) might not be able to see the model at all. Therefore, it is recommended that you use the included FuelCell models when following these steps.
+>
+> After gaining some experience working with the camera class and rendering a 3D scene, you can experiment by adding your own models.
 
-- Select the `Content` folder icon and select New Folder from the context menu.
+## Adding the Ground Content
+
+Before we can draw the ground, we need a 3D model and its corresponding texture to load and then draw to the screen.  For this section we will use:
+
+- [A Ground mesh model](../FuelCell.Core/Content/Models/ground.x)
+- [A grid texture for the ground model](../FuelCell.Core/Content/Models/ground.png)
+
+Download these files (`right-click -> save as`) ready for use in your content project, then continue.
+
+> [!TIP]
+> For a more detailed walkthrough on adding content to your game using the MGCB Editor, check the [Getting Started](https://monogame.net/articles/getting_started/4_adding_content.html) guide.
+
+- Open the `.mgcb` content with the [**MonoGame Content Builder Editor**](https://monogame.net/articles/tools/mgcb_editor.html).
+
+- Add a New Folder from the context menu using either `right-click -> add -> new folder` or from the `Edit` menu option.
 
 - Name this new folder Models.
 
 - Select the Models folder icon and from the context menu, select Add and then Existing Item....
 
-- Navigate to the folder containing the downloaded game assets and add the ground.x model.
+- Navigate to the folder containing the downloaded game assets and add the ground.x model and the ground.png texture, then click `Open`.
 
-You now have a working camera object, and a ground model, in your project. In the next step, you will add code declaring and initializing both these objects and use them to render a nice terrain in the game world. For the remainder of this step, you will be working exclusively in the Game1.cs file, which is the main file of an MonoGame Framework game.
+Your content project should now look as follows:
 
-Open the `Game1.cs` file.
+![MGCB editor with Ground model and texture](Images/02-01-mgcb-editor.png)
 
-Add the following code, after the existing declaration of the graphics member of `Game1`:
+## Time to start building the Game
+
+You now have a working camera object, and a ground model, in your project. In the next step, you will add code declaring and initializing both these objects and use them to render a nice terrain in the game world. For the remainder of this step, you will be working exclusively in the `Game1.cs` file, which is the main file of an MonoGame Framework game.
+
+Before you start modifying the `Game1.cs` file, rename it `FuelCellGame.cs`. This follows the naming format of the other project files.  You will also have to rename the class definition inside the `FuelCellGame.cs` to `FuelCellGame` to match, as follows:
+
+```csharp
+public class FuelCellGame : Game
+```
+
+Then add the following code, after the existing declaration of the `GraphicsDeviceManager` member of the `Game` class:
 
 ```csharp
 GameObject ground;
@@ -208,6 +215,7 @@ Camera gameCamera;
 In the existing `Initalize` method, initialize both game objects (using their default constructors) by adding the following code:
 
 ```csharp
+// Initialize the Game objects
 ground = new GameObject();
 gameCamera = new Camera();
 ```
@@ -269,6 +277,8 @@ private void DrawTerrain(Model model)
 ```
 
 The `DrawTerrain` method uses a rendering technique commonly used by MonoGame Framework games – iterative draw calls on child meshes of the parent model. In this rather simple case, the ground model only has one mesh. But for more complex models, this approach is required to properly render the model on the screen. The calls to [EnableDefaultLighting]() and [PreferPerPixelLighting]() highlight the power of the MonoGame Framework because you'll get standard 3-source lighting and smoother model lighting for free, creating some great results with little work!
+
+![End of Step 2](Images/02-02-status-sep%202.png)
 
 Go ahead and compile and build your project. You should be hovering over a gray and light-blue terrain under a black sky. It doesn't look like much now, but the [next](3-FuelCell-Casting%20Call.md) part adds the rest of the 3D models and displays them on the screen.
 
