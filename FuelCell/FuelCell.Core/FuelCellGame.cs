@@ -25,11 +25,20 @@ namespace FuelCell
         // Resources for drawing.
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
- 
+        private GameObject ground;
+        private Camera gameCamera;
+
         public FuelCellGame()
         {
             graphics = new GraphicsDeviceManager(this);
 
+        }
+
+        protected override void Initialize()
+        {
+            ground = new GameObject();
+            gameCamera = new Camera();
+            base.Initialize();
         }
 
         /// <summary>
@@ -42,6 +51,8 @@ namespace FuelCell
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            ground.Model = Content.Load<Model>("Models/ground");
         }
 
         /// <summary>
@@ -51,6 +62,9 @@ namespace FuelCell
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            float rotation = 0.0f;
+            Vector3 position = Vector3.Zero;
+            gameCamera.Update(rotation, position, graphics.GraphicsDevice.Viewport.AspectRatio);
 
             base.Update(gameTime);
         }
@@ -61,7 +75,9 @@ namespace FuelCell
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics.GraphicsDevice.Clear(Color.Black);
+
+            DrawTerrain(ground.Model);
 
             base.Draw(gameTime);
         }
