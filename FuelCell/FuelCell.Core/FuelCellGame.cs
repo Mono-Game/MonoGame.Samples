@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Content;
 using FuelCell.Core.Game;
+using System.Threading;
 
 namespace FuelCell
 {
@@ -29,13 +30,24 @@ namespace FuelCell
         private GameObject ground;
         private Camera gameCamera;
         Random random;
+
+        // Game objects
         FuelCarrier fuelCarrier;
         FuelCell[] fuelCells;
         Barrier[] barriers;
 
+        // States to store input values
+        KeyboardState lastKeyboardState = new KeyboardState();
+        KeyboardState currentKeyboardState = new KeyboardState();
+        GamePadState lastGamePadState = new GamePadState();
+        GamePadState currentGamePadState = new GamePadState();
+
+        GameObject boundingSphere;
+
         public FuelCellGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            random = new Random();
         }
 
         protected override void Initialize()
@@ -43,6 +55,7 @@ namespace FuelCell
             // Initialize the Game objects
             ground = new GameObject();
             gameCamera = new Camera();
+            boundingSphere = new GameObject();
 
             base.Initialize();
         }
@@ -59,27 +72,44 @@ namespace FuelCell
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             ground.Model = Content.Load<Model>("Models/ground");
+            boundingSphere.Model = Content.Load<Model>("Models/sphere1uR");
 
-            // Initialize and place fuel cell
-            fuelCells = new FuelCell[1];
-            fuelCells[0] = new FuelCell();
-            fuelCells[0].LoadContent(Content, "Models/fuelcellmodel");
-            fuelCells[0].Position = new Vector3(0, 0, 15);
+            //Initialize fuel cells
+            fuelCells = new FuelCell[GameConstants.NumFuelCells];
+            for (int index = 0; index < fuelCells.Length; index++)
+            {
+                fuelCells[index] = new FuelCell();
+                fuelCells[index].LoadContent(Content, "Models/fuelcellmodel");
+            }
 
-            // Initialize and place barriers
-            barriers = new Barrier[3];
+            //Initialize barriers
+            barriers = new Barrier[GameConstants.NumBarriers];
+            int randomBarrier = random.Next(3);
+            string barrierName = null;
 
-            barriers[0] = new Barrier();
-            barriers[0].LoadContent(Content, "Models/cube10uR");
-            barriers[0].Position = new Vector3(0, 0, 30);
-            barriers[1] = new Barrier();
-            barriers[1].LoadContent(Content, "Models/cylinder10uR");
-            barriers[1].Position = new Vector3(15, 0, 30);
-            barriers[2] = new Barrier();
-            barriers[2].LoadContent(Content, "Models/pyramid10uR");
-            barriers[2].Position = new Vector3(-15, 0, 30);
+            for (int index = 0; index < barriers.Length; index++)
+            {
 
-            // Initialize and place fuel carrier
+                switch (randomBarrier)
+                {
+                    case 0:
+                        barrierName = "Models/cube10uR";
+                        break;
+                    case 1:
+                        barrierName = "Models/cylinder10uR";
+                        break;
+                    case 2:
+                        barrierName = "Models/pyramid10uR";
+                        break;
+                }
+                barriers[index] = new Barrier();
+                barriers[index].LoadContent(Content, barrierName);
+                randomBarrier = random.Next(3);
+            }
+
+            PlaceFuelCellsAndBarriers();
+
+            //Initialize fuel carrier
             fuelCarrier = new FuelCarrier();
             fuelCarrier.LoadContent(Content, "Models/fuelcarrier");
         }
@@ -91,9 +121,26 @@ namespace FuelCell
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            float rotation = 0.0f;
-            Vector3 position = Vector3.Zero;
-            gameCamera.Update(rotation, position, graphics.GraphicsDevice.Viewport.AspectRatio);
+            // Allows the game to exit
+            if (currentKeyboardState.IsKeyDown(Keys.Escape) || currentGamePadState.Buttons.Back == ButtonState.Pressed)
+            {
+                this.Exit();
+            }
+
+            fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
+            float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
+            gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
+
+            foreach (FuelCell fuelCell in fuelCells)
+            {
+                fuelCell.Update(fuelCarrier.BoundingSphere);
+            }
+
+            // Update input from sources, Keyboard and GamePad
+            lastKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+            lastGamePadState = currentGamePadState;
+            currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
             base.Update(gameTime);
         }
@@ -106,21 +153,45 @@ namespace FuelCell
         {
             graphics.GraphicsDevice.Clear(Color.Black);
 
+            // Draw the ground terrain model
             DrawTerrain(ground.Model);
 
-            // Draw the fuel cell
-            fuelCells[0].Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
+            // Draw the fuel cells on the map
+            foreach (FuelCell fuelCell in fuelCells)
+            {
+                if (!fuelCell.Retrieved)
+                {
+                    fuelCell.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
+                    graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
+                    fuelCell.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
+                    graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
+                }
+            }
 
-            // Draw the barriers
+            // Draw the barriers on the map
             foreach (Barrier barrier in barriers)
             {
                 barrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
+                graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
+                barrier.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
+                graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
             }
 
-            // Draw the fuel carrier
+            // Draw the player fuelcarrier on the map
             fuelCarrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
+            graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
+            fuelCarrier.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
+            graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
 
             base.Draw(gameTime);
+        }
+
+        private RasterizerState ChangeRasterizerState(FillMode fillmode, CullMode cullMode = CullMode.None)
+        {
+            RasterizerState rasterizerState = new RasterizerState();
+            rasterizerState.CullMode = cullMode;
+            rasterizerState.FillMode = fillmode;
+            return rasterizerState;
         }
 
         private void DrawTerrain(Model model)
@@ -139,6 +210,69 @@ namespace FuelCell
                 }
                 mesh.Draw();
             }
+        }
+
+        private void PlaceFuelCellsAndBarriers()
+        {
+            int min = GameConstants.MinDistance;
+            int max = GameConstants.MaxDistance;
+            Vector3 tempCenter;
+
+            //place fuel cells
+            foreach (FuelCell cell in fuelCells)
+            {
+                cell.Position = GenerateRandomPosition(min, max);
+                tempCenter = cell.BoundingSphere.Center;
+                tempCenter.X = cell.Position.X;
+                tempCenter.Z = cell.Position.Z;
+                cell.BoundingSphere = new BoundingSphere(tempCenter, cell.BoundingSphere.Radius);
+                cell.Retrieved = false;
+            }
+
+            //place barriers
+            foreach (Barrier barrier in barriers)
+            {
+                barrier.Position = GenerateRandomPosition(min, max);
+                tempCenter = barrier.BoundingSphere.Center;
+                tempCenter.X = barrier.Position.X;
+                tempCenter.Z = barrier.Position.Z;
+                barrier.BoundingSphere = new BoundingSphere(tempCenter, barrier.BoundingSphere.Radius);
+            }
+        }
+
+        private Vector3 GenerateRandomPosition(int min, int max)
+        {
+            int xValue, zValue;
+            do
+            {
+                xValue = random.Next(min, max);
+                zValue = random.Next(min, max);
+                if (random.Next(100) % 2 == 0)
+                    xValue *= -1;
+                if (random.Next(100) % 2 == 0)
+                    zValue *= -1;
+
+            } while (IsOccupied(xValue, zValue));
+
+            return new Vector3(xValue, 0, zValue);
+        }
+
+        private bool IsOccupied(int xValue, int zValue)
+        {
+            foreach (GameObject currentObj in fuelCells)
+            {
+                if (((int)(MathHelper.Distance(xValue, currentObj.Position.X)) < 15) &&
+                    ((int)(MathHelper.Distance(zValue, currentObj.Position.Z)) < 15))
+                    return true;
+            }
+
+            foreach (GameObject currentObj in barriers)
+            {
+                if (((int)(MathHelper.Distance(xValue, currentObj.Position.X)) < 15) &&
+                    ((int)(MathHelper.Distance(zValue, currentObj.Position.Z)) < 15))
+                    return true;
+            }
+            return false;
         }
     }
 }

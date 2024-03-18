@@ -18,7 +18,13 @@ namespace FuelCell
         {
             Model = content.Load<Model>(modelName);
             BarrierType = modelName;
+            BoundingSphere = CalculateBoundingSphere();
             Position = Vector3.Down;
+
+            BoundingSphere scaledSphere;
+            scaledSphere = BoundingSphere;
+            scaledSphere.Radius *= GameConstants.BarrierBoundingSphereFactor;
+            BoundingSphere = new BoundingSphere(scaledSphere.Center, scaledSphere.Radius);
         }
 
         public void Draw(Matrix view, Matrix projection)

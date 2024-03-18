@@ -17,7 +17,13 @@ namespace FuelCell
         public void LoadContent(ContentManager content, string modelName)
         {
             Model = content.Load<Model>(modelName);
+            BoundingSphere = CalculateBoundingSphere();
             Position = Vector3.Down;
+
+            BoundingSphere scaledSphere;
+            scaledSphere = BoundingSphere;
+            scaledSphere.Radius *= GameConstants.FuelCellBoundingSphereFactor;
+            BoundingSphere = new BoundingSphere(scaledSphere.Center, scaledSphere.Radius);
         }
 
         public void Draw(Matrix view, Matrix projection)
@@ -40,6 +46,14 @@ namespace FuelCell
                     }
                     mesh.Draw();
                 }
+            }
+        }
+
+        internal void Update(BoundingSphere vehicleBoundingSphere)
+        {
+            if (vehicleBoundingSphere.Intersects(this.BoundingSphere))
+            {
+                this.Retrieved = true;
             }
         }
     }
