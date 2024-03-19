@@ -20,6 +20,11 @@ using System.Threading;
 namespace FuelCell
 {
     /// <summary>
+    /// The available states of the game
+    /// </summary>
+    public enum GameState { Loading, Running, Won, Lost }
+
+    /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class FuelCellGame : Game
@@ -31,6 +36,7 @@ namespace FuelCell
         private GameObject ground;
         private Camera gameCamera;
         Random random;
+        GameState currentGameState = GameState.Loading;
 
         // Game objects
         FuelCarrier fuelCarrier;
