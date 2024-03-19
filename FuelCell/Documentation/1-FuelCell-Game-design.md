@@ -35,7 +35,7 @@ To illustrate this point, the game design for FuelCell focused on fulfilling the
 |**Replayability**|The playing field is a basic, level grid with fuel cells scattered at random. In addition, a large amount of barriers are also scattered about the playing field. These barriers are opaque and (eventually) cannot be driven through. The replayability comes from the random placement of the fuel cells and barriers for each new game.|
 |**Challenges**|The fuel carrier always starts in the middle of the field, but the fuel cells and barriers are scattered randomly. There are enough barriers to prevent the player from initially seeing all available fuel cells. The barriers have two purposes: slowing the player down and obscuring some of the fuel cells at all times. In some cases, a fair bit of hunting is required by the player to retrieve all fuel cells. In later versions of the game, existing factors could easily be tweaked to increase the difficulty and introduce new sub-goals (such as a power-up allowing a clearer view or a faster vehicle).|
 
-With the FuelCell feature set explained, let's move on to the actual coding of the game. The next step focuses on a critical part of any 3D game – the camera.
+With the FuelCell feature set explained, let us move on to the actual coding of the game. The next step focuses on a critical part of any 3D game – the camera.
 
 ## See Also
 

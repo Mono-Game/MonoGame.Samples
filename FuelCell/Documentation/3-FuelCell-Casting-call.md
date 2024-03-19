@@ -34,7 +34,7 @@ The fuel cell model (`fuelcellmodel.x`) is a simple canister-like object with a 
 
 ## Implementing the Fuel Cell Class
 
-Model implementation is similar to what you did in the last step. You'll add some member variables to store the models, load them with the `LoadContent` method, intialize them (placement, etc.) and then render them on the playing field.
+Model implementation is similar to what you did in the last step. You will add some member variables to store the models, load them with the `LoadContent` method, intialize them (placement, etc.) and then render them on the playing field.
 
 First, the fuel cell class. Create a new class file called `FuelCell.cs` and replace its contents with the following.
 
@@ -142,7 +142,7 @@ namespace FuelCell
 
 The Barrier class has a new member (BarrierType) that stores, oddly enough, the barrier type. In the FuelCell game, there are three possible barrier types: cubes, cylinders, and pyramids. Similar to the FuelCell class, the LoadContent method is overridden that loads the specified model, stores the barrier type, and sets the Y-component of the Position member to -1 (indicating that the barrier is not placed).
 
-Since barrier objects behave in a similar fashion to fuel cells (that is, they stay in one place and do nothing), we'll use the same drawing code with one change. Add the following Draw method to the Barrier class:
+Since barrier objects behave in a similar fashion to fuel cells (that is, they stay in one place and do nothing), we will use the same drawing code with one change. Add the following Draw method to the Barrier class:
 
 ```csharp
 public void Draw(Matrix view, Matrix projection)
@@ -170,7 +170,7 @@ Unlike the fuel cells, barriers cannot be retrieved and are always visible. Ther
 
 ## Implementing the Fuel Carrier
 
-In game development terms, the fuel carrier is the avatar of the player. It is the object that represents the player in the game world and is controlled by the player. The FuelCarrier class starts out very simple but, in later steps, you'll add more features like user control and collision detection. For now, it has a few basic methods that load the model and render it on the playing field.
+In game development terms, the fuel carrier is the avatar of the player. It is the object that represents the player in the game world and is controlled by the player. The FuelCarrier class starts out very simple but, in later steps, you will add more features like user control and collision detection. For now, it has a few basic methods that load the model and render it on the playing field.
 
 The process for implementing the fuel carrier class is similar to the `FuelCell` and `Barrier` class implementations.
 

@@ -45,6 +45,12 @@ namespace FuelCell
             return mergedSphere;
         }
 
+        /// <summary>
+        /// Debugging method to draw the bounding sphere of the object.
+        /// </summary>
+        /// <param name="view">The view matrix from the camera.</param>
+        /// <param name="projection">The projection matrix from the camera.</param>
+        /// <param name="boundingSphereModel">The GameObject to draw the bounding sphere around.</param>
         internal void DrawBoundingSphere(Matrix view, Matrix projection, GameObject boundingSphereModel)
         {
             Matrix scaleMatrix = Matrix.CreateScale(BoundingSphere.Radius);

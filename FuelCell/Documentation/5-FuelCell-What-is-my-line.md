@@ -20,7 +20,7 @@ After testing with different values, 12 fuel cells and 40 barriers produced a ch
 
 A good example of unforeseen development problems was the coordinate system of the playing field. Because the playing field origin is at 0, 0, 0, the X and Z axes have both positive and negative values. This "automatically" divides the playing field into four quadrants because the sign can be either positive or negative values for the X and Z coordinates (the Y coordinate is clamped to 0). Therefore, randomly generating two positive numbers between the minimum and maximum distances populates only one quarter of the playing field. This is another bad gaming experience!
 
-The solution used by FuelCell is to randomly assign positive and negative values to the randomly generated X and Z coordinates. This decently scatters the barriers around the playing field. However, due to the random nature of coordinate generation and limits imposed by a minimum and maximum, you'll notice that there is a bit of a "corridor" along the X and Z axes.
+The solution used by FuelCell is to randomly assign positive and negative values to the randomly generated X and Z coordinates. This decently scatters the barriers around the playing field. However, due to the random nature of coordinate generation and limits imposed by a minimum and maximum, you will notice that there is a bit of a "corridor" along the X and Z axes.
 
 > [!TIP]
 > **Pick Two: High Quality, Fast, and Cheap.**
@@ -42,7 +42,7 @@ The solution used by FuelCell is to randomly assign positive and negative values
 
 ## Initializing the Random Number Generator
 
-Since we are going to randomly populate the playing field with game objects, an obvious first step is to set up a random number generator. Let's keep it simple and declare a file-level random variable (in `FuelCellGame.cs`) that can be accessed by any FuelCellGame method.
+Since we are going to randomly populate the playing field with game objects, an obvious first step is to set up a random number generator. Let us keep it simple and declare a file-level random variable (in `FuelCellGame.cs`) that can be accessed by any FuelCellGame method.
 
 After the gamepad state declarations, add the following:
 

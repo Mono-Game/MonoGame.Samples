@@ -12,7 +12,7 @@ Discusses the implementation of user control for the avatar (known as the fuel c
 
 ## Overview
 
-The goal for this part is the implementation of a control schema for the fuel carrier. With this schema, the player can use either the keyboard (A or D for left/right rotation and W and S for forward/backward movement) or a standard gamepad (using the left thumbstick for rotation and forward/backward movement). In addition, we'll check the `_maxRange` data member against the current position, and only allow movement that keeps the player on the playing field. This prevents the player from driving off the playing field.
+The goal for this part is the implementation of a control schema for the fuel carrier. With this schema, the player can use either the keyboard (A or D for left/right rotation and W and S for forward/backward movement) or a standard gamepad (using the left thumbstick for rotation and forward/backward movement). In addition, we will check the `_maxRange` data member against the current position, and only allow movement that keeps the player on the playing field. This prevents the player from driving off the playing field.
 
 ## GamePad States
 
@@ -100,7 +100,7 @@ public void Update(GamePadState gamepadState, KeyboardState keyboardState, Barri
 }
 ```
 
-This method is important, so let's go through it in detail. First, the future position is set to the current position and the turn amount is set to 0. The amount of vehicle rotation is calculated, based on the current state of the A and D keys or the X-axis of the left thumbstick, and a rotation matrix is created. This matrix is later used to rotate the vehicle the proper amount in world coordinates. The second chunk of code calculates how far the ship moved in either a forward or backward direction, based on the current state of the W and S keys or the Y-axis of the same thumbstick. This distance is then transformed using the rotational matrix created earlier, and this result is multiplied by a constant velocity (GameConstants.Velocity). The final result is then added to the current position, resulting in a projected future position. Finally, this result is passed to a private method called ValidateMovement. If it is valid, the _position member is updated and control returns to the main Game1.Update method.
+This method is important, so let us go through it in detail. First, the future position is set to the current position and the turn amount is set to 0. The amount of vehicle rotation is calculated, based on the current state of the A and D keys or the X-axis of the left thumbstick, and a rotation matrix is created. This matrix is later used to rotate the vehicle the proper amount in world coordinates. The second chunk of code calculates how far the ship moved in either a forward or backward direction, based on the current state of the W and S keys or the Y-axis of the same thumbstick. This distance is then transformed using the rotational matrix created earlier, and this result is multiplied by a constant velocity (GameConstants.Velocity). The final result is then added to the current position, resulting in a projected future position. Finally, this result is passed to a private method called ValidateMovement. If it is valid, the _position member is updated and control returns to the main Game1.Update method.
 
 > [!TIP] Programming Tip
 > You might be wondering why you couldn't just test the current position for validity instead of calculating a future position and testing that. The answer is that if you only tested the current position, it's already too late to prevent illegal movement. When the test is made, the vehicle has already had its position updated. Suppose that new position is illegal (past the edge of a boundary case). This causes further tests to fail, resulting in the vehicle "sticking" to the current position. Obviously, this is not optimal behavior for a player-controlled vehicle.
@@ -154,7 +154,7 @@ if (currentKeyboardState.IsKeyDown(Keys.Escape) || currentGamePadState.Buttons.B
 
 The game now checks for both keyboard (`ESC` key) and gamepad input (`Back` button) when the player wishes to exit the game.
 
-After the usual drill of rebuilding the project and running it, drive the fuel carrier freely around the map. Test out the boundary code by driving to the edge of the playing field. You'll notice that you stop moving until you choose a new direction. The control schema implementation was pretty easy but, coming up, the game really starts to come together... which requires a lot of coding!
+After the usual drill of rebuilding the project and running it, drive the fuel carrier freely around the map. Test out the boundary code by driving to the edge of the playing field. You will notice that you stop moving until you choose a new direction. The control schema implementation was pretty easy but, coming up, the game really starts to come together... which requires a lot of coding!
 
 ![Final Result](Images/04-01-final.gif)
 

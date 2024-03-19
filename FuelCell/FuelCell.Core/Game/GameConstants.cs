@@ -1,3 +1,5 @@
+using System;
+
 namespace FuelCell
 {
     public class GameConstants
@@ -23,5 +25,17 @@ namespace FuelCell
         public const float FuelCarrierBoundingSphereFactor = .8f;
         public const float FuelCellBoundingSphereFactor = .5f;
         public const float BarrierBoundingSphereFactor = .7f;
+
+        //Gameplay tracking variables
+        public static readonly TimeSpan RoundTime = TimeSpan.FromSeconds(30.25);
+
+        // Display Text
+        public const string StrTimeRemaining = "Time Remaining: ";
+        public const string StrCellsFound = "Fuel Cells Retrieved: ";
+        public const string StrGameWon = "Game Won !";
+        public const string StrGameLost = "Game Lost !";
+        public const string StrPlayAgain = "Press Enter/Start to play again or Esc/Back to quit";
+        public const string StrInstructions1 = "Retrieve all Fuel Cells before time runs out.";
+        public const string StrInstructions2 = "Control ship using keyboard (A, D, W, S) or the left thumbstick.";
     }
 }

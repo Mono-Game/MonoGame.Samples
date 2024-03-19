@@ -35,7 +35,7 @@ A class is the obvious solution for storing and tracking all these variables. Ho
 - Create a new MonoGame project called FuelCell.
 - In this project, create a new class file called `GameObject.cs`.
 
-The `GameObject` class will contain all those properties mentioned earlier and a constructor that sets the various properties to known values. The file containing this new class only has a few references by default (located at the top). To grant easy access to the MonoGame Framework assemblies, you'll need to add some MonoGame specific ones. At the top of the file, add the following references:
+The `GameObject` class will contain all those properties mentioned earlier and a constructor that sets the various properties to known values. The file containing this new class only has a few references by default (located at the top). To grant easy access to the MonoGame Framework assemblies, you will need to add some MonoGame specific ones. At the top of the file, add the following references:
 
 ```csharp
 using Microsoft.Xna.Framework;
@@ -77,7 +77,7 @@ For example, in this step, some of the property names match the names used in th
 
 The camera class is similar in structure to the `GraphicObject` class. It has a set of properties and a method. In this case, it is `Update`. For this game, the camera acts like a rigid chase camera. It follows behind, and slightly above, the actual vehicle and points in the same direction as the vehicle at all times.
 
-All right, enough talk – let's start developing!
+All right, enough talk – let us start developing!
 
 Create a new `Camera.cs` class and use the following code:
 
@@ -135,7 +135,7 @@ The Update method is where the main math for updating the camera takes place. Th
 
 ## Game Constants
 
-Did you notice that some of the method arguments were from a `GameConstants` class? Let's create this class and then I'll explain its purpose.
+Did you notice that some of the method arguments were from a `GameConstants` class? Let us create this class and then I'll explain its purpose.
 
 Add a new class to the project, called `GameConstants.cs` and replace its contents with the following:
 
@@ -156,13 +156,13 @@ You will use this class to gather common game variables into a single location. 
 
 It is a good idea to give them informative names so another person, looking at the code, easily understands their purpose.
 
-Okay, that wraps up the camera class and constants implementation. Let's move on to the visually appealing stuff: drawing stuff on the screen!
+Okay, that wraps up the camera class and constants implementation. Let us move on to the visually appealing stuff: drawing stuff on the screen!
 
 ## Getting a Grip
 
-Up until now, the new code has focused on setting up a viewpoint in the game world and added some additional infrastructure that is used by the game and various components. Game assets, in the form of models, are a large part of any 3D game. Even though this is a simple game, FuelCell includes many different types of game assets: models that represent game objects, textures that clothe the models, and a font to display game information such as the current score and goal status. For this step, let's add a very basic model and get it on the screen so we can begin to understand how our game world will look.
+Up until now, the new code has focused on setting up a viewpoint in the game world and added some additional infrastructure that is used by the game and various components. Game assets, in the form of models, are a large part of any 3D game. Even though this is a simple game, FuelCell includes many different types of game assets: models that represent game objects, textures that clothe the models, and a font to display game information such as the current score and goal status. For this step, let us add a very basic model and get it on the screen so we can begin to understand how our game world will look.
 
-Every project template created by MonoGame has a sub-project called Content. This project must contain all your game assets. Although it isn't required, it's a good idea to organize this content project such that similar assets are in the same folder. A common organization uses several folders: Models, Textures, Fonts, and Audio. These folders cover the main parts of a game. Let's add a Models folder, and a model, to our game.
+Every project template created by MonoGame has a sub-project called Content. This project must contain all your game assets. Although it isn't required, it's a good idea to organize this content project such that similar assets are in the same folder. A common organization uses several folders: Models, Textures, Fonts, and Audio. These folders cover the main parts of a game. Let us add a Models folder, and a model, to our game.
 
 > [!WARNING]
 > This tutorial assumes you are using the game assets provided in this FuelCell sample. These assets have been sized in relation to each other so that none are too small or too large. You can use other models, but their scale (the size in the world coordinate system) might be radically different from the FuelCell models. This can cause a model to be rendered as a massive or miniscule object in the game world. In some cases, the camera (due to its position) might not be able to see the model at all. Therefore, it is recommended that you use the included FuelCell models when following these steps.
@@ -252,7 +252,7 @@ graphics.GraphicsDevice.Clear(Color.Black);
 DrawTerrain(ground.Model);
 ```
 
-This code calls the non-existent `DrawTerrain` method. The method uses the approach detailed in [How To: Render a Model]() to render the terrain. Let's add that method now.
+This code calls the non-existent `DrawTerrain` method. The method uses the approach detailed in [How To: Render a Model]() to render the terrain. Let us add that method now.
 
 Add the following method after the `Draw` method:
 
@@ -276,7 +276,7 @@ private void DrawTerrain(Model model)
 }
 ```
 
-The `DrawTerrain` method uses a rendering technique commonly used by MonoGame Framework games – iterative draw calls on child meshes of the parent model. In this rather simple case, the ground model only has one mesh. But for more complex models, this approach is required to properly render the model on the screen. The calls to [EnableDefaultLighting]() and [PreferPerPixelLighting]() highlight the power of the MonoGame Framework because you'll get standard 3-source lighting and smoother model lighting for free, creating some great results with little work!
+The `DrawTerrain` method uses a rendering technique commonly used by MonoGame Framework games – iterative draw calls on child meshes of the parent model. In this rather simple case, the ground model only has one mesh. But for more complex models, this approach is required to properly render the model on the screen. The calls to [EnableDefaultLighting]() and [PreferPerPixelLighting]() highlight the power of the MonoGame Framework because you will get standard 3-source lighting and smoother model lighting for free, creating some great results with little work!
 
 ![End of Step 2](Images/02-02-status-sep%202.png)
 

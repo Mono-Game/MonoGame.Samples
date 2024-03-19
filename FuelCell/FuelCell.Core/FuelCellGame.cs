@@ -26,7 +26,8 @@ namespace FuelCell
     {
         // Resources for drawing.
         private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        SpriteBatch spriteBatch;
+        SpriteFont statsFont;
         private GameObject ground;
         private Camera gameCamera;
         Random random;
@@ -44,10 +45,16 @@ namespace FuelCell
 
         GameObject boundingSphere;
 
+        int retrievedFuelCells = 0;
+        TimeSpan startTime, roundTimer, roundTime;
+
         public FuelCellGame()
         {
             graphics = new GraphicsDeviceManager(this);
             random = new Random();
+            roundTime = GameConstants.RoundTime;
+            graphics.PreferredBackBufferWidth = 853;
+            graphics.PreferredBackBufferHeight = 480;
         }
 
         protected override void Initialize()
@@ -70,6 +77,7 @@ namespace FuelCell
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            statsFont = Content.Load<SpriteFont>("Fonts/StatsFont");
 
             ground.Model = Content.Load<Model>("Models/ground");
             boundingSphere.Model = Content.Load<Model>("Models/sphere1uR");
@@ -127,6 +135,11 @@ namespace FuelCell
                 this.Exit();
             }
 
+            if (currentGamePadState.Buttons.Start == ButtonState.Pressed)
+            {
+                roundTimer = roundTime;
+            }
+
             fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
             float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
             gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
@@ -162,9 +175,11 @@ namespace FuelCell
                 if (!fuelCell.Retrieved)
                 {
                     fuelCell.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
-                    graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
-                    fuelCell.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
-                    graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
+
+                    // Draw the bounding sphere for the fuel cells
+                    // ChangeRasterizerState(FillMode.WireFrame);
+                    // fuelCell.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
+                    // ChangeRasterizerState(FillMode.Solid);
                 }
             }
 
@@ -172,25 +187,40 @@ namespace FuelCell
             foreach (Barrier barrier in barriers)
             {
                 barrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
-                graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
-                barrier.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
-                graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
+
+                // Draw the bounding sphere for the barriers
+                // ChangeRasterizerState(FillMode.WireFrame);
+                // barrier.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
+                // ChangeRasterizerState(FillMode.Solid);
             }
 
             // Draw the player fuelcarrier on the map
             fuelCarrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
-            graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
-            fuelCarrier.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
-            graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
+
+            // Draw the bounding sphere for the fuel carrier
+            // ChangeRasterizerState(FillMode.WireFrame);
+            // fuelCarrier.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
+            // ChangeRasterizerState(FillMode.Solid);
+
+            DrawStats();
 
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Helper function to change the rasterizer state for drawing the wireframe bounding spheres
+        /// </summary>
+        /// <param name="fillmode">The render `FillMode` to draw with, e.g. WireFrame</param>
+        /// <param name="cullMode">The culling mode to draw with, e.g. None</param>
+        /// <returns>Returns a new RasterizerState to apply to a graphics device</returns>
         private RasterizerState ChangeRasterizerState(FillMode fillmode, CullMode cullMode = CullMode.None)
         {
-            RasterizerState rasterizerState = new RasterizerState();
-            rasterizerState.CullMode = cullMode;
-            rasterizerState.FillMode = fillmode;
+            RasterizerState rasterizerState = new RasterizerState()
+            { 
+                FillMode = fillmode,
+                CullMode = cullMode 
+            };
+            graphics.GraphicsDevice.RasterizerState = rasterizerState;
             return rasterizerState;
         }
 
@@ -210,6 +240,37 @@ namespace FuelCell
                 }
                 mesh.Draw();
             }
+        }
+
+        private void DrawStats()
+        {
+            float xOffsetText, yOffsetText;
+            string str1 = GameConstants.StrTimeRemaining;
+            string str2 = GameConstants.StrCellsFound + retrievedFuelCells.ToString() + " of " + GameConstants.NumFuelCells.ToString();
+            Rectangle rectSafeArea;
+
+            str1 += (roundTimer.Seconds).ToString();
+
+            //Calculate str1 position
+            rectSafeArea = GraphicsDevice.Viewport.TitleSafeArea;
+
+            xOffsetText = rectSafeArea.X;
+            yOffsetText = rectSafeArea.Y;
+
+            Vector2 strSize = statsFont.MeasureString(str1);
+            Vector2 strPosition = new Vector2(xOffsetText + 10, yOffsetText);
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(statsFont, str1, strPosition, Color.White);
+            strPosition.Y += strSize.Y;
+            spriteBatch.DrawString(statsFont, str2, strPosition, Color.White);
+            spriteBatch.End();
+
+            //re-enable depth buffer after sprite batch disablement
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
         private void PlaceFuelCellsAndBarriers()

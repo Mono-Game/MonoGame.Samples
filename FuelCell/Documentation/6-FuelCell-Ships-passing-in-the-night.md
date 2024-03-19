@@ -55,11 +55,11 @@ In order to use this technique, you need to add and initialize a spherical model
     boundingSphere.Model = Content.Load<Model>("Models/sphere1uR");
     ```
 
-Once the model is loaded, you can use it to render the bounding spheres of your game objects. The only data you will need to track is the size and position of each object's bounding sphere. For FuelCell, there are three types of bounding spheres: `fuel carrier`, `fuel cell`, and `barrier`. You can use the bounding sphere model for each type as long as you scale and position the model before rendering it. For simplicity's sake, the rendering code for a game object and its bounding sphere are kept together. Because the procedure for doing this is the same for both fuel cells and barriers, you will only walk through the fuel cell side of things. After that, we'll discuss the barrier implementation at a higher level.
+Once the model is loaded, you can use it to render the bounding spheres of your game objects. The only data you will need to track is the size and position of each object's bounding sphere. For FuelCell, there are three types of bounding spheres: `fuel carrier`, `fuel cell`, and `barrier`. You can use the bounding sphere model for each type as long as you scale and position the model before rendering it. For simplicity's sake, the rendering code for a game object and its bounding sphere are kept together. Because the procedure for doing this is the same for both fuel cells and barriers, you will only walk through the fuel cell side of things. After that, we will discuss the barrier implementation at a higher level.
 
 ## Calculating the Boundary of the Fuel Cell Model
 
-Do you remember the member variable you added previously to the GameObject class, BoundingSphere? This is the step that finally makes use of that variable, with the help of a bit of code. The first step involves calculating a decent approximation of the bounding sphere of the game object's model. We'll use the CreateMerged method. It's a quick and cheap way to calculate the bounding spheres of simple models. We will start with the initial bounding sphere and, for every two spheres encountered in the model, we will merge them. This continues until no more bounding spheres are left.
+Do you remember the member variable you added previously to the GameObject class, BoundingSphere? This is the step that finally makes use of that variable, with the help of a bit of code. The first step involves calculating a decent approximation of the bounding sphere of the game object's model. We will use the CreateMerged method. It's a quick and cheap way to calculate the bounding spheres of simple models. We will start with the initial bounding sphere and, for every two spheres encountered in the model, we will merge them. This continues until no more bounding spheres are left.
 
 > [!NOTE]
 > For single mesh models, like those in FuelCell, this approach works perfectly. However, the approach begins to lose accuracy when applied to a complex model. This is why there are entire shelves of books devoted to solving this problem at your local bookstore.
@@ -140,11 +140,11 @@ foreach (FuelCell fuelCell in fuelCells)
     {
         fuelCell.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
         // Prepare the Graphics Device to draw in Wireframe mode instead of the default Solid/Textured
-        graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.WireFrame);
+        ChangeRasterizerState(FillMode.WireFrame);
         // Draw the Bounding Sphere
         fuelCell.DrawBoundingSphere(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix, boundingSphere);
         // Reset the Graphics Device drawing mode to solid/textured
-        graphics.GraphicsDevice.RasterizerState = ChangeRasterizerState(FillMode.Solid);
+        ChangeRasterizerState(FillMode.Solid);
     }
 }
 ```
@@ -159,16 +159,19 @@ Changing the drawing mode of the [GraphicsDevice](https://monogame.net/api/Micro
 ```csharp
 private RasterizerState ChangeRasterizerState(FillMode fillmode, CullMode cullMode = CullMode.None)
 {
-    RasterizerState rasterizerState = new RasterizerState();
-    rasterizerState.CullMode = cullMode;
-    rasterizerState.FillMode = fillmode;
+    RasterizerState rasterizerState = new RasterizerState()
+    { 
+        FillMode = fillmode,
+        CullMode = cullMode 
+    };
+    graphics.GraphicsDevice.RasterizerState = rasterizerState;
     return rasterizerState;
 }
 ```
 
 Even though the two drawing methods are similar, there are some important differences. First, the bounding sphere model is scaled using the radius of the fuel cell's bounding sphere instead of a constant factor. Second, the nice default lighting is turned off. This makes the model "pop" a bit more amidst the other models rendered with default lighting.
 
-At this point, rebuild the game and start it. You'll notice that the fuel cells now have wireframe spheres surrounding them. You'll also notice that the spheres are pretty bad approximations of the fuel cell's boundaries. We'll get to that eventually. For now, let's add the code that updates and renders the bounding spheres for the fuel carrier and barriers.
+At this point, rebuild the game and start it. You will notice that the fuel cells now have wireframe spheres surrounding them. You will also notice that the spheres are pretty bad approximations of the fuel cell's boundaries. We will get to that eventually. For now, let us add the code that updates and renders the bounding spheres for the fuel carrier and barriers.
 
 ![Checkpoint Status](Images/06-01-checkpoint.png)
 
@@ -200,7 +203,7 @@ Next, update the fuel carrier in the same way, which is the same procedure excep
 
 - In the `Draw` method, modify the fuel carrier draw code to also draw the related bounding sphere.
 
-This completes the modifications to draw all the bounding spheres. If you rebuild and run the game, you will now see lots of wire-frame spheres. But there is still more work (related to fuel carrier collision detection) to make these bounding spheres useful. At this point, the fuel carrier still ignores the fuel cell and barrier bounding spheres. Let's fix this now.
+This completes the modifications to draw all the bounding spheres. If you rebuild and run the game, you will now see lots of wire-frame spheres. But there is still more work (related to fuel carrier collision detection) to make these bounding spheres useful. At this point, the fuel carrier still ignores the fuel cell and barrier bounding spheres. Let us fix this now.
 
 ## Collision Checking for the Fuel Carrier
 
@@ -372,7 +375,7 @@ scaledSphere.Radius *= GameConstants.BarrierBoundingSphereFactor;
 BoundingSphere = new BoundingSphere(scaledSphere.Center, scaledSphere.Radius);
 ```
 
-Rebuild and run the game. The bounding spheres are noticeably smaller, and they no longer enclose the game models. However, the important area (a band on the ground going around the game object) matches the outline of the model fairly accurately. At this point, the collision detection is good enough for our purposes. However, with a little effort, the placement and size of the bounding spheres could be modified even further to produce more accurate collision detection. Like most things in game development, the more time you spend on a feature, the better it gets (remember that trilemma we discussed earlier?). There's one more step before we can call it done. In the last step, we'll add some new screens (for example, start, win or lose), game state tracking and HUD elements, and a few other items.
+Rebuild and run the game. The bounding spheres are noticeably smaller, and they no longer enclose the game models. However, the important area (a band on the ground going around the game object) matches the outline of the model fairly accurately. At this point, the collision detection is good enough for our purposes. However, with a little effort, the placement and size of the bounding spheres could be modified even further to produce more accurate collision detection. Like most things in game development, the more time you spend on a feature, the better it gets (remember that trilemma we discussed earlier?). There is one more step before we can call it done. In the last step, we will add some new screens (for example, start, win or lose), game state tracking and HUD elements, and a few other items.
 
 ![Final output](Images/06-03-final.png)
 
