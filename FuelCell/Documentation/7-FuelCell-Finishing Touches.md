@@ -75,7 +75,9 @@ graphics.PreferredBackBufferHeight = 480;
 Next, in the `Update` method, add the following code that sets the time variables to their proper values when the player presses the `Start` button on the gamepad. A good place for this code is after the code that checks for pressing of the Exit button:
 
 ```csharp
-if (currentGamePadState.Buttons.Start == ButtonState.Pressed)
+// If the player has only just pressed the Enter key or has pressed the Start button
+if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (lastKeyboardState.IsKeyUp(Keys.Enter))) ||
+currentGamePadState.Buttons.Start == ButtonState.Pressed)
 {
     roundTimer = roundTime;
 }
@@ -158,6 +160,19 @@ private void DrawStats()
     spriteBatch.DrawString(statsFont, str2, strPosition, Color.White);
     spriteBatch.End();
 
+    ResetRenderStates();
+}
+```
+
+There is a fair bit of code here. The first part sets up the locations where the game statistic strings are drawn. Following the approach used by [How To: Draw a Sprite](). You always need to keep in mind with regards to your rendering to keep it within 90% of the screen to avoid any sprites being drawn in areas of the screen that could get cut off by a TV display. The next part composes the strings with the current game info, and then draws them on the gameplay screen. However, the last bit of code deserves more examination.
+
+You must reset certain properties of the graphics device whenever you combine sprite drawing with 3D rendering, as FuelCell does. These properties, related to alpha blending and the depth buffer, are set to different values when a sprite batch is used. If the properties are not reset to the default settings, weird rendering issues could suddenly appear in your game. That is why the final code modifies some RenderState and SampleStates properties of the graphics device.
+
+As the resetting of the render state is something we need to do after drawing any text, the code needed was extracted into its own method rather than repeating ourselves all the time (a good practice to maintain, try to never repeat yourself in code if you can), so let us add the `ResetRenderStates` method after the `DrawStats` method:
+
+```csharp
+private void ResetRenderStates()
+{
     //re-enable depth buffer after sprite batch disablement
     GraphicsDevice.DepthStencilState = DepthStencilState.Default;
     GraphicsDevice.BlendState = BlendState.Opaque;
@@ -165,10 +180,6 @@ private void DrawStats()
     GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 }
 ```
-
-There is a fair bit of code here. The first part sets up the locations where the game statistic strings are drawn. Following the approach used by [How To: Draw a Sprite](). You always need to keep in mind with regards to your rendering to keep it within 90% of the screen to avoid any sprites being drawn in areas of the screen that could get cut off by a TV display. The next part composes the strings with the current game info, and then draws them on the gameplay screen. However, the last bit of code deserves more examination.
-
-You must reset certain properties of the graphics device whenever you combine sprite drawing with 3D rendering, as FuelCell does. These properties, related to alpha blending and the depth buffer, are set to different values when a sprite batch is used. If the properties are not reset to the default settings, weird rendering issues could suddenly appear in your game. That is why the final code modifies some RenderState and SampleStates properties of the graphics device.
 
 To finish this section, you will need to call the `DrawStats` method to the existing `Draw` method. Add the following code after the call to `FuelCarrier.Draw()`. (before the `base.Draw(gameTime);` call)
 
@@ -220,17 +231,17 @@ We are going to implement the game state change in stages, with the first stage 
 
 Before the player starts a new game of FuelCell, the player will need some basic instructions for controlling the vehicle and the win conditions. We will deliver these instructions in a splash screen, which will display when the FuelCell application begins. This screen is only displayed when the game state is in the Loading stage.
 
-Modify the following code:
+Modify the following code in `FuelCellGame.cs`:
 
 ```csharp
-        if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (lastKeyboardState.IsKeyUp(Keys.Enter))) ||
-        currentGamePadState.Buttons.Start == ButtonState.Pressed)
-        {
-          roundTimer = roundTime;
-        }
+if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (lastKeyboardState.IsKeyUp(Keys.Enter))) ||
+currentGamePadState.Buttons.Start == ButtonState.Pressed)
+{
+    roundTimer = roundTime;
+}
 ```
 
-to match the following:
+To match the following:
 
 ```csharp
 if (currentGameState == GameState.Loading)
@@ -244,22 +255,32 @@ if (currentGameState == GameState.Loading)
 }
 ```
 
-The modifications now check the game state when the player presses the Enter key or Start button, and advances the game state if the current state is GameState.Loading.
+The modifications now check the `game state` when the player presses the `Enter` key or `Start` button, and advances the game state if the current state is `GameState.Loading`.
 
-Display of the splash screen is handled in the Draw method. Since the game state is based on the current value of an enumeration, we will draw the proper screen based on the current value of currentGameState.
+The Display of the splash screen is handled in the `Draw` method. Since the game state is based on the current value of an enumeration, we will draw the proper screen based on the current value of currentGameState.
 
-In the Draw method, replace the existing code between the Clear call and the base Draw call with the following code:
+In the `Draw` method , replace the existing code with the following:
+
+> [!NOTE]
+> Yes we are removing a lot of code in the `Draw` method, but worry not, it will be coming back!
 
 ```csharp
-        switch (currentGameState)
-        {
-          case GameState.Loading:
+protected override void Draw(GameTime gameTime)
+{
+    graphics.GraphicsDevice.Clear(Color.Black);
+
+    switch (currentGameState)
+    {
+        case GameState.Loading:
             DrawSplashScreen();
             break;
-        };
+    };
+
+    base.Draw(gameTime);
+}
 ```
 
-Before the player starts the game, the only thing displayed should be the splash screen. The helper method, DrawSplashScreen, clears the screen to steel blue, and then displays some informational text. Add that method after the existing DrawTerrain method:
+Before the player starts the game, the only thing displayed should be the splash screen, the `DrawSplashScreen`  method, clears the screen to steel blue, and then displays some informational text. Add the following method after the existing `DrawTerrain` method:
 
 ```csharp
 private void DrawSplashScreen()
@@ -291,12 +312,7 @@ private void DrawSplashScreen()
     spriteBatch.DrawString(statsFont, GameConstants.StrInstructions2, strPosition, Color.LightGray);
     spriteBatch.End();
 
-    //re-enable depth buffer after sprite batch disablement
-    GraphicsDevice.RenderState.DepthBufferEnable = true;
-    GraphicsDevice.RenderState.AlphaBlendEnable = false;
-    GraphicsDevice.RenderState.AlphaTestEnable = false;
-    GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
-    GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
+    ResetRenderStates();
 }
 ```
 
@@ -307,23 +323,48 @@ Figure 1.  Splash Screen for FuelCell
 
 ## Implementing the Running (Gameplay) Screen
 
-The next game state you will implement is the gameplay screen (the screen that you developed in Steps 3-6). This screen is reached after the player presses the Enter key or the Start button from the splash screen. You will add code to the Update and Draw methods to draw this screen at the appropriate time.
+The next game state you will implement is the `gameplay` screen (the screen that you developed in Steps 3-6). This screen is reached after the player presses the `Enter` key or the `Start` button from the splash screen. You will add code to the `Update` and `Draw` methods to draw this screen at the appropriate time.
 
-In the Update method, replace the following code:
+First up a little refactoring, as the `Aspect Ratio` variable is very useful through out your project to properly scale the screen and it doesn't make sense to lock it into the Update loop (unless the screen size changes, see [How to: Resize a Game]() for more info).  So let us move the `aspectRatio` property up to the top of the `FuelCellGame` class after `retrievedFuelCells` property:
 
 ```csharp
-          fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
-          float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
-          gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
+int retrievedFuelCells = 0;
+TimeSpan startTime, roundTimer, roundTime;
+float aspectRatio;
+```
 
-          foreach (FuelCell fuelCell in fuelCells)
-          fuelCell.Update(fuelCarrier.BoundingSphere);
-          roundTimer -= gameTime.ElapsedGameTime;
+And then initialize the variable in the `Initialize` method:
+
+```csharp
+protected override void Initialize()
+{
+    // Initialize the Game objects
+    ground = new GameObject();
+    gameCamera = new Camera();
+    boundingSphere = new GameObject();
+    aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
+
+    base.Initialize();
+}
+```
+
+With the `aspectRatio` property moved out, Let us change the `Update` method functionality to include handling for the `GameState.Running` state, replace the following code:
+
+```csharp
+fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
+float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
+gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
+
+foreach (FuelCell fuelCell in fuelCells)
+{
+    fuelCell.Update(fuelCarrier.BoundingSphere);
+}
 ```
 
 with the following code:
 
 ```csharp
+// Main gameplay running screen
 if ((currentGameState == GameState.Running))
 {
     fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
@@ -349,20 +390,27 @@ if ((currentGameState == GameState.Running))
 }
 ```
 
-In the Draw method, add the following code after the existing game state check:
+In the `Draw` method, update the switch statement to the following:
 
 ```csharp
-case GameState.Running:
-    DrawGameplayScreen();
-    break;
+switch (currentGameState)
+{
+    case GameState.Loading:
+        DrawSplashScreen();
+        break;
+    case GameState.Running:
+        DrawGameplayScreen();
+        break;
+};
 ```
 
-And then, after the DrawSplashScreen method, add the follwoing code:
+Which adds a new state to check for (Running) and draws the actual gameplay. Next, after the `DrawSplashScreen` method, add the following code:
 
 ```csharp
 private void DrawGameplayScreen()
 {
     DrawTerrain(ground.Model);
+
     foreach (FuelCell fuelCell in fuelCells)
     {
         if (!fuelCell.Retrieved)
@@ -376,20 +424,21 @@ private void DrawGameplayScreen()
     }
 
     fuelCarrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
+
     DrawStats();
 }
 ```
 
-At this point, the game displays both the splash and gameplay screens. Only the win/loss screen remains.
+At this point, the game can now display either the splash or gameplay screens. We are still missing the win/loss screen, which we will add next.
 
 ![Gameplay screen](Images/07-02-GamePlay.png)
 Figure 2.  Gameplay Screen for FuelCell
 
 ## Implementing the Game Won/Game Lost Screens
 
-The win/loss screens are similar, differing only in the initial text. From either screen, the player can choose to play another game or exit FuelCell. For this reason, you will implement both screens using a single function. That function, DrawWinOrLoss, accepts a string parameter with the appropriate message.
+The win/loss screens are similar, differing only in the initial text. From either screen, the player can choose to play another game or exit FuelCell. For this reason, you will implement both screens using a single function. That function, `DrawWinOrLoss`, accepts a string parameter with the appropriate message.
 
-First, let us modify the Update method to check for player input after a game. Add the following code after the check for GameState.Running:
+First, let us modify the `Update` method to check for player input after a game finishes. Add the following code after the `IF` check for `GameState.Running`:
 
 ```csharp
 if ((currentGameState == GameState.Won) || (currentGameState == GameState.Lost))
@@ -397,13 +446,15 @@ if ((currentGameState == GameState.Won) || (currentGameState == GameState.Lost))
     // Reset the world for a new game
     if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (currentKeyboardState.IsKeyUp(Keys.Enter))) ||
         currentGamePadState.Buttons.Start == ButtonState.Pressed)
+    {
         ResetGame(gameTime, aspectRatio);
+    }
 }
 ```
 
-There is nothing of note in this code except for the call to the Reset method. It "resets" the world, allowing a new game to be played. Let us add that method now.
+There is nothing of note in this code except for the call to the `Reset` method if the player presses `Enter` or the `Start` button after the game has ended. It "resets" the world, allowing a new game to be played. Let us add that method now.
 
-In FuelCellGame.cs, add the following method:
+In `FuelCellGame.cs`, add the following method after the `IsOccupied` method:
 
 ```csharp
 private void ResetGame(GameTime gameTime, float aspectRatio)
@@ -419,19 +470,7 @@ private void ResetGame(GameTime gameTime, float aspectRatio)
 }
 ```
 
-In the GameObject.cs file, after the LoadContent method, add the following method to the FuelCarrier class:
-
-```csharp
-internal void Reset()
-{
-    Position = Vector3.Zero;
-    ForwardDirection = 0f;
-}
-```
-
-This returns the fuel carrier to its original position and orientation.
-
-The final code you will add is InitializeGameField. PLace this code after the ResetGame method (located in FuelCellGame.cs):
+As you can see this introduced a few errors with missing methods, mostly to also reset other elements in the game, to address these add the following `InitializeGameField` method in the `FuelCellGame.cs` class after the ResetGame method:
 
 ```csharp
 private void InitializeGameField()
@@ -463,11 +502,24 @@ private void InitializeGameField()
 }
 ```
 
-This method completes the remaining tasks for a new game:
+We also need to add a `Reset` method to the `FuelCarrier.cs` class the `LoadContent` method for the FuelCarrier class:
 
-Generates new positions for all fuel cells and barriers.
-Sets all fuel cells to a non-retrieved state and zeros out the number of retrieved fuel cells.
-The final bit of code updates the Draw method to draw the winning or losing screen. Add the following code after the check for the Running game state in Draw:
+```csharp
+internal void Reset()
+{
+    Position = Vector3.Zero;
+    ForwardDirection = 0f;
+}
+```
+
+This returns the fuel carrier to its original position and orientation when called, thus resetting its place in the world.
+
+This completes the remaining tasks for a new game:
+
+- Generates new positions for all fuel cells and barriers.
+- Sets all fuel cells to a non-retrieved state and zeros out the number of retrieved fuel cells.
+
+The final bit of code to add is to update the `Draw` method to draw the winning or losing screen. Add the following code after the check for the `GameState.Running` state in the `Draw` method:
 
 ```csharp
 case GameState.Won:
@@ -478,7 +530,7 @@ case GameState.Lost:
     break;
 ```
 
-Now implement the DrawWinOrLossScreen method, after the existing DrawSplashScreen method:
+Now implement the `DrawWinOrLossScree`n method, after the existing `DrawSplashScreen` method:
 
 ```csharp
 private void DrawWinOrLossScreen(string gameResult)
@@ -508,12 +560,7 @@ private void DrawWinOrLossScreen(string gameResult)
 
     spriteBatch.End();
 
-    //re-enable depth buffer after sprite batch disablement
-    GraphicsDevice.RenderState.DepthBufferEnable = true;
-    GraphicsDevice.RenderState.AlphaBlendEnable = false;
-    GraphicsDevice.RenderState.AlphaTestEnable = false;
-    GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
-    GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
+    ResetRenderStates();
 }
 ```
 

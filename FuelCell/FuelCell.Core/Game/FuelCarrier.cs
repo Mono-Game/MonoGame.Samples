@@ -29,6 +29,12 @@ namespace FuelCell.Core.Game
             BoundingSphere = new BoundingSphere(scaledSphere.Center, scaledSphere.Radius);
         }
 
+        internal void Reset()
+        {
+            Position = Vector3.Zero;
+            ForwardDirection = 0f;
+        }
+
         public void Update(GamePadState gamepadState, KeyboardState keyboardState, Barrier[] barriers)
         {
             Vector3 futurePosition = Position;

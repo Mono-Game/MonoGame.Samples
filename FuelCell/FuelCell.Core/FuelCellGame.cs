@@ -53,6 +53,7 @@ namespace FuelCell
 
         int retrievedFuelCells = 0;
         TimeSpan startTime, roundTimer, roundTime;
+        float aspectRatio;
 
         public FuelCellGame()
         {
@@ -69,6 +70,7 @@ namespace FuelCell
             ground = new GameObject();
             gameCamera = new Camera();
             boundingSphere = new GameObject();
+            aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
 
             base.Initialize();
         }
@@ -141,18 +143,51 @@ namespace FuelCell
                 this.Exit();
             }
 
-            if (currentGamePadState.Buttons.Start == ButtonState.Pressed)
+            // If the player has only just pressed the Enter key or has pressed the Start button
+            if (currentGameState == GameState.Loading)
             {
-                roundTimer = roundTime;
+                if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (currentKeyboardState.IsKeyUp(Keys.Enter))) ||
+                    currentGamePadState.Buttons.Start == ButtonState.Pressed)
+                {
+                    roundTimer = roundTime;
+                    currentGameState = GameState.Running;
+                }
             }
 
-            fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
-            float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
-            gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
-
-            foreach (FuelCell fuelCell in fuelCells)
+            // Main gameplay running screen
+            if ((currentGameState == GameState.Running))
             {
-                fuelCell.Update(fuelCarrier.BoundingSphere);
+                fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
+                float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
+                gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
+                retrievedFuelCells = 0;
+                foreach (FuelCell fuelCell in fuelCells)
+                {
+                    fuelCell.Update(fuelCarrier.BoundingSphere);
+                    if (fuelCell.Retrieved)
+                    {
+                        retrievedFuelCells++;
+                    }
+                }
+                if (retrievedFuelCells == GameConstants.NumFuelCells)
+                {
+                    currentGameState = GameState.Won;
+                }
+                roundTimer -= gameTime.ElapsedGameTime;
+                if ((roundTimer < TimeSpan.Zero) && (retrievedFuelCells != GameConstants.NumFuelCells))
+                {
+                    currentGameState = GameState.Lost;
+                }
+            }
+
+            if ((currentGameState == GameState.Won) || (currentGameState == GameState.Lost))
+            {
+                // Reset the world for a new game
+                if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (currentKeyboardState.IsKeyUp(Keys.Enter))) ||
+                    currentGamePadState.Buttons.Start == ButtonState.Pressed)
+                {
+                    ResetGame(gameTime, aspectRatio);
+                }
             }
 
             // Update input from sources, Keyboard and GamePad
@@ -172,6 +207,27 @@ namespace FuelCell
         {
             graphics.GraphicsDevice.Clear(Color.Black);
 
+            switch (currentGameState)
+            {
+                case GameState.Loading:
+                    DrawSplashScreen();
+                    break;
+                case GameState.Running:
+                    DrawGameplayScreen();
+                    break;
+                case GameState.Won:
+                    DrawWinOrLossScreen(GameConstants.StrGameWon);
+                    break;
+                case GameState.Lost:
+                    DrawWinOrLossScreen(GameConstants.StrGameLost);
+                    break;
+            };
+
+            base.Draw(gameTime);
+        }
+
+        private void DrawGameplayScreen()
+        {
             // Draw the ground terrain model
             DrawTerrain(ground.Model);
 
@@ -209,8 +265,6 @@ namespace FuelCell
             // ChangeRasterizerState(FillMode.Solid);
 
             DrawStats();
-
-            base.Draw(gameTime);
         }
 
         /// <summary>
@@ -248,6 +302,68 @@ namespace FuelCell
             }
         }
 
+        private void DrawSplashScreen()
+        {
+            float xOffsetText, yOffsetText;
+            Vector2 viewportSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            Vector2 strCenter;
+
+            graphics.GraphicsDevice.Clear(Color.SteelBlue);
+
+            xOffsetText = yOffsetText = 0;
+            Vector2 strInstructionsSize = statsFont.MeasureString(GameConstants.StrInstructions1);
+            Vector2 strPosition;
+            strCenter = new Vector2(strInstructionsSize.X / 2, strInstructionsSize.Y / 2);
+
+            yOffsetText = (viewportSize.Y / 2 - strCenter.Y);
+            xOffsetText = (viewportSize.X / 2 - strCenter.X);
+            strPosition = new Vector2(xOffsetText, yOffsetText);
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(statsFont, GameConstants.StrInstructions1, strPosition, Color.White);
+
+            strInstructionsSize = statsFont.MeasureString(GameConstants.StrInstructions2);
+            strCenter = new Vector2(strInstructionsSize.X / 2, strInstructionsSize.Y / 2);
+            yOffsetText = (viewportSize.Y / 2 - strCenter.Y) + statsFont.LineSpacing;
+            xOffsetText = (viewportSize.X / 2 - strCenter.X);
+            strPosition = new Vector2(xOffsetText, yOffsetText);
+
+            spriteBatch.DrawString(statsFont, GameConstants.StrInstructions2, strPosition, Color.LightGray);
+            spriteBatch.End();
+
+            ResetRenderStates();
+        }
+
+        private void DrawWinOrLossScreen(string gameResult)
+        {
+            float xOffsetText, yOffsetText;
+            Vector2 viewportSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            Vector2 strCenter;
+
+            xOffsetText = yOffsetText = 0;
+            Vector2 strResult = statsFont.MeasureString(gameResult);
+            Vector2 strPlayAgainSize = statsFont.MeasureString(GameConstants.StrPlayAgain);
+            Vector2 strPosition;
+            strCenter = new Vector2(strResult.X / 2, strResult.Y / 2);
+
+            yOffsetText = (viewportSize.Y / 2 - strCenter.Y);
+            xOffsetText = (viewportSize.X / 2 - strCenter.X);
+            strPosition = new Vector2(xOffsetText, yOffsetText);
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(statsFont, gameResult, strPosition, Color.Red);
+
+            strCenter = new Vector2(strPlayAgainSize.X / 2, strPlayAgainSize.Y / 2);
+            yOffsetText = (viewportSize.Y / 2 - strCenter.Y) + (float)statsFont.LineSpacing;
+            xOffsetText = (viewportSize.X / 2 - strCenter.X);
+            strPosition = new Vector2(xOffsetText, yOffsetText);
+            spriteBatch.DrawString(statsFont, GameConstants.StrPlayAgain, strPosition, Color.AntiqueWhite);
+
+            spriteBatch.End();
+
+            ResetRenderStates();
+        }
+
         private void DrawStats()
         {
             float xOffsetText, yOffsetText;
@@ -272,6 +388,11 @@ namespace FuelCell
             spriteBatch.DrawString(statsFont, str2, strPosition, Color.White);
             spriteBatch.End();
 
+            ResetRenderStates();
+        }
+
+        private void ResetRenderStates()
+        {
             //re-enable depth buffer after sprite batch disablement
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.BlendState = BlendState.Opaque;
@@ -340,6 +461,46 @@ namespace FuelCell
                     return true;
             }
             return false;
+        }
+
+        private void ResetGame(GameTime gameTime, float aspectRatio)
+        {
+            fuelCarrier.Reset();
+            gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
+            InitializeGameField();
+
+            retrievedFuelCells = 0;
+            startTime = gameTime.TotalGameTime;
+            roundTimer = roundTime;
+            currentGameState = GameState.Running;
+        }
+
+        private void InitializeGameField()
+        {
+            //Initialize barriers
+            barriers = new Barrier[GameConstants.NumBarriers];
+            int randomBarrier = random.Next(3);
+            string barrierName = null;
+
+            for (int index = 0; index < GameConstants.NumBarriers; index++)
+            {
+                switch (randomBarrier)
+                {
+                    case 0:
+                        barrierName = "Models/cube10uR";
+                        break;
+                    case 1:
+                        barrierName = "Models/cylinder10uR";
+                        break;
+                    case 2:
+                        barrierName = "Models/pyramid10uR";
+                        break;
+                }
+                barriers[index] = new Barrier();
+                barriers[index].LoadContent(Content, barrierName);
+                randomBarrier = random.Next(3);
+            }
+            PlaceFuelCellsAndBarriers();
         }
     }
 }
