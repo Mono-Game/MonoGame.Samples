@@ -7,15 +7,11 @@
 //-----------------------------------------------------------------------------
 #endregion
 
-using System;
-using System.IO;
+using FuelCell.Core.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
-using Microsoft.Xna.Framework.Content;
-using FuelCell.Core.Game;
-using System.Threading;
+using System;
 
 namespace FuelCell
 {
@@ -43,17 +39,12 @@ namespace FuelCell
         FuelCell[] fuelCells;
         Barrier[] barriers;
 
-        // States to store input values
-        KeyboardState lastKeyboardState = new KeyboardState();
-        KeyboardState currentKeyboardState = new KeyboardState();
-        GamePadState lastGamePadState = new GamePadState();
-        GamePadState currentGamePadState = new GamePadState();
-
         GameObject boundingSphere;
 
         int retrievedFuelCells = 0;
         TimeSpan startTime, roundTimer, roundTime;
         float aspectRatio;
+        private IInputState inputState;
 
         public FuelCellGame()
         {
@@ -62,6 +53,7 @@ namespace FuelCell
             roundTime = GameConstants.RoundTime;
             graphics.PreferredBackBufferWidth = 853;
             graphics.PreferredBackBufferHeight = 480;
+            inputState = new InputState(this);
         }
 
         protected override void Initialize()
@@ -137,8 +129,11 @@ namespace FuelCell
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // Update the InputState class.
+            inputState.Update();
+
             // Allows the game to exit
-            if (currentKeyboardState.IsKeyDown(Keys.Escape) || currentGamePadState.Buttons.Back == ButtonState.Pressed)
+            if (inputState.PlayerExit(PlayerIndex.One))
             {
                 this.Exit();
             }
@@ -146,8 +141,7 @@ namespace FuelCell
             // If the player has only just pressed the Enter key or has pressed the Start button
             if (currentGameState == GameState.Loading)
             {
-                if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (currentKeyboardState.IsKeyUp(Keys.Enter))) ||
-                    currentGamePadState.Buttons.Start == ButtonState.Pressed)
+                if (inputState.StartGame(PlayerIndex.One))
                 {
                     roundTimer = roundTime;
                     currentGameState = GameState.Running;
@@ -157,7 +151,7 @@ namespace FuelCell
             // Main gameplay running screen
             if ((currentGameState == GameState.Running))
             {
-                fuelCarrier.Update(currentGamePadState, currentKeyboardState, barriers);
+                fuelCarrier.Update(inputState, barriers);
                 float aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
                 gameCamera.Update(fuelCarrier.ForwardDirection, fuelCarrier.Position, aspectRatio);
                 retrievedFuelCells = 0;
@@ -183,18 +177,11 @@ namespace FuelCell
             if ((currentGameState == GameState.Won) || (currentGameState == GameState.Lost))
             {
                 // Reset the world for a new game
-                if ((lastKeyboardState.IsKeyDown(Keys.Enter) && (currentKeyboardState.IsKeyUp(Keys.Enter))) ||
-                    currentGamePadState.Buttons.Start == ButtonState.Pressed)
+                if (inputState.StartGame(PlayerIndex.One))
                 {
                     ResetGame(gameTime, aspectRatio);
                 }
             }
-
-            // Update input from sources, Keyboard and GamePad
-            lastKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
-            lastGamePadState = currentGamePadState;
-            currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
             base.Update(gameTime);
         }

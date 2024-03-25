@@ -569,20 +569,9 @@ Since the Win and Loss screens differ only in the message, we can cheat a bit an
 ![Game Won screen](Images/07-03-GameWon.png)
 Figure 3.  FuelCell Congratulatory Screen
 
-## That's a Wrap!
+## Moving forward
 
-After the (now) traditional rebuild and play session, you can now enjoy the introductory splash screen, a challenging game of retrieve the fuel cells, and (hopefully) a congratulatory winning screen.
-
-At this point, the FuelCell game is complete. Even though you wrote a large amount of code, the possibilities for expansion are endless. For example:
-
-- Multiplayer - invite a competitor and whomever collects the most fuel cells wins!
-- Powerups - Add another object, or two, that gives the player a boost of speed for 5 seconds or a "ghost" ability that ignores those pesky barriers!
-- Advanced lighting and effects - improve the default lighting with a glow effect or motion blur.
-- Sound - add the Whoosh! of fuel carrier acceleration or the Bonk! of barrier collision.
-
-If you need more ideas for expanding FuelCell or want to interact with a like-minded community of fellow game developers, check out XNA Creators Club Online Web site. It's an excellent community-driven site that has active forums and helpful people who are designing new and exciting games.
-
-Good luck in your game development future and, above all, have fun!
+As the core of our game is up and running, it is still a little far too quiet in here.  In the next chapter we will add some audio to our title and bring in the noise!
 
 ## See Also
 

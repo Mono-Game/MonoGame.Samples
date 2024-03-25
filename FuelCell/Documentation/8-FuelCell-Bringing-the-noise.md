@@ -11,25 +11,25 @@ Discusses the addition of audio to the FuelCell game.
 
 ## It is a bit quiet
 
-No gme worth its salt is silent, even those that go the extra mile and add accessibility  elements to narate the environment of the game bring some feeling into the environment.
+No game worth its salt is silent (although there are exceptions), even those that go the extra mile and add accessibility elements to narrate the environment of the game, bring some feeling into the environment.
 
 Sound is a crucial component to the gameplay experience, from background music to sound effects and all round haptic responses. (yes, even vibration is an audio response).
 
-In this chapter we will introduce the basics allowing you to explorer further on your own by adding background theme music, engine rumble while we power arond the area and a nifty alarm when we collect those fuel cells.
+In this chapter we will introduce the basics allowing you to explorer further on your own by adding background theme music, engine rumble while we power around the area and a nifty alarm when we collect those fuel cells.
 
 ## Grab those files
 
-It is possible to generate sounds at runtime and there are some fantasic libraries out there, even for MonoGame to do this, but let us keep things simple using the content pipeline.
+It is possible to generate sounds at runtime and there are some fantastic libraries out there, even for MonoGame to do this, but let us keep things simple using the content pipeline.
 
 For this section you will need the three sounds we discussed which are included in the source, these are:
 
 - [Background Music]() to brighten the mood.
-- [Engine Rumble]() to hear your machine roar aross the area.
-- [Starteld Delight]() as we pick up those precious fuel cells to return to the colony.
+- [Engine Rumble]() to hear your machine roar across the area.
+- [Startled Delight]() as we pick up those precious fuel cells to return to the colony.
 
 Download these files and add them to your content project just as you did with the textures and models, preferably in a folder called "Audio".
 
-> [!IWARNING]
+> [!WARNING]
 > If you use your own sounds or store them in a different place/folder, make sure you update the paths in the `Content.Load()` calls.  Else they basically will not work.
 
 Build your project to make sure the audio is loading as expected and then let us continue to load and play them.
@@ -40,7 +40,7 @@ Let us start with the background music, this is a sound or track that effectivel
 
 Loading the music is simple and uses the [Content Pipeline]() in the same process as Texture and Models but uses a different content type, for long running audio that is a "[Song]()".
 
-First let us declare a varaible to store our loaded music, right after the `aspectRatio` property:
+First let us declare a variable to store our loaded music, right after the `aspectRatio` property:
 
 ```csharp
 private Song backgroundMusic;
@@ -55,6 +55,7 @@ backgroundMusic = Content.Load<Song>("Audio/background_music.mp3")
 > [!TIP]
 > It is possible to load content without using the Content Pipeline, as some do, but you will then lose the management capabilities and features the Content Pipeline brings, as well as any additional content processing capabilities.
 > But it is a world of developers choice and you can use the following instead if so you wish as all the content classes support file loading too (but we will continue with the content pipeline for this tutorial):
+>
 > ```csharp
 > ```
 
@@ -72,3 +73,21 @@ if (backgroundMusic.IsPlaying()
 }
 backgroundMusic.Play();
 ```
+
+
+
+
+## A working game
+
+As the core of our game is up and running, it is still a little far too quiet in here.  In the next chapter we will add some audio to our title and bring in the noise!
+
+## See Also
+
+### Conceptual
+
+-[FuelCell: Introduction]()
+
+### Tasks
+
+-[How To: Draw a Sprite]()
+-[How To: Draw Text]()

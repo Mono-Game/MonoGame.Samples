@@ -35,41 +35,14 @@ namespace FuelCell.Core.Game
             ForwardDirection = 0f;
         }
 
-        public void Update(GamePadState gamepadState, KeyboardState keyboardState, Barrier[] barriers)
+        public void Update(IInputState inputState, Barrier[] barriers)
         {
             Vector3 futurePosition = Position;
-            float turnAmount = 0;
 
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                turnAmount = 1;
-            }
-            else if (keyboardState.IsKeyDown(Keys.D))
-            {
-                turnAmount = -1;
-            }
-            else if (gamepadState.ThumbSticks.Left.X != 0)
-            {
-                turnAmount = -gamepadState.ThumbSticks.Left.X;
-            }
-            ForwardDirection += turnAmount * GameConstants.TurnSpeed;
+            ForwardDirection += inputState.GetPlayerTurn(PlayerIndex.One) * GameConstants.TurnSpeed;
             Matrix orientationMatrix = Matrix.CreateRotationY(ForwardDirection);
 
-            Vector3 movement = Vector3.Zero;
-            if (keyboardState.IsKeyDown(Keys.W))
-            {
-                movement.Z = 1;
-            }
-            else if (keyboardState.IsKeyDown(Keys.S))
-            {
-                movement.Z = -1;
-            }
-            else if (gamepadState.ThumbSticks.Left.Y != 0)
-            {
-                movement.Z = gamepadState.ThumbSticks.Left.Y;
-            }
-
-            Vector3 speed = Vector3.Transform(movement, orientationMatrix);
+            Vector3 speed = Vector3.Transform(inputState.GetPlayerMove(PlayerIndex.One), orientationMatrix);
             speed *= GameConstants.Velocity;
             futurePosition = Position + speed;
 
