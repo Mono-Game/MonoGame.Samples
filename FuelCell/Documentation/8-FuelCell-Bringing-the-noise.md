@@ -21,6 +21,9 @@ In this chapter we will introduce the basics allowing you to explorer further on
 
 It is possible to generate sounds at runtime and there are some fantastic libraries out there, even for MonoGame to do this, but let us keep things simple using the content pipeline.
 
+> [!NOTE]
+> All the audio files used here were sourced from [MixKit](https://mixkit.co/free-sound-effects/game/), but feel free to use your own if you wish.
+
 For this section you will need the three sounds we discussed which are included in the source, these are:
 
 - [Background Music]() to brighten the mood.
