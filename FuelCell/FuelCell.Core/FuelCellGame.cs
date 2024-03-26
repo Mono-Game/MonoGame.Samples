@@ -9,9 +9,12 @@
 
 using FuelCell.Core.Game;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
+using MediaPlayer = Microsoft.Xna.Framework.Media.MediaPlayer;
 
 namespace FuelCell
 {
@@ -45,6 +48,7 @@ namespace FuelCell
         TimeSpan startTime, roundTimer, roundTime;
         float aspectRatio;
         private IInputState inputState;
+        private Song backgroundMusic;
 
         public FuelCellGame()
         {
@@ -81,6 +85,9 @@ namespace FuelCell
 
             ground.Model = Content.Load<Model>("Models/ground");
             boundingSphere.Model = Content.Load<Model>("Models/sphere1uR");
+
+            // Audio
+            backgroundMusic = Content.Load<Song>("Audio/background-music");
 
             //Initialize fuel cells
             fuelCells = new FuelCell[GameConstants.NumFuelCells];
@@ -143,8 +150,7 @@ namespace FuelCell
             {
                 if (inputState.StartGame(PlayerIndex.One))
                 {
-                    roundTimer = roundTime;
-                    currentGameState = GameState.Running;
+                    ResetGame(gameTime, aspectRatio);
                 }
             }
 
@@ -176,6 +182,12 @@ namespace FuelCell
 
             if ((currentGameState == GameState.Won) || (currentGameState == GameState.Lost))
             {
+                // Gameplay has stopped and if audio is still playing, stop it.
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+
                 // Reset the world for a new game
                 if (inputState.StartGame(PlayerIndex.One))
                 {
@@ -460,6 +472,16 @@ namespace FuelCell
             startTime = gameTime.TotalGameTime;
             roundTimer = roundTime;
             currentGameState = GameState.Running;
+
+            // We use a try catch around the Media player, else in debug mode it can cause an exception which we need to catch.
+            try
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Volume = 0.5f;
+                MediaPlayer.Play(backgroundMusic);
+            }
+            catch { }
         }
 
         private void InitializeGameField()

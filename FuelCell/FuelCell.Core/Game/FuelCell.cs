@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,6 +8,7 @@ namespace FuelCell
     public class FuelCell : GameObject
     {
         public bool Retrieved { get; set; }
+        private SoundEffect fuelCellCollect;
 
         public FuelCell()
             : base()
@@ -19,6 +21,8 @@ namespace FuelCell
             Model = content.Load<Model>(modelName);
             BoundingSphere = CalculateBoundingSphere();
             Position = Vector3.Down;
+
+            fuelCellCollect = content.Load<SoundEffect>("Audio/fuelcell-collect");
 
             BoundingSphere scaledSphere;
             scaledSphere = BoundingSphere;
@@ -54,6 +58,7 @@ namespace FuelCell
             if (vehicleBoundingSphere.Intersects(this.BoundingSphere))
             {
                 this.Retrieved = true;
+                fuelCellCollect.Play();
             }
         }
     }

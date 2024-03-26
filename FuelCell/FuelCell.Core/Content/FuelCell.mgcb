@@ -13,6 +13,24 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/background-music.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/background-music.mp3
+
+#begin Audio/engine-rumble.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/engine-rumble.wav
+
+#begin Audio/fuelcell-collect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/fuelcell-collect.wav
+
 #begin Fonts/StatsFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

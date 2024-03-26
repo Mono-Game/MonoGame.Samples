@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +11,7 @@ namespace FuelCell.Core.Game
     {
         public float ForwardDirection { get; set; }
         public int MaxRange { get; set; }
+        private SoundEffect engineRumble;
 
         public FuelCarrier()
             : base()
@@ -22,6 +24,8 @@ namespace FuelCell.Core.Game
         {
             Model = content.Load<Model>(modelName);
             BoundingSphere = CalculateBoundingSphere();
+
+            engineRumble = content.Load<SoundEffect>("Audio/engine-rumble");
 
             BoundingSphere scaledSphere;
             scaledSphere = BoundingSphere;
@@ -43,6 +47,10 @@ namespace FuelCell.Core.Game
             Matrix orientationMatrix = Matrix.CreateRotationY(ForwardDirection);
 
             Vector3 speed = Vector3.Transform(inputState.GetPlayerMove(PlayerIndex.One), orientationMatrix);
+            if (speed != Vector3.Zero)
+            {
+                engineRumble.Play();
+            }
             speed *= GameConstants.Velocity;
             futurePosition = Position + speed;
 

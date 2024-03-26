@@ -514,6 +514,33 @@ internal void Reset()
 
 This returns the fuel carrier to its original position and orientation when called, thus resetting its place in the world.
 
+Finally, with the `ResetGame` method defined, as this does all the setup for a level, we might as well use it for starting the game initially too, so replace the starting game below:
+
+```csharp
+    if (currentGameState == GameState.Loading)
+    {
+        if (inputState.StartGame(PlayerIndex.One))
+        {
+            roundTimer = roundTime;
+            currentGameState = GameState.Running;
+        }
+    }
+```
+
+With the following:
+
+```csharp
+    if (currentGameState == GameState.Loading)
+    {
+        if (inputState.StartGame(PlayerIndex.One))
+        {
+            ResetGame(gameTime, aspectRatio);
+        }
+    }
+```
+
+No sense in duplicating code when you have a method that does the job for you!
+
 This completes the remaining tasks for a new game:
 
 - Generates new positions for all fuel cells and barriers.
@@ -577,9 +604,6 @@ As the core of our game is up and running, it is still a little far too quiet in
 
 ### Conceptual
 
--[FuelCell: Introduction]()
+-[FuelCell: Introduction](../README.md)
 
 ### Tasks
-
--[How To: Draw a Sprite]()
--[How To: Draw Text]()

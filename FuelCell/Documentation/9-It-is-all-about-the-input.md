@@ -885,7 +885,7 @@ Switching over to the `FuelCarrier.cs` class, we need to update the player input
 Replace the current `Update` method signature with the following:
 
 ```csharp
-
+    public void Update(IInputState inputState, Barrier[] barriers)
 ```
 
 And then swap out the following code blocks:
@@ -970,4 +970,4 @@ Good luck in your game development future and, above all, have fun!
 
 ### Conceptual
 
--[FuelCell: Introduction]()
+-[FuelCell: Introduction](../README.md)
