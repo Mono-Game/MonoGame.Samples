@@ -12,7 +12,7 @@
 - [That's a Wrap!](#thats-a-wrap)
 - [See Also](#see-also)
 
-Discusses the final steps in the development of the FuelCell game.
+Discusses some of the finishing steps in the development of the FuelCell game.
 
 ## Overview of Game State Management
 
@@ -22,7 +22,7 @@ As a game, FuelCell is nearly complete, but we are missing some important featur
 - Start and win/loss screens
 - Game status display (such as the current score and time remaining)
 
-Game state management is the management of different states of the game through displaying different screens and/or by logic code added to the existing code. Common states for a basic game include: starting, playing, win/loss, and pause. Each of these states could have one or more related screens, such as an options screen or a gameplay screen.
+Game state management is the management of different states of the game through displaying different screens using logic added to the existing code. Common states for a basic game include: starting, playing, win/loss, and pause. Each of these states could have one or more related screens, such as an options screen or a gameplay screen.
 
 >[!TIP]
 > The full [GameState Management](https://github.com/SimonDarksideJ/GameStateManagementSample) sample is available on GitHub for reference and as a library for use in your own games, [here](https://github.com/SimonDarksideJ/GameStateManagementSample).
@@ -35,12 +35,12 @@ FuelCell manages three states (**starting**, **playing**, **won/lost**) and thre
 
 The game state management code is confined to the `FuelCellGame.cs` file (with some constants defined in `GameConstants.cs`). Heavy modification of the `Update` and `Draw` methods are needed, and some additional new code will be added in various areas of the file.
 
-However, before we start that work, we will remove the code that renders the bounding spheres. It has served its purpose and only gets in the way now. In the `Draw` method, comment out (or remove) all code that sets the wire frame rendering mode and calls the `DrawBoundingSphere` method. Rebuild the game and run it. Without all the wireframe spheres, it looks like a real game. (The sample has these left in but commented out for reference)
+However, before we start that work, we will remove the code that renders the bounding spheres. It has served its purpose and only gets in the way now. In the `Draw` method, comment out (or remove) all code that sets the wireframe rendering mode and calls the `DrawBoundingSphere` method. Rebuild the game and run it. Without all the wireframe spheres, it looks like a real game. (The sample has these left in but commented out for reference)
 
 > [!NOTE]
 > If this were a real game in development, you would either remove these calls completely or enclose them in DEBUG conditionals. In addition, you could remove or conditionalize the code around initializing and loading the bounding sphere model (boundingSphere). However, you still need the remaining code initializing and calculating the bounding spheres for the various game objects. Without it, our collision detection disappears.
 >
-> For our purposes, a simple commenting out suffices.
+> For our purposes, a simple commenting-out suffices.
 
 ## Anybody Got the Time?
 
@@ -193,7 +193,7 @@ After a rebuild, the time and remaining number of fuel cells are displayed in th
 
 ## The State of Things
 
-The remaining code you will add implements the game state management of FuelCell. As mentioned previously, one of the main duties of game state management is to determine the correct game screen to display. In addition, game state management can also monitor the player's progress toward his or her goals. For FuelCell, the goals are to retrieve all fuel cells before time runs out. If the player succeeds, we need to display a Game Won screen or, conversely, a Game Lost screen. In addition, we will display a splash screen on startup of the game containing instructions for starting a new game and playing it.
+The remaining code you will add implements the game state management of FuelCell. As mentioned previously, one of the main duties of game state management is to determine the correct game screen to display. In addition, game state management can also monitor the player's progress toward his or her goals. For FuelCell, the goal is to retrieve all fuel cells before time runs out. If the player succeeds, we need to display a Game Won screen or, conversely, a Game Lost screen. In addition, we will display a splash screen the game starts, containing instructions for starting a new game and playing it.
 
 > [!NOTE]
 > This section of the tutorial does radically change around some of the code, so time to tighten that belt and get coding.
@@ -502,7 +502,7 @@ private void InitializeGameField()
 }
 ```
 
-We also need to add a `Reset` method to the `FuelCarrier.cs` class the `LoadContent` method for the FuelCarrier class:
+We also need to add a `Reset` method to the `FuelCarrier.cs` class and the `LoadContent` method for the FuelCarrier class:
 
 ```csharp
 internal void Reset()
@@ -598,7 +598,7 @@ Figure 3.  FuelCell Congratulatory Screen
 
 ## Moving forward
 
-As the core of our game is up and running, it is still a little far too quiet in here.  In the next chapter we will add some audio to our title and bring in the noise!
+As the core of our game is up and running, it is still a little far too quiet in here.  In the next chapter, we will add some audio to our title and bring in the noise!
 
 ## See Also
 

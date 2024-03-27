@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace FuelCell
 {
     /// <summary>
-    /// The interface definion for Input
+    /// The interface definition for Input
     /// </summary>
     public interface IInputState
     {
@@ -133,7 +133,7 @@ namespace FuelCell
         // If we are on mobile, what is the state of any touchscreen input
         public TouchCollection TouchState;
 
-        // If we ar eon mobile, what gestures have been detected.
+        // If we are on mobile, what gestures have been detected.
         public readonly List<GestureSample> Gestures = new List<GestureSample>();
 
         /// <summary>

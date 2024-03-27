@@ -187,7 +187,7 @@ The final bit of code is the new PowerUp method. Add this new code after the Dra
 
 This is a simple bit of code that sets the powerup time to a predefined value, which is 3 seconds in this case.
 
-You're done with Player.cs. It's now time to modify his fiendish enemies.
+You're done with Player.cs. It is now time to modify his fiendish enemies.
 
 ## Modifying the Enemy Class
 

@@ -20,9 +20,9 @@ One of the largest hurdles a game developer faces when moving from 2D to 3D is t
 
 In a 3D game, what you see on your screen is a projection of a 3D environment onto a 2D surface (that is, your screen). This translation of 3D space into 2D space is accomplished using transformation matrices. Specifically, we refer to these three matrices as world, view, and projection matrices. Transformation is just a fancy word for changing the value of a coordinate by multiplication. Using these matrices, the MonoGame Framework transforms the coordinates of a 3D model to a set of new coordinate values (through rotation, scaling, or translation) used by the projection matrix. In a separate but related step, a view matrix simulates a viewpoint (often called the camera) in the same 3D space as the model; it looks in a certain direction. With these two matrices, a third matrix is brought into the "picture" to perform a final transformation into 2D screen coordinates. This creates a realistic 2D picture of the 3D scene on your computer screen.
 
-Earlier, we mentioned a camera. Even though this isn't a real camera, it fulfills the same role in the 3D game. This camera observes the 3D world and renders whatever it sees into a 2D representation. This representation appears on the computer screen. In a game, the camera class usually is implemented as a stand-alone class. It is one of two varieties: a first-person camera (used in this game and first-person shooters) and a third person camera (often used in RPGs or platform games). First-person cameras are great for games that focus on a single player or are trying to immerse the player in the game world. Third-person cameras are better suited to viewing a large playing field or controlling numerous entities in the game. For this step, you will implement a first-person camera using code from [How To: Make a First-Person Camera]().
+Earlier, we mentioned a camera. Even though this isn't a real camera, it fulfils the same role in the 3D game. This camera observes the 3D world and renders whatever it sees into a 2D representation. This representation appears on the computer screen. In a game, the camera class usually is implemented as a stand-alone class. It is one of two varieties: a first-person camera (used in this game and first-person shooters) and a third-person camera (often used in RPGs or platform games). First-person cameras are great for games that focus on a single player or are trying to immerse the player in the game world. Third-person cameras are better suited to viewing a large playing field or controlling numerous entities in the game. For this step, you will implement a first-person camera using code from [How To: Make a First-Person Camera]().
 
-We use a first-person camera because the player controls a small vehicle that can move around and collect fuel cells. The difficulty of the game is finding these items before time runs out. It's difficult because the playing field has opaque barriers randomly scattered across it. Since we use a first-person camera, the player must drive around to view previously-hidden areas.
+We use a first-person camera because the player controls a small vehicle that can move around and collect fuel cells. The difficulty of the game is finding these items before time runs out. It is difficult because the playing field has opaque barriers randomly scattered across it. Since we use a first-person camera, the player must drive around to view previously hidden areas.
 
 In addition to the camera code, you will also use code from [How To: Render a Model]() to display the 3D playing field model, which is a simple two-tone grid floating in space.
 
@@ -71,7 +71,7 @@ This new version now tracks the position, model, and bounding sphere of an objec
 
 ## The Camera
 
-The `Camera.cs` contains the camera class declaration, which is taken from the [How To: Make a First-Person Camera]() topic. As mentioned earlier, the main purpose behind this developer diary is to demonstrate how you (or any developer) can use various How To articles as stepping stones when developing an MonoGame Framework game. For this first usage, this concept is clearly illustrated by not changing any of the variable names or classes, whenever possible. This may cause a bit of confusion or head-scratching when you come across variable names like `_avatarHeadOffset` and `avatarYaw`, but it serves to tie the source How To more closely to the actual game code. This creates the ability to easily determine where the source code of a How To ends up in a typical game project by searching for the variable name used in the How To.
+The `Camera.cs` contains the camera class declaration, which is taken from the [How To: Make a First-Person Camera]() topic. As mentioned earlier, the main purpose behind this developer diary is to demonstrate how you (or any developer) can use various How To articles as stepping stones when developing a MonoGame Framework game. For this first usage, this concept is clearly illustrated by not changing any of the variable names or classes, whenever possible. This may cause a bit of confusion or head-scratching when you come across variable names like `_avatarHeadOffset` and `avatarYaw`, but it serves to tie the source How To more closely to the actual game code. This creates the ability to easily determine where the source code of a How To ends up in a typical game project by searching for the variable name used in the How To.
 
 For example, in this step, some of the property names match the names used in the original sample code: `_avatarHeadOffset` is the camera's distance above the playing field and `_targetOffset` is the offset from the target. In this case, it is a fixed distance in front of the fuel carrier vehicle. These values are used when calculating the camera position from the current position of the fuel carrier vehicle (for example, `position`) in the world coordinate system.
 
@@ -162,10 +162,10 @@ Okay, that wraps up the camera class and constants implementation. Let us move o
 
 Up until now, the new code has focused on setting up a viewpoint in the game world and added some additional infrastructure that is used by the game and various components. Game assets, in the form of models, are a large part of any 3D game. Even though this is a simple game, FuelCell includes many different types of game assets: models that represent game objects, textures that clothe the models, and a font to display game information such as the current score and goal status. For this step, let us add a very basic model and get it on the screen so we can begin to understand how our game world will look.
 
-Every project template created by MonoGame has a sub-project called Content. This project must contain all your game assets. Although it isn't required, it's a good idea to organize this content project such that similar assets are in the same folder. A common organization uses several folders: Models, Textures, Fonts, and Audio. These folders cover the main parts of a game. Let us add a Models folder, and a model, to our game.
+Every project template created by MonoGame has a sub-project called Content. This project must contain all your game assets. Although it isn't required, it is a good idea to organize this content project such that similar assets are in the same folder. A common organization uses several folders: Models, Textures, Fonts, and Audio. These folders cover the main parts of a game. Let us add a Models folder, and a model, to our game.
 
 > [!WARNING]
-> This tutorial assumes you are using the game assets provided in this FuelCell sample. These assets have been sized in relation to each other so that none are too small or too large. You can use other models, but their scale (the size in the world coordinate system) might be radically different from the FuelCell models. This can cause a model to be rendered as a massive or miniscule object in the game world. In some cases, the camera (due to its position) might not be able to see the model at all. Therefore, it is recommended that you use the included FuelCell models when following these steps.
+> This tutorial assumes you are using the game assets provided in this FuelCell sample. These assets have been sized in relation to each other so that none are too small or too large. You can use other models, but their scale (the size in the world coordinate system) might be radically different from the FuelCell models. This can cause a model to be rendered as a massive or minuscule object in the game world. In some cases, the camera (due to its position) might not be able to see the model at all. Therefore, it is recommended that you use the included FuelCell models when following these steps.
 >
 > After gaining some experience working with the camera class and rendering a 3D scene, you can experiment by adding your own models.
 
@@ -185,11 +185,11 @@ Download these files (`right-click -> save as`) ready for use in your content pr
 
 - Add a New Folder from the context menu using either `right-click -> add -> new folder` or from the `Edit` menu option.
 
-- Name this new folder Models.
+- Name this new folder `Models`.
 
-- Select the Models folder icon and from the context menu, select Add and then Existing Item....
+- Select the Models folder icon and from the context menu, select `Add and then Existing Item....`
 
-- Navigate to the folder containing the downloaded game assets and add the ground.x model and the ground.png texture, then click `Open`.
+- Navigate to the folder containing the downloaded game assets and add the `ground.x` model and the ground.png texture, then click `Open`.
 
 Your content project should now look as follows:
 
@@ -197,7 +197,7 @@ Your content project should now look as follows:
 
 ## Time to start building the Game
 
-You now have a working camera object, and a ground model, in your project. In the next step, you will add code declaring and initializing both these objects and use them to render a nice terrain in the game world. For the remainder of this step, you will be working exclusively in the `Game1.cs` file, which is the main file of an MonoGame Framework game.
+You now have a working camera object, and a ground model, in your project. In the next step, you will add code declaring and initializing both these objects and use them to render a nice terrain in the game world. For the remainder of this step, you will be working exclusively in the `Game1.cs` file, which is the main file of a MonoGame Framework game.
 
 Before you start modifying the `Game1.cs` file, rename it `FuelCellGame.cs`. This follows the naming format of the other project files.  You will also have to rename the class definition inside the `FuelCellGame.cs` to `FuelCellGame` to match, as follows:
 
@@ -230,7 +230,7 @@ You've added code declaring and initializing your camera class and the terrain m
 
 ## Opening Your "Eye"
 
-Updating the camera occurs in the aptly-named `Update` method. At this time, the information passed to the `Camera.Update` method is faked because there is no vehicle to focus on. Specifically, the position and rotation for the camera are zeroed out. This means the camera is centered slightly above the terrain model and aligned with the z-axis. This is the axis that represents the depth of the game world. Once you add the vehicle, the `Camera.Update` method will be passed the position and rotation of the vehicle, instead of zeros.
+Updating the camera occurs in the aptly named `Update` method. At this time, the information passed to the `Camera.Update` method is faked because there is no vehicle to focus on. Specifically, the position and rotation for the camera are zeroed out. This means the camera is centered slightly above the terrain model and aligned with the z-axis. This is the axis that represents the depth of the game world. Once you add the vehicle, the `Camera.Update` method will be passed the position and rotation of the vehicle, instead of zeros.
 
 This modification is very simple because you already implemented the Camera.Update method. Now, you just need to call it at the proper time and pass some valid values.
 

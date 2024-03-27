@@ -15,9 +15,9 @@ Discusses collision detection in a 3D game and demonstrates basic collision chec
 
 ## Out of My Way!
 
-Currently, the game is not very challenging (and impossible to win). The player can drive through barriers and fuel cells without retrieving them. The only boundaries are the edges of the playing field, added in Step 4. It's time to implement the main feature of the game: collision detection.
+Currently, the game is not very challenging (and impossible to win). The player can drive through barriers and fuel cells without retrieving them. The only boundaries are the edges of the playing field, added in Step 4. It is time to implement the main feature of the game: collision detection.
 
-Collision detection is a technique used in nearly all games, whether they are 2D or 3D. It simulates (to varying degrees) the interaction of real world objects. Without collision detection, objects in the game world could be seamlessly rendered within the space of the objects with which they collide. In most cases, this is unacceptable. The player expects to "collide" with objects in the game world and not merge with them. The desired behavior in FuelCell is to allow the player free motion around the playing field as long as he or she avoids the barriers. However, if the player attempts to drive through any part of a barrier, the player's current motion stops. Players must drive around the barriers, as they would in the real world. The behavior for fuel cells is a bit different. When a player "collides" with a fuel cell, the fuel cell object is marked as retrieved and no longer is drawn in the game world. This simulates the retrieval of the fuel cell. In the final step, the game display tracks these retrievals. The game ends when the player retrieves all the fuel cells.
+Collision detection is a technique used in nearly all games, whether they are 2D or 3D. It simulates (to varying degrees) the interaction of real-world objects. Without collision detection, objects in the game world could be seamlessly rendered within the space of the objects with which they collide. In most cases, this is unacceptable. The player expects to "collide" with objects in the game world and not merge with them. The desired behavior in FuelCell is to allow the player free motion around the playing field as long as he or she avoids the barriers. However, if the player attempts to drive through any part of a barrier, the player's current motion stops. Players must drive around the barriers, as they would in the real world. The behavior of fuel cells is a bit different. When a player "collides" with a fuel cell, the fuel cell object is marked as retrieved and is no longer drawn in the game world. This simulates the retrieval of the fuel cell. In the final step, the game display tracks these retrievals. The game ends when the player retrieves all the fuel cells.
 
 FuelCell's implementation of collision detection is based on the [BoundingSphere](https://monogame.net/api/Microsoft.Xna.Framework.BoundingSphere.html) class and the following article: [How To: Detect Whether Two Models Collide](). Collison detection with bounding spheres is a good approach for a variety of reasons:
 
@@ -25,15 +25,15 @@ FuelCell's implementation of collision detection is based on the [BoundingSphere
 - Bounding spheres do not have to be rotated if the enclosed object is rotated. This is not true when using bounding boxes or frustums. This saves some coding and reduces the complexity of the implementation.
 - Bounding spheres are automatically generated for sub-meshes by the XNA Framework. Each mesh has a related bounding sphere, accessible with the BoundingSphere property of the ModelMesh object.
 
-It is time to dive back into the code and take advantage of some of these features as we implement the collision detection.
+It is time to dive back into the code and take advantage of some of these features as we implement collision detection.
 
 ## Adding the Bounding Sphere Model
 
-During development, it's incredibly useful to render your bounding spheres along with its related model. This makes debugging the collision detection code much easier when things don't seem to be working properly. FuelCell represents the bounding sphere as a spherical wire-frame model, whose radius is 1 unit. When rendering the bounding sphere of a model, it is easily scaled (using the radius of the model's bounding sphere) and placed by setting the bounding sphere's center to the current position of the model.
+During development, it is incredibly useful to render your bounding spheres along with its related model. This makes debugging the collision detection code much easier when things don't seem to be working properly. FuelCell represents the bounding sphere as a spherical wire-frame model, whose radius is 1 unit. When rendering the bounding sphere of a model, it is easily scaled (using the radius of the model's bounding sphere) and placed by setting the bounding sphere's center to the current position of the model.
 
 For example, if the radius of the bounding sphere of a mesh is 4, the bounding sphere model is scaled by 4, which matches the size of the original bounding sphere.
 
-In order to use this technique, you need to add and initialize a spherical model with a radius of 1 unit. Luckily, the sphere1uR.x model is the model you need.
+To use this technique, you need to add and initialize a spherical model with a radius of 1 unit. Luckily, the sphere1uR.x model is the model you need.
 
 1. Add the [sphere1uR.x](../FuelCell.Core/Content/Models/sphere1uR.x) and [White.png](../FuelCell.Core/Content/Models/White.png) files to the `Models` directory of the FuelCell MGCB Content project.
 
@@ -49,7 +49,7 @@ In order to use this technique, you need to add and initialize a spherical model
     boundingSphere = new GameObject();
     ```
 
-4. In the existing `LoadContent` method, load the bounding sphere model after loading of the ground model:
+4. In the existing `LoadContent` method, load the bounding sphere model after loading the ground model:
 
     ```csharp
     boundingSphere.Model = Content.Load<Model>("Models/sphere1uR");
@@ -59,7 +59,7 @@ Once the model is loaded, you can use it to render the bounding spheres of your 
 
 ## Calculating the Boundary of the Fuel Cell Model
 
-Do you remember the member variable you added previously to the GameObject class, BoundingSphere? This is the step that finally makes use of that variable, with the help of a bit of code. The first step involves calculating a decent approximation of the bounding sphere of the game object's model. We will use the CreateMerged method. It's a quick and cheap way to calculate the bounding spheres of simple models. We will start with the initial bounding sphere and, for every two spheres encountered in the model, we will merge them. This continues until no more bounding spheres are left.
+Do you remember the member variable you added previously to the GameObject class, BoundingSphere? This is the step that finally makes use of that variable, with the help of a bit of code. The first step involves calculating a decent approximation of the bounding sphere of the game object's model. We will use the CreateMerged method. It is a quick and cheap way to calculate the bounding spheres of simple models. We will start with the initial bounding sphere and, for every two spheres encountered in the model, we will merge them. This continues until no more bounding spheres are left.
 
 > [!NOTE]
 > For single mesh models, like those in FuelCell, this approach works perfectly. However, the approach begins to lose accuracy when applied to a complex model. This is why there are entire shelves of books devoted to solving this problem at your local bookstore.
@@ -214,7 +214,7 @@ There are two collision events that need implementation:
 
 If you remember, you already implemented the playing field edge collision code in the `ValidatePosition` method of the `FuelCellGame.cs` class.
 
-Fuel cell collision is important because that it is the only way the player can score points and win the game. You need to add code that checks for collisions between a fuel cell and the fuel carrier. If they collide, you need to mark the fuel cell as retrieved, update the retrieved fuel cells counter, and not draw the fuel cell in the future. This gives the impression that the fuel cell has been picked up by the fuel carrier.
+Fuel cell collision is important because it is the only way the player can score points and win the game. You need to add code that checks for collisions between a fuel cell and the fuel carrier. If they collide, you need to mark the fuel cell as retrieved, update the retrieved fuel cells counter, and not draw the fuel cell in the future. This gives the impression that the fuel cell has been picked up by the fuel carrier.
 
 Begin by modifying the `FuelCellGame.Update` method to check for collision between the fuel cell and the fuel carrier. Add the following code after the game camera update:
 
@@ -225,7 +225,7 @@ foreach (FuelCell fuelCell in fuelCells)
 }
 ```
 
-And add the `FuelCell.Update` method, called with the preceding code. Place it after the `Draw` method in the `FuelCell.cs` class:
+And add the `FuelCell.Update` method called with the preceding code. Place it after the `Draw` method in the `FuelCell.cs` class:
 
 ```csharp
 internal void Update(BoundingSphere vehicleBoundingSphere)
@@ -237,7 +237,7 @@ internal void Update(BoundingSphere vehicleBoundingSphere)
 }
 ```
 
-This checks for intersection between the bounding spheres of the carrier and the fuel cell. This is the essence of the procedure discussed in [How To: Detect Whether Two Models Collide]().
+This checks for the intersection between the bounding spheres of the carrier and the fuel cell. This is the essence of the procedure discussed in [How To: Detect Whether Two Models Collide]().
 
 Go ahead and remove the now-redundant check (located in `FuelCell.Draw`) to see if the fuel cell is retrieved before drawing. That check is now being made in the FuelCellGame.Draw method. This completes the code support for the first collision event.
 
@@ -296,7 +296,7 @@ private bool CheckForBarrierCollision(BoundingSphere vehicleBoundingSphere, Barr
 }
 ```
 
-With that in place, we need to update the `ValidateMovement` method to both update its bounding sphere (used for testing the collision) position with the players future position, and also add a check if the player is "going" to hit barrier and prevent them moving if they will:
+With that in place, we need to update the `ValidateMovement` method to both update its bounding sphere (used for testing the collision) position with the players future position, and also add a check if the player is "going" to hit the barrier and prevent them moving if they will:
 
 ```csharp
 private bool ValidateMovement(Vector3 futurePosition, Barrier[] barriers)
@@ -333,7 +333,7 @@ These constraints ensure the player can only move if they are allowed to.
 
 ![Current Status](Images/06-02-mid-checkpoint.png)
 
-Once you rebuild and run FuelCell, look at the size of the default bounding spheres. For each object, the bounding sphere is quite large. In some cases, the addition of bounding sphere volumes creates situations where the code prevents the vehicle from passing through barriers that are far enough apart for the vehicle itself. The collision detection, as it stands now, is pretty good considering that this is the result if you do nothing but use the default bounding sphere parameters. However, with a simple modification to the code we can improve the experience of the player. The modification involves applying another scaling factor to the bounding spheres of each game object. This allows realistic interaction between the vehicle and the game world.
+Once you rebuild and run FuelCell, look at the size of the default bounding spheres. For each object, the bounding sphere is quite large. In some cases, the addition of bounding sphere volumes creates situations where the code prevents the vehicle from passing through barriers that are far enough apart for the vehicle itself. The collision detection, as it stands now, is pretty good considering that this is the result if you do nothing but use the default bounding sphere parameters. However, with a simple modification to the code, we can improve the experience of the player. The modification involves applying another scaling factor to the bounding spheres of each game object. This allows realistic interaction between the vehicle and the game world.
 
 The implementation requires scaling factors for each object type. A good place for these is in the GameConstants.cs file. Add the following declarations to the end of the `GameConstants` class:
 
@@ -375,7 +375,7 @@ scaledSphere.Radius *= GameConstants.BarrierBoundingSphereFactor;
 BoundingSphere = new BoundingSphere(scaledSphere.Center, scaledSphere.Radius);
 ```
 
-Rebuild and run the game. The bounding spheres are noticeably smaller, and they no longer enclose the game models. However, the important area (a band on the ground going around the game object) matches the outline of the model fairly accurately. At this point, the collision detection is good enough for our purposes. However, with a little effort, the placement and size of the bounding spheres could be modified even further to produce more accurate collision detection. Like most things in game development, the more time you spend on a feature, the better it gets (remember that trilemma we discussed earlier?). There is one more step before we can call it done. In the last step, we will add some new screens (for example, start, win or lose), game state tracking and HUD elements, and a few other items.
+Rebuild and run the game. The bounding spheres are noticeably smaller, and they no longer enclose the game models. However, the important area (a band on the ground going around the game object) matches the outline of the model fairly accurately. At this point, the collision detection is good enough for our purposes. However, with a little effort, the placement and size of the bounding spheres could be modified even further to produce more accurate collision detection. Like most things in game development, the more time you spend on a feature, the better it gets (remember that trilemma we discussed earlier?). There is one more step before we can call it done. In the last step, we will add some new screens (for example, start, win, or lose), game state tracking and HUD elements, and a few other items.
 
 ![Final output](Images/06-03-final.png)
 

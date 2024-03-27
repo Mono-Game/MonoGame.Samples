@@ -18,11 +18,11 @@ It is time to add the remaining models: the fuel cells and the fuel carrier. The
 The fuel cell model (`fuelcellmodel.x`) is a simple canister-like object with a single texture (`fuelcell.png`). Typically, you only need to add the model file and not the texture. The texture file is automatically used when the Content Pipeline processes the model file. The barrier models are similar to the fuel cell model. They each have a specific model and a single texture. Since the game has three barrier types, we will be adding three different models (`cube10uR.x`/`cylinder10uR.x`/`pyramid10uR.x`) and a set of textures (`BarrierBlue`/`BarrierPurple`/`BarrierRed.png`). Unlike the fuel cell model, the barrier textures are simple and can be used with any barrier model.
 
 > [!NOTE]
-> The rather unique model names are the result of keeping the scale relatively uniform among all models. The naming convention begins with the model name and then the radius, measured in the units of the 3D modelling application used. Therefore, pyramid10uR is the name of the pyramid model whose radius is 10 units in length.
+> The rather unique model names are the result of keeping the scale relatively uniform among all models. The naming convention begins with the model name and then the radius, measured in the units of the 3D modeling application used. Therefore, pyramid10uR is the name of the pyramid model whose radius is 10 units in length.
 
 - Open the MGCB Content project
-- Right-click the Models directory icon of the Content project.
-- Click Add and then New Existing Item....
+- Right-click the `Models` directory icon of the Content project.
+- Click `Add -> New Existing Item....`
 - Download and then add the following files:
   - [fuelcellmodel.x](../FuelCell.Core/Content/Models/fuelcellmodel.x) and [fuelcell.png](../FuelCell.Core/Content/Models/fuelcell.png)
   - [fuelcarrier.x](../FuelCell.Core/Content/Models/fuelcarrier.x) and [carriertextures.png](../FuelCell.Core/Content/Models/carriertextures.png)
@@ -34,7 +34,7 @@ The fuel cell model (`fuelcellmodel.x`) is a simple canister-like object with a 
 
 ## Implementing the Fuel Cell Class
 
-Model implementation is similar to what you did in the last step. You will add some member variables to store the models, load them with the `LoadContent` method, intialize them (placement, etc.) and then render them on the playing field.
+Model implementation is similar to what you did in the last step. You will add some member variables to store the models, load them with the `LoadContent` method, initialize them (placement, etc.) and then render them on the playing field.
 
 First, the fuel cell class. Create a new class file called `FuelCell.cs` and replace its contents with the following.
 
@@ -312,7 +312,7 @@ foreach (Barrier barrier in barriers)
 fuelCarrier.Draw(gameCamera.ViewMatrix, gameCamera.ProjectionMatrix);
 ```
 
-Build and run the project and you will now see, in addition to the playing field, several cool things on the screen. You see some barriers, with a fuel cell slightly behind them, and a funny blue ovoid in the foreground. That is actually the fuel carrier. It's a (very) simple model, but it suits the purpose of the game. The next step implements user control of the game avatar.
+Build and run the project and you will now see, in addition to the playing field, several cool things on the screen. You see some barriers, with a fuel cell slightly behind them, and a funny blue ovoid in the foreground. That is actually the fuel carrier. It is a (very) simple model, but it suits the purpose of the game. The next step implements user control of the game avatar.
 
 ![Project status](Images/03-02-status.png)
 
