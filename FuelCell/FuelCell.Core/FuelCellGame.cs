@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------------
 #endregion
 
-using FuelCell.Core.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;

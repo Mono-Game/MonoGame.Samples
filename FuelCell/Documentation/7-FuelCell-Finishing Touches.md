@@ -602,8 +602,12 @@ As the core of our game is up and running, it is still a little far too quiet in
 
 ## See Also
 
+### Next
+
+- [FuelCell: Brining the noise](8-FuelCell-Bringing-the-noise.md)
+
 ### Conceptual
 
--[FuelCell: Introduction](../README.md)
+- [FuelCell: Introduction](../README.md)
 
 ### Tasks

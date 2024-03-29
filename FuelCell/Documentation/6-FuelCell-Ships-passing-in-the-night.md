@@ -381,6 +381,10 @@ Rebuild and run the game. The bounding spheres are noticeably smaller, and they 
 
 ## See Also
 
+### Next
+
+- [FuelCell: Finishing Touches](7-FuelCell-Finishing%20Touches.md)
+
 ### Conceptual
 
 - [FuelCell: Introduction](../README.md)

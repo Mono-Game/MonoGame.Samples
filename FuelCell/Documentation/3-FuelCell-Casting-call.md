@@ -323,6 +323,10 @@ Build and run the project and you will now see, in addition to the playing field
 
 ## See Also
 
+### Next
+
+- [FuelCell: What's My Motivation](4-FuelCell-What-is-my-motivation.md)
+
 ### Conceptual
 
 - [FuelCell: Introduction](../README.md)

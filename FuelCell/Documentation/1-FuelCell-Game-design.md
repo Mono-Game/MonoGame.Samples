@@ -39,6 +39,10 @@ With the FuelCell feature set explained, let us move on to the actual coding of 
 
 ## See Also
 
+### Next
+
+- [FuelCell: Setting the Scene](2-FuelCell-Setting-the-scene.md)
+
 ### Conceptual
 
-[FuelCell: Introduction](../README.md)
+- [FuelCell: Introduction](../README.md)

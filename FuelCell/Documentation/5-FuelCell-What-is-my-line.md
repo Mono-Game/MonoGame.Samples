@@ -24,7 +24,7 @@ The solution used by FuelCell is to randomly assign positive and negative values
 
 > [!TIP]
 > **Pick Two: High Quality, Fast, and Cheap.**
-> You might know (or at least heard) about the trilemma above. You're given three characteristics, but you can only choose two because of their interdependency. Any two of the characteristics negates the possibility of the third. For example, you can have something made cheaply and quickly, but it will be of poor quality.
+> You might know (or at least heard) about the trilemma above. You are given three characteristics, but you can only choose two because of their interdependency. Any two of the characteristics negates the possibility of the third. For example, you can have something made cheaply and quickly, but it will be of poor quality.
 >
 > Trilemmas can also be applied to software algorithms. A cheap, fast algorithm wastes a lot of resources compared to the result. On the other hand, a high-quality algorithm that is fast is not cheap in terms of resources (in this case, development hours).
 >
@@ -280,6 +280,10 @@ After a successful rebuild of the project, you now have fuel cells to find and b
 ![Game Status](Images/05-01-final.gif)
 
 ## See Also
+
+### Next
+
+- [FuelCell: "Ships" Passing in the Night](6-FuelCell-Ships-passing-in-the-night.md)
 
 ### Conceptual
 
