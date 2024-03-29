@@ -325,7 +325,7 @@ Figure 1.  Splash Screen for FuelCell
 
 The next game state you will implement is the `gameplay` screen (the screen that you developed in Steps 3-6). This screen is reached after the player presses the `Enter` key or the `Start` button from the splash screen. You will add code to the `Update` and `Draw` methods to draw this screen at the appropriate time.
 
-First up a little refactoring, as the `Aspect Ratio` variable is very useful through out your project to properly scale the screen and it doesn't make sense to lock it into the Update loop (unless the screen size changes, see [How to: Resize a Game]() for more info).  So let us move the `aspectRatio` property up to the top of the `FuelCellGame` class after `retrievedFuelCells` property:
+First up a little refactoring, as the `Aspect Ratio` variable is very useful through out your project to properly scale the screen and it does not make sense to lock it into the Update loop (unless the screen size changes, see [How to: Resize a Game]() for more info).  So let us move the `aspectRatio` property up to the top of the `FuelCellGame` class after `retrievedFuelCells` property:
 
 ```csharp
 int retrievedFuelCells = 0;

@@ -289,11 +289,11 @@ private void DrawTerrain(Model model)
 The `DrawTerrain` method uses a rendering technique commonly used by MonoGame Framework games – by iteratively using draw calls on all the child meshes of the parent model (Models are always made up of many parts, so this loop simply draws them all). In this rather simple case, the ground model only has one mesh. But for more complex models, this approach is required to properly render the model on the screen. The calls to [EnableDefaultLighting](https://monogame.net/api/Microsoft.Xna.Framework.Graphics.BasicEffect.html#Microsoft_Xna_Framework_Graphics_BasicEffect_EnableDefaultLighting) and [PreferPerPixelLighting](https://monogame.net/api/Microsoft.Xna.Framework.Graphics.BasicEffect.html#Microsoft_Xna_Framework_Graphics_BasicEffect_PreferPerPixelLighting) highlight the power of the MonoGame Framework because you will get a standard 3-source lighting setup and smoother model lighting for free, creating some great results with little work!
 
 > [!TIP]
-> You can read more about lighting in MonoGame in the [What is Default Lighting]() article on the MonoGame docs site.
+> You can read more about lighting in MonoGame in the [What is: Default Lighting]() article on the MonoGame docs site.
 
 ![End of Step 2](Images/02-02-status-sep%202.png)
 
-Go ahead and compile and build your project. You should be hovering over a gray and light-blue terrain under a black sky. It doesn't look like much now, but the [next](3-FuelCell-Casting-call.md) part adds the rest of the 3D models and displays them on the screen.
+Go ahead and compile and build your project. You should be hovering over a gray and light-blue terrain under a black sky. It does not look like much now, but the [next](3-FuelCell-Casting-call.md) part adds the rest of the 3D models and displays them on the screen.
 
 ## See Also
 
