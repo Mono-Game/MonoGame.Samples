@@ -103,7 +103,6 @@ namespace FuelCell
 
             for (int index = 0; index < barriers.Length; index++)
             {
-
                 switch (randomBarrier)
                 {
                     case 0:
@@ -449,14 +448,18 @@ namespace FuelCell
             {
                 if (((int)(MathHelper.Distance(xValue, currentObj.Position.X)) < 15) &&
                     ((int)(MathHelper.Distance(zValue, currentObj.Position.Z)) < 15))
-                    return true;
+                    {
+                        return true;
+                    }
             }
 
             foreach (GameObject currentObj in barriers)
             {
                 if (((int)(MathHelper.Distance(xValue, currentObj.Position.X)) < 15) &&
                     ((int)(MathHelper.Distance(zValue, currentObj.Position.Z)) < 15))
-                    return true;
+                    {
+                        return true;
+                    }
             }
             return false;
         }

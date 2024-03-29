@@ -114,7 +114,9 @@ namespace FuelCell
             for (int curBarrier = 0; curBarrier < barriers.Length; curBarrier++)
             {
                 if (vehicleBoundingSphere.Intersects(barriers[curBarrier].BoundingSphere))
+                {
                     return true;
+                }
             }
             return false;
         }
