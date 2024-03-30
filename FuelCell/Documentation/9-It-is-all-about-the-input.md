@@ -14,7 +14,7 @@
 - [Extra credit](#extra-credit)
 - [See Also](#see-also)
 
-Discusses collision detection in a 3D game and demonstrates basic collision checking between the fuel carrier vehicle and the other game objects on the playing field.
+Discusses refactoring input to a more sustainable and maintainable solution that is reusable across projects.
 
 ## Who said that
 
@@ -31,10 +31,10 @@ Which listens for the player hitting the `Esc` key or the `Back` button then it 
 
 To take this further, how do you then add player customization of controls, changing what each button does in the game, in which case this kind of pattern simply would not work.
 
-The solution is "Abstraction", the method of defining a "known" term, such as `Jump`, setting out that Jump "does" and then providing a way to check if the player is "Jumping" or not from a separate class that does all the work.  Then in your game you simply ask "Am I jumping" rather than all the input checking code, changing the above call to:
+The solution is "Abstraction", the method of defining a "known" term, such as `Jump`, setting out that Jump "does" and then providing a way to check if the player is "Jumping" or not, then separate it into a class that does all the work.  Finally, in your game you simply ask "Am I jumping" rather than all the input checking code, changing the above call to:
 
 ```csharp
-if (InputState.IsExitRequested())
+if (inputState.IsExitRequested())
 {
     this.Exit();
 }
@@ -72,14 +72,14 @@ Now the first thing you will notice is the [Interface](https://learn.microsoft.c
 
 The reason we are using it here is so that we can define, upfront, several methods that our "Input" will provide, and then a specific class that will perform those operations.  If later on we want to change HOW we implement that input without changing our game, we can just swap in another class with minimal changes (one line in fact).
 
->[!TIP]
+> [!TIP]
 > [Interfaces](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface) are a powerful tool in any game development and I would recommend reading up on them if you are unfamiliar with how they are used.  The most common use is building different "attack" classes for different characters,  one "Attack" action can have completely different abilities depending on the weapon the character is wielding, and using interfaces means you can swap out which class is DOING the attack based on which weapon the character currently has assigned.
 
 You will see more about how the interface is used as we progress in this chapter.
 
 ## Getting the raw input
 
-The very next thing we need to do in our Input class is to actually get the raw input data, which we have already done in the main `FuelCellGame.cs` class, we will move this here for now and clean it up later.
+The very next thing we need to do in our Input class is to actually get the raw input data, what we have already implemented in the main `FuelCellGame.cs` class, we will move this here for now and clean it up later.
 
 1. Add the following using statements to the top of the `InputState.cs` class, in readiness for the rest of the code:
 
@@ -91,7 +91,7 @@ The very next thing we need to do in our Input class is to actually get the raw 
     using System.Collections.Generic;
     ```
 
-2. Next, add the following properties inside the `InputState.cs` class definition:
+2. Next, add the following properties inside the `InputState.cs` class definition, each property is documented for clarity:
 
     ```csharp
         public class InputState : IInputState
@@ -122,7 +122,7 @@ The very next thing we need to do in our Input class is to actually get the raw 
         }
     ```
 
-3. With the states in place, we need to initialize them when the game starts (and the `InputState` class is created), add the following right after the properties above in the `InputState.cs` class:
+3. With the states in place, we need to initialize them when the game starts (when the `InputState` class is created), add the following right after the properties shown above in the `InputState.cs` class:
 
     ```csharp
         /// <summary>
@@ -150,7 +150,7 @@ The very next thing we need to do in our Input class is to actually get the raw 
 
     ```csharp
         /// <summary>
-        /// Reads the latest state of the keyboard,  gamepads and touch.
+        /// Reads the latest state of the keyboard, gamepads and touch.
         /// </summary>
         public void Update()
         {
@@ -186,7 +186,7 @@ The very next thing we need to do in our Input class is to actually get the raw 
 5. Finally, as our `Update` call will need to be called by our `FuelCellGame.cs` class, we will need to declare it in our `IInputState` interface, only methods expressed in our interface can be "seen" by any code using the interface.
 
     > [!TIP]
-    > If you know the concrete class that is using the interface, then yes, you can still see all the `Public` methods and properties it exposes.  But any "common" code using the interface properly will not.  It is like knowing a car has doors (the interface is for all cars) but you would not know if a BMW had an ejector seat door on the roof unless you knew it was that type of BMW.  Learn more about interfaces and it will all make sense :D
+    > If you know the concrete class that is using am interface, then yes, you can still see all the `Public` methods and properties it exposes.  But any "common" code using the interface properly will not.  It is like knowing a car has doors (the interface is for all cars) but you would not know if a BMW had an ejector seat door on the roof unless you knew it was that type of BMW.  Learn more about interfaces and it will all make sense :D
 
     To state whether a method or property is exposed by the interface, we just need to declare it in the interface, as follows, update the `interface` definition as per below:
 
@@ -199,6 +199,8 @@ The very next thing we need to do in our Input class is to actually get the raw 
             void Update();
         }
     ```
+
+Now we know that ANY class that implements the `IInputState` interface is guaranteed to have an `Update` method.
 
 We now have the framework for our input, so now let us get more interesting and start defining some way the input can be consumed by our game, rather than individually checking what is going on.
 
@@ -253,9 +255,9 @@ We will start with the most simple expression of input, checking if a `Key` (on 
     }
 ```
 
-As you can see, checking the gamepad for a button being pressed is a little more complicated than simply checking what key is pressed, because you have multiple controllers potentially connected and if you are unsure which player is pressing an input, or if you want the first player who hit a button, you need to check them all.
+As you can see, checking the gamepad for a button being pressed is a little more complicated than simply checking what key is pressed, because you potentially have multiple controllers connected, and if you are unsure which player is pressing an input, or if you want the first player who hit a button, you need to check them all.
 
-The end result is that these methods will return `true` if the specified button or key is pressed.  However, what if you want to know if they have just pressed it or if they have released the button.  Then we need slightly different checks, for the keyboard it is simply a matter of checking the current state:
+The end result is that these methods will return `true` if the specified button or key is pressed.  However, what if you want to know if they have "just pressed" it or if they have "released" the key/button.  Then we need slightly different checks, for the keyboard it is simply a matter of checking the current state and comparing it to the previous state:
 
 ```csharp
     /// <summary>
@@ -353,10 +355,10 @@ For buttons, we have a similar pattern, but as with the button press, we still n
             else
             {
                 // Accept input from any player.
-                return (IsNewButtonPress(button, PlayerIndex.One, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Two, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Three, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Four, out playerIndex));
+                return (IsButtonHeld(button, PlayerIndex.One, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Two, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Three, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Four, out playerIndex));
             }
         }
 
@@ -387,18 +389,20 @@ For buttons, we have a similar pattern, but as with the button press, we still n
             else
             {
                 // Accept input from any player.
-                return (IsNewButtonPress(button, PlayerIndex.One, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Two, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Three, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Four, out playerIndex));
+                return (IsButtonReleased(button, PlayerIndex.One, out playerIndex) ||
+                        IsButtonReleased(button, PlayerIndex.Two, out playerIndex) ||
+                        IsButtonReleased(button, PlayerIndex.Three, out playerIndex) ||
+                        IsButtonReleased(button, PlayerIndex.Four, out playerIndex));
             }
         }
 ```
 
-That handles keys and buttons, but what about other inputs, controllers also have triggers (which return a `float` value) and thumbsticks which return two values in a `vector2` type (signifying up/down and left/right directions).  So let us handle those too with the following methods:
+That handles keys and buttons, but what about other inputs, controllers also have triggers (which return a `float` value) and thumbsticks, which return two values in a `vector2` type (signifying up/down and left/right directions).  So let us handle those too with the following methods:
 
 > [!NOTE]
 > We do NOT however, need to check triggers or thumbsticks previous states as we do with keys and buttons, as they are a constant value and only report their CURRENT state.  If you wanted to track their value over time you would need to handle that in your game, rather than through the input.
+>
+> We also only check the requested player and NOT all players, as it would not really make sense with a stream of data.
 
 ```csharp
     /// <summary>
@@ -596,7 +600,7 @@ We are almost there, now that we have the raw data we can start defining "Action
 
 As mentioned in the previous section, we know what the player pressed, now we just need to figure out if it is something we needed/wanted them to do.  Rather than (as is done currently in `FuelCellGame.cs`) checking each and every input directly in our game (which makes it a nightmare later if you want to remap those controls), we abstract this into "Actions" that the game is checking for.
 
-An example to make it clearer, when we want the player to start the game, we check all the inputs in our game code that we have allocated for that, e.g. (from `FuelCellGame.cs` )
+As an example to make it clearer, when we want the player to start the game, we check all the inputs in our game code that we have allocated for that, e.g. (from `FuelCellGame.cs` )
 
 ```csharp
     if (currentKeyboardState.IsKeyDown(Keys.Escape) || currentGamePadState.Buttons.Back == ButtonState.Pressed)
@@ -695,11 +699,11 @@ With the building blocks in place, we have one final piece of the puzzle to solv
 
 Within any project, there are those elements that need to be accessed from anywhere within the project which creates a small but unique problem, how to share the running state of an instantiated class with other classes.
 
-- Referencing
+- `Referencing`
   The most common way is to pass around a reference to the class with its current state as part of a method call, which in most cases is fine.  The `Update` call does this by passing the current game time `Update(GameTime gameTime)`.  However, this gets problematic the more data you want to send and if you then need to pass that data to more and more nested classes, there is a possibility of data corruption or hitting some [Garbage Collection](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/) issues when cleaning up that data.  Ideally, only [value types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types) should be passed as references but this is more of an unwritten rule than law.
-- Static Classes
+- `Static Classes`
   Another common method is to use [Static](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/static) types, these have a singular instance throughout your project (there can only be one of any type or data), this solves the access problem but can run into [race conditions](https://learn.microsoft.com/en-us/dotnet/standard/security/security-and-race-conditions) if many parts of the project end up updating the data, because there is only one instance, any update to the class updates ALL access to the class.
-- Injection
+- `Injection`
   The last method is injection, where types are safely passed around a project, sometimes automatically, or using a container or registry that maintains the "master copy" of any data being shared.
 
 This last method is provided by the MonoGame framework using the [Game "Services"](https://monogame.net/api/Microsoft.Xna.Framework.Game.html#Microsoft_Xna_Framework_Game_Services) collection (not to be confused with [Game Components](https://monogame.net/api/Microsoft.Xna.Framework.Game.html#Microsoft_Xna_Framework_Game_Components)) which allows you to record instances of classes for use by other parts of the project.
@@ -741,6 +745,7 @@ Then update the `InputState` class constructor as follows:
             throw new ArgumentException("An Input State class is already registered.");
         }
 
+        // Once the InputState class has been initialized, then register the current instance with the Game Services registry.
         _game.Services.AddService(typeof(IInputState), this);
     }
 ```
@@ -750,7 +755,7 @@ The changes we made are as follows:
 - Altered the constructor signature to require a `Game` class instance, required for registering the class to the services registry.
 - A null check to ensure you do not accidentally pass a bad game reference (always code as if it is going to break, then it will not)
 - Cache the `Game` reference to the property in the class.
-- Towards the end of the constructor, once everything is setup and good, we check if an existing `Input State` class has been registered already (just in case we accidentally register it twice :D )
+- Towards the end of the constructor, once everything is setup and good, we check if an existing `InputState` class has been registered already (just in case we accidentally register it twice :D )
 - And finally, once all the checks are done, we finally register this instance of the `InputState` class with the `Game.Services` registry.
 
 A lot of boilerplate to ensure the class is registered safely and securely, as well as checking there is only one (there can only be one).  Now whenever we need input we can just ask for the `InputState` class and start receiving data.  All will become more clear as we update our input in the game.
@@ -856,7 +861,7 @@ With:
 fuelCarrier.Update(inputState, barriers);
 ```
 
-The rest of the `Input` code is in the `FuelCarrier.cs` class, but let us remove the old "GetState" code first, so remove the following code blocks:
+As a final clean-up step for the `FuelCellGame.cs` class, let us remove the old "GetState" code first, deleting following code blocks:
 
 1. Remove the State properties at the top of the class
 

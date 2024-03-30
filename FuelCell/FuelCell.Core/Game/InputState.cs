@@ -165,6 +165,7 @@ namespace FuelCell
                 throw new ArgumentException("An Input State class is already registered.");
             }
 
+            // Once the InputState class has been initialized, then register the current instance with the Game Services registry.
             _game.Services.AddService(typeof(IInputState), this);
         }
 
@@ -334,10 +335,10 @@ namespace FuelCell
             else
             {
                 // Accept input from any player.
-                return (IsNewButtonPress(button, PlayerIndex.One, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Two, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Three, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Four, out playerIndex));
+                return (IsButtonHeld(button, PlayerIndex.One, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Two, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Three, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Four, out playerIndex));
             }
         }
 
@@ -368,10 +369,10 @@ namespace FuelCell
             else
             {
                 // Accept input from any player.
-                return (IsNewButtonPress(button, PlayerIndex.One, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Two, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Three, out playerIndex) ||
-                        IsNewButtonPress(button, PlayerIndex.Four, out playerIndex));
+                return (IsButtonReleased(button, PlayerIndex.One, out playerIndex) ||
+                        IsButtonReleased(button, PlayerIndex.Two, out playerIndex) ||
+                        IsButtonReleased(button, PlayerIndex.Three, out playerIndex) ||
+                        IsButtonReleased(button, PlayerIndex.Four, out playerIndex));
             }
         }
 
