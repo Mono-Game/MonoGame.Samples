@@ -18,11 +18,11 @@ No game worth its salt is silent (although there are exceptions), even those tha
 
 Sound is a crucial component of the gameplay experience, from background music to sound effects and all-round haptic responses. (yes, even vibration is an audio response).
 
-In this chapter, we will introduce the basics allowing you to explore further on your own by adding background theme music, engine rumble while we power around the area, and a nifty alarm when we collect those fuel cells.
+In this chapter, we will introduce the basics of audio, with background theme music, engine rumble while we power around the area, and a nifty alarm when we collect those fuel cells.  You can replace the audio with your own if you wish.
 
 ## Grab those files
 
-It is possible to generate sounds at runtime and there are some fantastic libraries out there, even for MonoGame to do this, but let us keep things simple using the content pipeline.
+It is possible to generate sounds at runtime and there are some fantastic libraries out there for that, even for use in MonoGame, but let us keep things simple using the content pipeline.
 
 > [!NOTE]
 > All the audio files used here were sourced from [MixKit](https://mixkit.co/free-sound-effects/game/), but feel free to use your own if you wish.
@@ -44,12 +44,12 @@ Build your project to make sure the audio is loading as expected and then let us
 
 Let us start with the background music, this is a sound or track that effectively plays on a loop as the game plays, you can use different music for your game menus or even ramp up the music for dramatic events, but let us not get too far ahead of ourselves.
 
-Loading the music is simple and uses the [Content Pipeline](https://monogame.net/api/Microsoft.Xna.Framework.Content.Pipeline.html) in the same process as Texture and Models but uses a different processor type, for long-running audio which is a "[Song](https://monogame.net/api/Microsoft.Xna.Framework.Media.Song.html)".
+Loading the music is simple using the [Content Pipeline](https://monogame.net/api/Microsoft.Xna.Framework.Content.Pipeline.html) in the same way as Texture and Models are loaded, but using a different processor type for long-running audio which is a "[Song](https://monogame.net/api/Microsoft.Xna.Framework.Media.Song.html)".
 
 > [!WARNING]
 > Make sure to set the "**Processor**" type in the properties for the `background-music.mp3` file to **SONG** in the MGCB Editor.  By default, mp3 files default to use the "Song" processor, and wav files default to the "SoundEffect" processor. (which we will use later)
 
-First let us declare a variable to store our loaded music, right after the `aspectRatio` property:
+First let us declare a variable to store our loaded music, right after the `aspectRatio` property in the `FuelCellGame.cs` class:
 
 ```csharp
 private Song backgroundMusic;
@@ -66,6 +66,7 @@ backgroundMusic = Content.Load<Song>("Audio/background_music");
 > But it is a world of developers choice and you can use the following instead if so you wish as all the content classes support file loading too (but we will continue with the content pipeline for this tutorial):
 >
 > ```csharp
+> backgroundMusic = Song.FromUri("background-music", new Uri("Content/Audio/background-music.mp3", UriKind.Relative));
 > ```
 
 With the music loaded, all we now need to do is to set it going on a loop and forget about it (unless we want to stop it playing or change the track)
@@ -87,13 +88,13 @@ At the end of the `ResetGame` method when the game round begins, we add a check 
 ```
 
 > [!WARNING]
-> If you are targeting **iOS** for your MonoGame project, then when using the `MediaPlayer` you will need to define an extra `using` statement (shown below) to specifically identify you are using MonoGame's MediaPlayer, this is because iOS natively has another class called MediaPlayer and C# can get confused if you are not specific:
+> If you are targeting **iOS** for your MonoGame project, then when using the `MediaPlayer` you will also need to define an extra `using` statement (shown below) to specifically identify you are using MonoGame's MediaPlayer, this is because iOS natively has another class called MediaPlayer and C# can get confused if you are not specific:
 >
 > ```csharp
 > using MediaPlayer = Microsoft.Xna.Framework.Media.MediaPlayer;
 > ```
 
-And to finish off the background audio, if the game has finished, ideally we want the game background music to also stop playing, so at the end of the `FuelCellGame.cs` class in the `Update` section, change the `Won/Lost` to also stop the audio if it is playing:
+To finish off the background audio, if the game has finished, ideally we want the game background music to also stop playing, so at the end of the `FuelCellGame.cs` class in the `Update` section, change the `Won/Lost` to also stop the audio if it is playing:
 
 ```csharp
     if ((currentGameState == GameState.Won) || (currentGameState == GameState.Lost))
@@ -116,16 +117,19 @@ Now we have some, slightly, annoying background music, let us also play with som
 
 ## Celebrating the collection of the cells
 
-It is always good to reward the player, not just with points, but also with a nice rewarding sound to announce the event, for this, we will open the `FuelCell.cs` class to declare a [SoundEffect](), load it and then play it on demand.
+It is always good to reward the player, not just with points, but also with a nice rewarding sound to announce the event, for this, we will open the `FuelCell.cs` class to declare a [SoundEffect](https://monogame.net/api/Microsoft.Xna.Framework.Audio.SoundEffect.html), load it and then play it on demand.
 
 > [!NOTE]
 > Unlike [Songs](https://monogame.net/api/Microsoft.Xna.Framework.Media.Song.html) played with the [MediaPlayer](https://monogame.net/api/Microsoft.Xna.Framework.Media.MediaPlayer.html), [SoundEffects](https://monogame.net/api/Microsoft.Xna.Framework.Audio.SoundEffect.html) are one-shot sounds, playing once until they have finished.  There are more advanced things you can do with [SoundEffectInstances](https://monogame.net/api/Microsoft.Xna.Framework.Audio.SoundEffectInstance.html) but for now we are keeping things simple.
 
-Add a new [SoundEffect]() property at the top of the `FuelCell.cs` class:
+Add a new [SoundEffect](https://monogame.net/api/Microsoft.Xna.Framework.Audio.SoundEffect.html) property at the top of the **`FuelCell.cs`** class:
 
 ```csharp
     private SoundEffect fuelCellCollect;
 ```
+
+> [!NOTE]
+> Normally you would need to add extra `usings` to the `FuelCell.cs` class for the `Microsoft.Xna.Framework.Audio` namespace, but the class was prepared for that earlier in the tutorial.
 
 In the `LoadContent` method, load the sound file from the content project.
 
@@ -149,16 +153,22 @@ And finally, in the `Update` method after the `this.Retrieved = true;` line, we 
 As stated, this is a one-shot effect and the effect stops as soon as it finishes, but now whenever we gain a point, we also play the effect.
 
 > [!NOTE]
-> You will see this pattern repeated with any MonoGame Project, have a reference, Load the content and then play/use it.  Rinse and repeat.
+> You will see this pattern repeated with any MonoGame Project
+>
+> - Create a reference
+> - Load the content
+> - Then play/use it.
+>
+> Rinse and repeat.
 
 ## The rumbling of the engine
 
-When your FuelCarrier is moving, let us make the player hear the not-so-distant rumbling of its engines.  We only want this to play when the player is moving, so we also need to check this.
+When your `FuelCarrier` is moving, let us make the player hear the not-so-distant rumbling of its engines.  We only want this to play when the player is moving, so we also need to check this.
 
-In the `FuelCarrier.cs` class, as before we start by declaring a variable for the Sound Effect:
+In the `FuelCarrier.cs` class, as before, we start by declaring a variable for the `SoundEffect`:
 
 ```csharp
-        private SoundEffect engineRumble;
+    private SoundEffect engineRumble;
 ```
 
 Continuing the trend, in the `LoadContent` method, we "shockingly" load the audio file to the variable:
@@ -167,7 +177,7 @@ Continuing the trend, in the `LoadContent` method, we "shockingly" load the audi
     engineRumble = content.Load<SoundEffect>("Audio/engine-rumble");
 ```
 
-And to finish, in the `Update` method, straight after getting the keyboard input for the player, we check if we are moving and then play the sound:
+And to finish, in the `Update` method, straight after getting the `input` for the player, we check if we are moving and then play the sound:
 
 ```csharp
     Vector3 speed = Vector3.Transform(movement, orientationMatrix);
@@ -177,15 +187,16 @@ And to finish, in the `Update` method, straight after getting the keyboard input
     }
 ```
 
-This actually is not the most efficient way of playing an engine rumble, but it is certainly the easiest, because we are playing a new sound EVERY update frame, so we end up with multiple instances of the sound playing continuously.  But the effect is only a second long, keeping it short so we do not run into issues (there is a limit to how many sound effects you can play in a single frame).
+> [!NOTE]
+> This actually is not the most efficient way of playing an engine rumble, but it is certainly the easiest, because we are playing a new sound EVERY update frame, so we end up with multiple instances of the sound playing continuously.  But the effect is only a second long, keeping it short so we do not run into issues (there is a limit to how many sound effects you can play in a single frame).
 
-Run the game and now you have a running game complete with audio.
+Run the game and you now have a running game complete with audio.
 
 ## A working game
 
 We could call the game complete at this point, it runs, the player can move and we have lots of stirring sounds encouraging the player to grab those cells.  But at this point the input code specifically is a little messy, sure "it works" but as we develop the game and add more controls, features, and other good stuff, it will start to get harder and harder to manage.
 
-To address this, we will do a little refactoring of the project to move all of the "input" logic into its own class which will be a little more aggressive about how it operates, to make listing for and reacting to input a lot easier going forward (with also a view that this is a class we can take with us to our next project and give you a head start.)
+To address this, we will finish off with a little refactoring of the project to move all of the "input" logic into its own class which will be a little more aggressive about how it operates, but it will make listing for and reacting to input a lot easier going forward (with also a view that this is a class we can take with us to our next project and give you a head start.)
 
 ## See Also
 
