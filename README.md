@@ -27,11 +27,11 @@ The [Platformer 2D](Platformer2D/README.md) sample is a basic 2D platformer pull
 
 A new template sample is also available which guides through the building of a MonoGame project from start to finish.
 
-| [FuelCell Sample](FuelCell/README.md) | tbc |
+| [FuelCell Sample](FuelCell/README.md) | [Coming Soon]() |
 |-|-|
-| Supported on all platforms | GL / DX / iOS / Android |
-| [![Fuel Sample](Images/FuelCell-Sample.jpg)](FuelCell/README.md) | ![tbc](Images/MonoGame-Sample.png) |
-| A [full featured 3D project](FuelCell/README.md) with full documentation from start to finish for building a 3D style game. | tbc |
+| Supported on all platforms | Platforms |
+| [![Fuel Sample](Images/FuelCell-Sample.jpg)](FuelCell/README.md) | ![MonoGame Sample](Images/MonoGame-Sample.png) |
+| A [full featured 3D project](FuelCell/README.md) with full documentation from start to finish for building a 3D style game. | More samples coming soon |
 |||
 
 ## Building the samples
