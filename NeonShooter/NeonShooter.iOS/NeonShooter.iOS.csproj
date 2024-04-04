@@ -6,17 +6,14 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Framework.iOS" Version="3.8.1.303" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NeonShooter.Core\NeonShooter.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
+    <MonoGameContentReference Include="..\NeonShooter.Core\Content\NeonShooter.mgcb" Link="Content\NeonShooter.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="..\NeonShooter.Core\Content\NeonShooter.mgcb" Link="Content\NeonShooter.mgcb" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Framework.iOS" Version="3.8.1.303" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
