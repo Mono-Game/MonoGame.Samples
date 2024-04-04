@@ -12,25 +12,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Content\obj\**" />
-    <Compile Remove="Content\bin\**" />
-    <EmbeddedResource Remove="Content\obj\**" />
-    <EmbeddedResource Remove="Content\bin\**" />
-    <None Remove="Content\obj\**" />
-    <None Remove="Content\bin\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-  </ItemGroup>
-  <ItemGroup>
     <MonoGameContentReference Include="..\Platformer2D.Core\Content\Platformer2D.mgcb" Link="Content\Platformer2D.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Platformer2D.Core\Platformer2D.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
