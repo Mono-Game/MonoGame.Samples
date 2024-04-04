@@ -5,25 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "ShipGame Android Debug",
+            "name": "Android Debug",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/ShipGame.Android/ShipGame.Android.csproj"
         },
         {
-            "name": "ShipGame DesktopGL Debug",
+            "name": "DesktopGL Debug",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/ShipGame.DesktopGL/ShipGame.DesktopGL.csproj"
         },
         {
-            "name": "ShipGame iOS Debug",
+            "name": "iOS Debug",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/ShipGame.iOS/ShipGame.iOS.csproj"
         },
         {
-            "name": "ShipGame WindowsDX Debug",
+            "name": "WindowsDX Debug",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/ShipGame.WindowsDX/ShipGame.WindowsDX.csproj"
