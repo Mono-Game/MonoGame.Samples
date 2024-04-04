@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ShipGame Android Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/ShipGame.Android/ShipGame.Android.csproj"
+        },
+        {
+            "name": "ShipGame DesktopGL Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/ShipGame.DesktopGL/ShipGame.DesktopGL.csproj"
+        },
+        {
+            "name": "ShipGame iOS Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/ShipGame.iOS/ShipGame.iOS.csproj"
+        },
+        {
+            "name": "ShipGame WindowsDX Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/ShipGame.WindowsDX/ShipGame.WindowsDX.csproj"
+        }
+    ]
+}
