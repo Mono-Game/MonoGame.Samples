@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-ios</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShipGame.Core\ShipGame.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="..\ShipGame.Core\Content\ShipGame.mgcb">
+      <Link>Content\ShipGame.mgcb</Link>
+    </MonoGameContentReference>
+  </ItemGroup>   
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Framework.iOS" Version="3.8.1.303" />
+  </ItemGroup>
+  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+    <Message Text="Restoring dotnet tools" Importance="High" />
+    <Exec Command="dotnet tool restore" />
+  </Target>
+</Project>
