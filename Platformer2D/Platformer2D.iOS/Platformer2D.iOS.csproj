@@ -1,37 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-ios</TargetFramework>
+    <TargetFramework>net8.0-ios</TargetFramework>
     <OutputType>Exe</OutputType>
     <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Platformer2D.Core\Game\Accelerometer.cs" Link="Game\Accelerometer.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Animation.cs" Link="Game\Animation.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\AnimationPlayer.cs" Link="Game\AnimationPlayer.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Circle.cs" Link="Game\Circle.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Enemy.cs" Link="Game\Enemy.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Gem.cs" Link="Game\Gem.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Level.cs" Link="Game\Level.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Player.cs" Link="Game\Player.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\RectangleExtensions.cs" Link="Game\RectangleExtensions.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\Tile.cs" Link="Game\Tile.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\TouchCollectionExtensions.cs" Link="Game\TouchCollectionExtensions.cs" />
-    <Compile Include="..\Platformer2D.Core\Game\VirtualGamePad.cs" Link="Game\VirtualGamePad.cs" />
-    <Compile Include="..\Platformer2D.Core\PlatformerGame.cs" Link="PlatformerGame.cs" />
+    <MonoGameContentReference Include="..\Platformer2D.Core\Content\Platformer2D.mgcb" Link="Content\Platformer2D.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Platformer2D.Core\Platformer2D.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Framework.iOS" Version="3.8.1.303" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-    <Folder Include="Game\" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="..\Platformer2D.Core\Content\Platformer2D.mgcb">
-      <Link>Content\Platformer2D.mgcb</Link>
-    </MonoGameContentReference>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

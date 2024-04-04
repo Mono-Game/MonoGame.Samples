@@ -1,3 +1,3 @@
 ﻿
-using var game = new AutoPong.DesktopGL.AutoPongGame();
+using var game = new AutoPong.AutoPongGame();
 game.Run();

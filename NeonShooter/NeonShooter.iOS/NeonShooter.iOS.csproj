@@ -1,43 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-ios</TargetFramework>
+    <TargetFramework>net8.0-ios</TargetFramework>
     <OutputType>Exe</OutputType>
     <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\NeonShooter.Core\Game\Art.cs" Link="Game\Art.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\BlackHole.cs" Link="Game\BlackHole.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\BloomComponent.cs" Link="Game\BloomComponent.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\BloomSettings.cs" Link="Game\BloomSettings.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Bullet.cs" Link="Game\Bullet.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\ColorUtil.cs" Link="Game\ColorUtil.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Enemy.cs" Link="Game\Enemy.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\EnemySpawner.cs" Link="Game\EnemySpawner.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Entity.cs" Link="Game\Entity.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\EntityManager.cs" Link="Game\EntityManager.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Extensions.cs" Link="Game\Extensions.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\GameRoot.cs" Link="Game\GameRoot.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Grid.cs" Link="Game\Grid.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Input.cs" Link="Game\Input.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\MathUtil.cs" Link="Game\MathUtil.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\ParticleManager.cs" Link="Game\ParticleManager.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\ParticleState.cs" Link="Game\ParticleState.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\PlayerShip.cs" Link="Game\PlayerShip.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\PlayerStatus.cs" Link="Game\PlayerStatus.cs" />
-    <Compile Include="..\NeonShooter.Core\Game\Sound.cs" Link="Game\Sound.cs" />
-    <Compile Include="..\NeonShooter.Core\NeonShooterGame.cs" Link="NeonShooterGame.cs" />
+    <ProjectReference Include="..\NeonShooter.Core\NeonShooter.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="..\NeonShooter.Core\Content\NeonShooter.mgcb" Link="Content\NeonShooter.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Framework.iOS" Version="3.8.1.303" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-    <Folder Include="Game\" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="..\NeonShooter.Core\Content\NeonShooter.mgcb" Link="Content\NeonShooter.mgcb" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

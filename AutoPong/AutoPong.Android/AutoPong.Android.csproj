@@ -1,23 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-android</TargetFramework>
-    <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
+    <TargetFramework>net8.0-android</TargetFramework>
     <OutputType>Exe</OutputType>
     <ApplicationId>com.companyname.AutoPong.Android</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\AutoPong.Core\AutoPongGame.cs" Link="AutoPongGame.cs" />
-    <Compile Include="..\AutoPong.Core\Game\AudioSource.cs" Link="Game\AudioSource.cs" />
-    <Compile Include="..\AutoPong.Core\Game\WaveType.cs" Link="Game\WaveType.cs" />
+    <ProjectReference Include="..\AutoPong.Core\AutoPong.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Framework.Android" Version="3.8.1.303" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
