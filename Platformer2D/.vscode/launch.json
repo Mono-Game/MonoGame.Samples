@@ -17,7 +17,7 @@
             "type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "Debug DesktopGL Build",
-			"program": "${workspaceFolder}/ShipGame.DesktopGL/bin/Debug/net8.0/ShipGame.DesktopGL.exe",
+			"program": "${workspaceFolder}/Platformer2D.DesktopGL/bin/Debug/net8.0/Platformer2D.DesktopGL.exe",
         },
         {
             "name": "iOS Debug",
@@ -30,7 +30,7 @@
             "type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "Debug WindowsDX Build",
-			"program": "${workspaceFolder}/ShipGame.WindowsDX/bin/Debug/net8.0-windows/ShipGame.WindowsDX.exe",
+			"program": "${workspaceFolder}/Platformer2D.WindowsDX/bin/Debug/net8.0-windows/Platformer2D.WindowsDX.exe",
         }
     ]
 }
