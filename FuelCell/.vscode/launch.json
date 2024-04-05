@@ -6,27 +6,31 @@
     "configurations": [
         {
             "name": "Android Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/FuelCell.Android/FuelCell.Android.csproj"
+            "type": "mono",
+            "request": "attach",
+            "address": "localhost",
+            "port": 10000,
+            "preLaunchTask": "Debug Android Build",
         },
         {
             "name": "DesktopGL Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/FuelCell.DesktopGL/FuelCell.DesktopGL.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug DesktopGL Build",
+			"program": "${workspaceFolder}/FuelCell.DesktopGL/bin/Debug/net8.0/FuelCell.DesktopGL.exe",
         },
         {
             "name": "iOS Debug",
-            "type": "dotnet",
+            "type": "maui",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/FuelCell.iOS/FuelCell.iOS.csproj"
+            "preLaunchTask": "maui: Build",
         },
         {
             "name": "WindowsDX Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/FuelCell.WindowsDX/FuelCell.WindowsDX.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug WindowsDX Build",
+			"program": "${workspaceFolder}/FuelCell.WindowsDX/bin/Debug/net8.0-windows/FuelCell.WindowsDX.exe",
         }
     ]
 }

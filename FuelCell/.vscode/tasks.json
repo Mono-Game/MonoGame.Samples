@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+        {
+			"label": "Debug Android Build",
+			"type": "shell",
+			"command": "dotnet build -p:Configuration=Debug ${workspaceFolder}/FuelCell.Android/FuelCell.Android.csproj \"/t:Install;_Run\" /p:AndroidAttachDebugger=true /p:AndroidSdbHostPort=10000",
+		},
+		{
+			"label": "Debug DesktopGL Build",
+			"type": "shell",
+			"command": "dotnet build -p:Configuration=Debug ${workspaceFolder}/FuelCell.DesktopGL/FuelCell.DesktopGL.csproj"
+		},
+        {
+			"label": "Debug iOS Build",
+			"type": "shell",
+			"command": "dotnet build -p:Configuration=Debug ${workspaceFolder}/FuelCell.iOS/FuelCell.iOS.csproj"
+		},
+        {
+			"label": "Debug WindowsDX Build",
+			"type": "shell",
+			"command": "dotnet build -p:Configuration=Debug ${workspaceFolder}/FuelCell.WindowsDX/FuelCell.WindowsDX.csproj"
+		},
+	]
+}
