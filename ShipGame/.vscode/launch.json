@@ -6,8 +6,10 @@
     "configurations": [
         {
             "name": "Android Debug",
-            "type": "coreclr",
-			"request": "attach",
+            "type": "mono",
+            "request": "attach",
+            "address": "localhost",
+            "port": 10000,
 			"preLaunchTask": "Debug Android Build",
         },
         {
