@@ -7,9 +7,8 @@
         {
             "name": "Android Debug",
             "type": "coreclr",
-			"request": "launch",
+            "request": "attach",
 			"preLaunchTask": "Debug Android Build",
-			"program": "${workspaceFolder}/AutoPong.Android/bin/Debug/net8.0-android/AutoPong.Android-Signed.apk",
         },
         {
             "name": "DesktopGL Debug",

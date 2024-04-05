@@ -7,9 +7,8 @@
         {
             "name": "Android Debug",
             "type": "coreclr",
-			"request": "launch",
+			"request": "attach",
 			"preLaunchTask": "Debug Android Build",
-			"program": "${workspaceFolder}/Platformer2D.Android/bin/Debug/net8.0-android/Platformer2D.Android-Signed.apk",
         },
         {
             "name": "DesktopGL Debug",
