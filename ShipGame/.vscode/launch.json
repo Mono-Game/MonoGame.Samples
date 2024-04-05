@@ -6,15 +6,17 @@
     "configurations": [
         {
             "name": "Android Debug",
-            "type": "maui",
-            "request": "launch",
-            "preLaunchTask": "maui: Build",
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug Android Build",
+			"program": "${workspaceFolder}/ShipGame.Android/bin/Debug/net8.0-android/ShipGame.Android-Signed.apk",
         },
         {
             "name": "DesktopGL Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/ShipGame.DesktopGL/ShipGame.DesktopGL.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug DesktopGL Build",
+			"program": "${workspaceFolder}/ShipGame.DesktopGL/bin/Debug/net8.0/ShipGame.DesktopGL.exe",
         },
         {
             "name": "iOS Debug",
@@ -24,9 +26,10 @@
         },
         {
             "name": "WindowsDX Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/ShipGame.WindowsDX/ShipGame.WindowsDX.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug WindowsDX Build",
+			"program": "${workspaceFolder}/ShipGame.WindowsDX/bin/Debug/net8.0-windows/ShipGame.WindowsDX.exe",
         }
     ]
 }

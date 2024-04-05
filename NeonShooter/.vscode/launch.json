@@ -6,27 +6,31 @@
     "configurations": [
         {
             "name": "Android Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/NeonShooter.Android/NeonShooter.Android.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug Android Build",
+			"program": "${workspaceFolder}/NeonShooter.Android/bin/Debug/net8.0-android/NeonShooter.Android-Signed.apk",
         },
         {
             "name": "DesktopGL Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/NeonShooter.DesktopGL/NeonShooter.DesktopGL.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug DesktopGL Build",
+			"program": "${workspaceFolder}/NeonShooter.DesktopGL/bin/Debug/net8.0/NeonShooter.DesktopGL.exe",
         },
         {
             "name": "iOS Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/NeonShooter.iOS/NeonShooter.iOS.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug iOS Build",
+			"program": "${workspaceFolder}/NeonShooter.iOS/bin/Debug/net8.0-ios/NeonShooter.iOS.dll",
         },
         {
             "name": "WindowsDX Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/NeonShooter.WindowsDX/NeonShooter.WindowsDX.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug WindowsDX Build",
+			"program": "${workspaceFolder}/NeonShooter.WindowsDX/bin/Debug/net8.0-windows/NeonShooter.WindowsDX.exe",
         }
     ]
 }

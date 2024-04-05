@@ -6,27 +6,31 @@
     "configurations": [
         {
             "name": "Android Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/AutoPong.Android/AutoPong.Android.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug Android Build",
+			"program": "${workspaceFolder}/AutoPong.Android/bin/Debug/net8.0-android/AutoPong.Android-Signed.apk",
         },
         {
             "name": "DesktopGL Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/AutoPong.DesktopGL/AutoPong.DesktopGL.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug DesktopGL Build",
+			"program": "${workspaceFolder}/AutoPong.DesktopGL/bin/Debug/net8.0/AutoPong.DesktopGL.exe",
         },
         {
             "name": "iOS Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/AutoPong.iOS/AutoPong.iOS.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug iOS Build",
+			"program": "${workspaceFolder}/AutoPong.iOS/bin/Debug/net8.0-ios/AutoPong.iOS.dll",
         },
         {
             "name": "WindowsDX Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/AutoPong.WindowsDX/AutoPong.WindowsDX.csproj"
+            "type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Debug WindowsDX Build",
+			"program": "${workspaceFolder}/AutoPong.WindowsDX/bin/Debug/net8.0-windows/AutoPong.WindowsDX.exe",
         }
     ]
 }
