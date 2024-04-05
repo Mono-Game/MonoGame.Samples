@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
 #endregion
 
 namespace ShipGame
@@ -245,8 +246,8 @@ namespace ShipGame
             collisionModel = null;
 
             // load spawns and lights
-            levelSpawns = EntityList.Load("content/levels/" + level + "_spawns.xml");
-            levelLights = LightList.Load("content/levels/" + level + "_lights.xml");
+            levelSpawns = EntityList.Load(Path.Combine(content.RootDirectory, "levels", level + "_spawns.xml"));
+            levelLights = LightList.Load(Path.Combine(content.RootDirectory, "levels", level + "_lights.xml"));
 
             // load particle textures
             if (particleTextures == null)
