@@ -142,7 +142,7 @@ And finally, in the `Update` method after the `this.Retrieved = true;` line, we 
 ```csharp
     internal void Update(BoundingSphere vehicleBoundingSphere)
     {
-        if (vehicleBoundingSphere.Intersects(this.BoundingSphere))
+        if (vehicleBoundingSphere.Intersects(this.BoundingSphere) && !this.Retrieved)
         {
             this.Retrieved = true;
             fuelCellCollect.Play();

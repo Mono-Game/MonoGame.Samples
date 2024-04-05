@@ -236,7 +236,7 @@ And add the `FuelCell.Update` method called with the preceding code. Place it af
 ```csharp
 internal void Update(BoundingSphere vehicleBoundingSphere)
 {
-    if (vehicleBoundingSphere.Intersects(this.BoundingSphere))
+    if (vehicleBoundingSphere.Intersects(this.BoundingSphere) && !this.Retrieved)
     {
         this.Retrieved = true;
     }
