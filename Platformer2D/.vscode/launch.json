@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Android Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Platformer2D.Android/Platformer2D.Android.csproj"
+        },
+        {
+            "name": "DesktopGL Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Platformer2D.DesktopGL/Platformer2D.DesktopGL.csproj"
+        },
+        {
+            "name": "iOS Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Platformer2D.iOS/Platformer2D.iOS.csproj"
+        },
+        {
+            "name": "WindowsDX Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Platformer2D.WindowsDX/Platformer2D.WindowsDX.csproj"
+        }
+    ]
+}
