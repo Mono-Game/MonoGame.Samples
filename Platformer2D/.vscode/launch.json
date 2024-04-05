@@ -19,10 +19,9 @@
         },
         {
             "name": "iOS Debug",
-            "type": "coreclr",
-			"request": "launch",
-			"preLaunchTask": "Debug iOS Build",
-			"program": "${workspaceFolder}/Platformer2D.iOS/bin/Debug/net8.0-ios/Platformer2D.iOS.dll",
+            "type": "maui",
+            "request": "launch",
+            "preLaunchTask": "maui: Build",
         },
         {
             "name": "WindowsDX Debug",
