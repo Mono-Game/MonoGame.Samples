@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
 #endregion
 
 namespace ShipGame
@@ -80,7 +81,7 @@ namespace ShipGame
                 rotation[0] = Matrix.Identity;
                 rotation[1] = Matrix.Identity;
 
-                lights = LightList.Load("content/screens/player_lights.xml");
+                lights = LightList.Load( Path.Combine(content.RootDirectory, "screens", "player_lights.xml"));
 
                 for (int i = 0; i < NumberShips; i++)
                 {

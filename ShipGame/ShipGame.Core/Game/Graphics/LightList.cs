@@ -9,7 +9,8 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;using System;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
@@ -94,7 +95,7 @@ namespace ShipGame
             Stream stream;
             try
             {
-                stream = File.OpenRead(filename);
+                stream = TitleContainer.OpenStream(filename);
             }
             catch (FileNotFoundException e)
             {

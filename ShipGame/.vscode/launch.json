@@ -6,9 +6,9 @@
     "configurations": [
         {
             "name": "Android Debug",
-            "type": "dotnet",
+            "type": "maui",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/ShipGame.Android/ShipGame.Android.csproj"
+            "preLaunchTask": "maui: Build",
         },
         {
             "name": "DesktopGL Debug",
@@ -18,9 +18,9 @@
         },
         {
             "name": "iOS Debug",
-            "type": "dotnet",
+            "type": "maui",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/ShipGame.iOS/ShipGame.iOS.csproj"
+            "preLaunchTask": "maui: Build",
         },
         {
             "name": "WindowsDX Debug",
