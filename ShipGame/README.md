@@ -239,3 +239,10 @@ class ProjectileManager;
 ```
 
 The projectile manager holds all currently active projectiles. A projectile is created when a ship fires one of its weapons. On creation, the projectile computes its intersection with the level model and starts to move to its target collision point. At every frame, it tests the projectiles against the player ships since they are the only dynamic objects in the scene. If the projectile reaches the target position without hitting any ships, it explodes on the level collision point.
+
+## Credits
+
+Several contributors have helped to support this sample:
+
+* [Charles (NemoKrad) Humphries](https://nemokrad.itch.io/) - Fixed and updated the Shaders from the original XNA samples.
+* [Grace Martin](https://www.artstation.com/gracemartin) - Rebuilt and re-textured Level 1, as the XNA originals had several issues.
