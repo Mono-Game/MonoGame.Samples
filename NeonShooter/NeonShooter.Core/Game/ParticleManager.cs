@@ -134,7 +134,7 @@ namespace NeonShooter
 			public T State;
 		}
 
-		// Represents a circular array with an arbitrary starting point. It's useful for efficiently overwriting
+		// Represents a circular array with an arbitrary starting point. It is useful for efficiently overwriting
 		// the oldest particles when the array gets full. Simply overwrite particleList[0] and advance Start.
 		private class CircularParticleArray
 		{

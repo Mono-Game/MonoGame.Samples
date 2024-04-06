@@ -79,7 +79,7 @@ The new code initializes the array with three new Layer objects. Each of these o
 > 
 > Platformer assumes that scrolling speed values have a range between 0 and 1. A value of 0 means no scrolling and 1 means scrolling at the same pace as the level tiles.
 
-It's now time to modify the drawing code for the level. Locate the Level.Draw method, and replace it with the following method declaration:
+It is now time to modify the drawing code for the level. Locate the Level.Draw method, and replace it with the following method declaration:
 
 ```csharp
 public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

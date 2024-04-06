@@ -9,7 +9,6 @@
 
 A number of simple MonoGame samples for all the supported platforms:
 
-
 [Platformer 2D Sample](Platformer2D/README.md) | [NeonShooter](NeonShooter/README.md)|
 |-|-|
 Supported on all platforms | Supported on all platforms |
@@ -22,6 +21,17 @@ The [Platformer 2D](Platformer2D/README.md) sample is a basic 2D platformer pull
 | Supported on all platforms | GL / DX/ iOS / Android |
 | [![Auto Pong Sample](Images/AutoPong_1.gif)](AutoPong/README.md) | [![ShipGame 3D Sample](Images/ShipGame.gif)](ShipGame/README.md) |
 | A short [sample project](AutoPong/README.md) showing you how to make the classic game of pong, with generated soundfx, in 300 lines of code. | 3D Ship Game (Descent clone) sample, pulled from the XNA archives and updated for MonoGame |
+|||
+
+## New multi-platform sample template and getting started guide
+
+A new template sample is also available which guides through the building of a MonoGame project from start to finish.
+
+| [FuelCell Sample](FuelCell/README.md) | [Coming Soon]() |
+|-|-|
+| Supported on all platforms | Platforms |
+| [![Fuel Sample](Images/FuelCell-Sample.jpg)](FuelCell/README.md) | ![MonoGame Sample](Images/MonoGame-Sample.png) |
+| A [full featured 3D project](FuelCell/README.md) with full documentation from start to finish for building a 3D style game. | More samples coming soon |
 |||
 
 ## Building the samples
