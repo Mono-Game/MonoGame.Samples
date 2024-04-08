@@ -13,6 +13,7 @@ namespace FuelCell
         public const float Velocity = 0.75f;
         public const float TurnSpeed = 0.025f;
         public const int MaxRange = 98;
+        public const float HeightOffset = 2;
 
         // Game board setup
         public const int MaxRangeTerrain = 98;
@@ -22,7 +23,7 @@ namespace FuelCell
         public const int MaxDistance = 90;
 
         //bounding sphere scaling factors
-        public const float FuelCarrierBoundingSphereFactor = .8f;
+        public const float FuelCarrierBoundingSphereFactor = .7f;
         public const float FuelCellBoundingSphereFactor = .5f;
         public const float BarrierBoundingSphereFactor = .7f;
 

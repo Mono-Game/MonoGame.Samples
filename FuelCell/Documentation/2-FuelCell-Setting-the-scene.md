@@ -217,25 +217,44 @@ Before you start modifying the `Game1.cs` file, rename it to `FuelCellGame.cs`. 
 public class FuelCellGame : Game
 ```
 
-Then add the following code, after the existing declaration of the `GraphicsDeviceManager` member of the `Game` class:
+Then add the following code, replacing the existing declaration of the `GraphicsDeviceManager` and `SpriteBatch` members of the `Game` class:
 
 ```csharp
-GameObject ground;
-Camera gameCamera;
+private GraphicsDeviceManager graphics;
+private GameObject ground;
+private Camera gameCamera;
 ```
 
-In the existing `Initalize` method, initialize both game objects (using their default constructors) by adding the following code:
+Now, replace the existing constructor to make use of the properties above (since the default MonoGame template uses different names):
 
 ```csharp
-// Initialize the Game objects
-ground = new GameObject();
-gameCamera = new Camera();
+public FuelCellGame()
+{
+    graphics = new GraphicsDeviceManager(this);
+    Content.RootDirectory = "Content";
+}
 ```
 
-Next, add the following code to the existing `LoadContent` method:
+Update the existing `Initalize` method to initialize both game objects (using their default constructors) with the following code:
 
 ```csharp
-ground.Model = Content.Load<Model>("Models/ground");
+protected override void Initialize()
+{
+    // Initialize the Game objects
+    ground = new GameObject();
+    gameCamera = new Camera();
+
+    base.Initialize();
+}
+```
+
+Next, update the existing `LoadContent` method to the following:
+
+```csharp
+protected override void LoadContent()
+{
+    ground.Model = Content.Load<Model>("Models/ground");
+}
 ```
 
 You have added code declaring and initializing your camera class and the terrain model. To see all this work on the screen, you must update the existing `Draw` method to render the terrain. This is also a good time to add code that updates, during each frame, the camera's position and orientation. Currently, this update code does nothing because the fuel carrier (the user-controlled avatar vehicle) is not in the game yet. However, when the vehicle is added in a later step, the camera automatically updates, chasing the vehicle around as the player tries to find hidden fuel cells.
@@ -246,7 +265,7 @@ Updating the camera occurs in the aptly named `Update` method. At this time, the
 
 This modification is very simple because you already implemented the `Camera.Update` method (In the `Camera.cs` class). Now, you just need to call it at the proper time and pass some valid values.
 
-Add the following code to the `Update` method of the `Game1.cs` file:
+Add the following code to the `Update` method of the `FuelCellGame.cs` file:
 
 ```csharp
 float rotation = 0.0f;
@@ -254,12 +273,17 @@ Vector3 position = Vector3.Zero;
 gameCamera.Update(rotation, position, graphics.GraphicsDevice.Viewport.AspectRatio);
 ```
 
-The final step modifies the existing `Draw` method, modify the body of the `Draw` method of the `FuelCellGame.cs` file to match the following:
+The final step modifies the existing `Draw` method, replace the `Draw` method of the `FuelCellGame.cs` file to match the following:
 
 ```csharp
-graphics.GraphicsDevice.Clear(Color.Black);
+protected override void Draw(GameTime gameTime)
+{
+    GraphicsDevice.Clear(Color.Black);
 
-DrawTerrain(ground.Model);
+    DrawTerrain(ground.Model);
+
+    base.Draw(gameTime);
+}
 ```
 
 This code calls a non-existent `DrawTerrain` method, that will use the approach detailed in [How To: Render a Model]() to render the terrain. Let us add that method now.

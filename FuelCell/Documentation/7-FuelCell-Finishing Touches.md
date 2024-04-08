@@ -60,14 +60,14 @@ To create a default for how long a round should last, we will define a new Const
 public static readonly TimeSpan RoundTime = TimeSpan.FromSeconds(30.25);
 ```
 
-In `FuelCellGame.cs`, we also declare three variables (of type [TimeSpan](https://msdn.microsoft.com/en-us/library/system.timespan.aspx)) for the various times to be tracked, you will also need a variable for tracking the number of retrieved fuel cells (of type `int`).
+In `FuelCellGame.cs`, we also declare three variables (of type [TimeSpan](https://msdn.microsoft.com/en-us/library/system.timespan.aspx)) for the various times to be tracked, you will also need a variable for tracking the number of retrieved fuel cells (of type `int`), place these after the input state variables.
 
 ```csharp
-int retrievedFuelCells = 0;
-TimeSpan startTime, roundTimer, roundTime;
+private int retrievedFuelCells = 0;
+private TimeSpan startTime, roundTimer, roundTime;
 ```
 
-In the `FuelCellGame`, in the constructor, add the following initialization code for the starting and round times. This code sets the start and game time variables to 0. Zero indicates the game has not started using the constant we defined earlier.
+In the `FuelCellGame.cs` constructor, add the following initialization code for the round timer using the constant we defined earlier for 30 second rounds.
 
 ```csharp
 roundTime = GameConstants.RoundTime;
@@ -127,8 +127,8 @@ These strings are used in various screens to display information on how to play,
 > The default MonoGame project template includes `GraphicsDeviceManager` and `SpriteBatch` properties by default.
 
 ```csharp
-SpriteBatch spriteBatch;
-SpriteFont statsFont;
+private SpriteBatch spriteBatch;
+private SpriteFont statsFont;
 ```
 
 In the `LoadContent` method, initialize the `spritebatch` object, and load the new `spritefont` with the following code:
@@ -178,7 +178,15 @@ There is a fair bit of code here so let us walk through it.
 - The next part composes the strings with the current game info, and then draws them on the gameplay screen. However, the last bit of code deserves more examination.
 - At the end of the method, you must reset certain properties of the graphics device whenever you combine sprite drawing with 3D rendering, as FuelCell does. These properties (in the code below), relate to alpha blending and the depth buffer, which are set to different values when a sprite batch is used. If the properties are not reset to the default settings, weird rendering issues could suddenly appear in your game. That is why the final code modifies some RenderState and SampleStates properties of the graphics device.
 
-As the resetting of the `render state` is something we need to do after drawing any text, the code needed was extracted into its own method rather than repeating ourselves all the time (a good practice to maintain, try to never repeat yourself in code if you can), so let us add the `ResetRenderStates` method after the `DrawStats` method:
+As for the resetting of the `render state`, this is something we need to do after drawing **any** text, the code needed was refactored into its own method rather than repeating ourselves all the time (a good practice to maintain, try to never repeat yourself in code if you can), so let us add the `ResetRenderStates` method after the `DrawStats` method:
+
+> [!TIP]
+> When you draw with a `SpriteBatch`, it changes the render state of the graphics device to a mode that is optimum for drawing text.  However, if you do not reset or change the render state after drawing text you will get some potentially unexpected results.
+>
+> Try it by not using this method, it is very weird (or desired?).
+>
+> For more information on this, check `XNA GOD` [Shawn Hargreaves's article on Render States](https://github.com/SimonDarksideJ/XNAGameStudio/wiki/State-objects-in-XNA-Game-Studio-4.0) and their use:
+> [State objects in XNA Game Studio 4.0](https://github.com/SimonDarksideJ/XNAGameStudio/wiki/State-objects-in-XNA-Game-Studio-4.0)
 
 ```csharp
 private void ResetRenderStates()
@@ -191,7 +199,7 @@ private void ResetRenderStates()
 }
 ```
 
-To finish this section, you will need to call the `DrawStats` method to the existing `Draw` method. Add the following code after the call to `FuelCarrier.Draw()`. (before the `base.Draw(gameTime);` call)
+To finish this section, you will need to call the `DrawStats` method from the existing `Draw` method. Add the following code after the call to `FuelCarrier.Draw()`. (before the `base.Draw(gameTime);` call)
 
 ```csharp
 DrawStats();

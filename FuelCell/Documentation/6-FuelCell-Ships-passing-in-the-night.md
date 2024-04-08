@@ -43,10 +43,10 @@ To use this technique, you need to add and initialize a spherical model with a r
 2. In `FuelCellGame.cs`, declare a member variable (called `boundingSphere`) of type `GameObject`, after the declaration of the game camera.
 
     ```csharp
-    GameObject boundingSphere;
+    private GameObject boundingSphere;
     ```
 
-3. In the existing `Initialize` method, initialize the new variable after initializing the game camera:
+3. In the existing `Initialize` method, initialize the new variable after initializing the `gameCamera` property:
 
     ```csharp
     boundingSphere = new GameObject();
@@ -69,7 +69,7 @@ Do you remember the member variable you added previously to the `GameObject` cla
 
 The helper function `CalculateBoundingSphere` approximates the bounding sphere of a model and then returns a new bounding sphere that envelops the model. The result is stored in the `BoundingSphere` variable. The `Y-coordinate` is set to `0` (ground). This causes the upper half of the bounding sphere to project out of the playing field. Since the widest part of the sphere is at the playing field level, it provides a good approximation when testing collision between fuel cells and the fuel carrier.
 
-Open the `GameObject` class and add the following helper method after any existing code:
+Open the `GameObject` class and add the following helper method after any of the existing code:
 
 ```csharp
 protected BoundingSphere CalculateBoundingSphere()
@@ -134,7 +134,7 @@ BoundingSphere = CalculateBoundingSphere();
 
 This gives us the bounding sphere for the `FuelCell` GameObject that we can then use in the rest of our project.
 
-Switching over to the `FuelCellGame.cs` class, we can start updating how we draw the FuelCells, including the new BoundingSphere functionality we just added (although, that is not their real purpose).  In the `Draw` function, replace the existing `foreach` loop that draws the fuel cells with the following:
+Switching back over to the `FuelCellGame.cs` class, we can start updating how we draw the FuelCells, including the new BoundingSphere functionality we just added (although, that is not their real purpose).  In the `Draw` function, replace the existing `foreach` loop that draws the fuel cells with the following:
 
 ```csharp
 foreach (FuelCell fuelCell in fuelCells)
@@ -349,7 +349,7 @@ The implementation requires scaling factors for each object type. A good place f
 
 ```csharp
 //bounding sphere scaling factors
-public const float FuelCarrierBoundingSphereFactor = .8f;
+public const float FuelCarrierBoundingSphereFactor = .7f;
 public const float FuelCellBoundingSphereFactor = .5f;
 public const float BarrierBoundingSphereFactor = .7f;
 ```

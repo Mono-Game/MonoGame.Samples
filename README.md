@@ -30,7 +30,7 @@ A new template sample is also available which guides through the building of a M
 | [FuelCell Sample](FuelCell/README.md) | [Coming Soon]() |
 |-|-|
 | Supported on all platforms | Platforms |
-| [![Fuel Sample](Images/FuelCell-Sample.jpg)](FuelCell/README.md) | ![MonoGame Sample](Images/MonoGame-Sample.png) |
+| [![Fuel Sample](Images/FuelCell-Sample.gif)](FuelCell/README.md) | ![MonoGame Sample](Images/MonoGame-Sample.png) |
 | A [full featured 3D project](FuelCell/README.md) with full documentation from start to finish for building a 3D style game. | More samples coming soon |
 |||
 

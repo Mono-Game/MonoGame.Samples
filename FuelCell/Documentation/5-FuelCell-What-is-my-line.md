@@ -44,10 +44,10 @@ The solution used by `FuelCell` is to randomly assign positive and negative valu
 
 Since we are going to randomly populate the playing field with game objects, an obvious first step is to set up a [random number generator](https://learn.microsoft.com/en-us/dotnet/api/system.random?view=net-8.0). Let us keep it simple and declare a file-level random variable (in `FuelCellGame.cs`) that can be accessed by any `FuelCellGame` method.
 
-After the gamepad state declarations, add the following:
+After the `input` state declarations, add the following:
 
 ```csharp
-Random random;
+private Random random;
 ```
 
 Initialize the random number generator in the FuelCellGame `constructor`:
@@ -263,7 +263,7 @@ Modify the `Draw` method to match the following:
 ```csharp
 protected override void Draw(GameTime gameTime)
 {
-    graphics.GraphicsDevice.Clear(Color.Black);
+    GraphicsDevice.Clear(Color.Black);
 
     // Draw the ground terrain model
     DrawTerrain(ground.Model);

@@ -25,7 +25,7 @@ The fuel cell model (`fuelcellmodel.x`) is a simple canister-like object with a 
 - Click `Add -> New Existing Item....`
 - Download and then add the following files:
   - [fuelcellmodel.x](../FuelCell.Core/Content/Models/fuelcellmodel.x) and [fuelcell.png](../FuelCell.Core/Content/Models/fuelcell.png)
-  - [fuelcarrier.x](../FuelCell.Core/Content/Models/fuelcarrier.x) and [carriertextures.png](../FuelCell.Core/Content/Models/carriertextures.png)
+  - [fuelcarrier.fbx](../FuelCell.Core/Content/Models/fuelcarrier.fbx) and [ShipDiffuse.tga](../FuelCell.Core/Content/Models/ShipDiffuse.tga)
   - [cube10uR.x](../FuelCell.Core/Content/Models/cube10uR.x), [cylinder10uR.x](../FuelCell.Core/Content/Models/cylinder10uR.x), and [pyramid10uR.x](../FuelCell.Core/Content/Models/pyramid10uR.x)
   - [BarrierBlue.png](../FuelCell.Core/Content/Models/BarrierBlue.png), [BarrierPurple.png](../FuelCell.Core/Content/Models/BarrierPurple.png), and [BarrierRed.png](../FuelCell.Core/Content/Models/BarrierRed.png)
 
@@ -186,10 +186,11 @@ Firstly, to support some new "defaults" for the `FuelCarrier`, add the following
 public const float Velocity = 0.75f;
 public const float TurnSpeed = 0.025f;
 public const int MaxRange = 98;
+public const float HeightOffset = 2;
 ```
 
 > [!NOTE]
-> We scale the fuel carrier model by selecting it in the MGCB Content Project and setting the `Scale` property to `.1`, located on the property page of the model asset. The `Scale` property is found by expanding the Processor field in the window in the lower left-hand corner of the screen.
+> We scale the fuel carrier model by selecting it in the MGCB Content Project and setting the `Scale` property to **`0.003`**, located on the property page of the model asset. The `Scale` property is found by expanding the Processor field in the window in the lower left-hand corner of the screen.
 
 Next, create a new class file called `FuelCarrier.cs`, add replace its contents with the following:
 
@@ -207,11 +208,13 @@ namespace FuelCell
     {
         public float ForwardDirection { get; set; }
         public int MaxRange { get; set; }
+        private Vector3 startPosition = new Vector3(0, GameConstants.HeightOffset, 0);
 
         public FuelCarrier()
             : base()
         {
             ForwardDirection = 0.0f;
+            Position = startPosition;
             MaxRange = GameConstants.MaxRange;
         }
 
@@ -227,6 +230,7 @@ As usual, the Fuel Carrier data members are specific to the class. In this case,
 
 - A `ForwardDirection` property that stores the current direction (in [radians](https://en.wikipedia.org/wiki/Radian)) that the fuel carrier is facing. This property is also used by the `Camera` class to orientate along the same vector.
 - The `MaxRange` member is used later to prevent the fuel carrier from driving off the playing field. This is something that would completely break the gameplay illusion.
+- The `startPosition` property simply sets the height at which the FuelCarrier model from the ground, this will change based on which model you use for your player character.
 
 As mentioned earlier, the methods are similar to the implementation code for the fuel cell and barrier classes. However, in the next part, you will add code that allows the player to drive the fuel carrier around the playing field. In fact, the fuel carrier has the singular honor of being the only moving part in the game!
 
@@ -272,12 +276,12 @@ In `FuelCellGame.cs`, after the declaration of the `Camera` and `Ground` variabl
 
 ```csharp
 // Game objects
-FuelCarrier fuelCarrier;
-FuelCell[] fuelCells;
-Barrier[] barriers;
+private FuelCarrier fuelCarrier;
+private FuelCell[] fuelCells;
+private Barrier[] barriers;
 ```
 
-Then in the `LoadContent` method, add the following code:
+Then in the `LoadContent` method, add the following code after loading the `ground` model:
 
 ```csharp
 // Initialize and place fuel cell

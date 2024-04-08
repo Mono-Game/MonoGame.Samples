@@ -74,18 +74,6 @@
 /processorParam:TextureFormat=Color
 /build:Models/BarrierRed.png
 
-#begin Models/carriertextures.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Models/carriertextures.png
-
 #begin Models/cube10uR.x
 /importer:XImporter
 /processor:ModelProcessor
@@ -124,8 +112,8 @@
 /processorParam:TextureFormat=Compressed
 /build:Models/cylinder10uR.x
 
-#begin Models/fuelcarrier.x
-/importer:XImporter
+#begin Models/fuelcarrier.fbx
+/importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
@@ -136,12 +124,12 @@
 /processorParam:PremultiplyVertexColors=True
 /processorParam:ResizeTexturesToPowerOfTwo=False
 /processorParam:RotationX=0
-/processorParam:RotationY=0
+/processorParam:RotationY=180
 /processorParam:RotationZ=0
-/processorParam:Scale=0.1
+/processorParam:Scale=0.003
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:Models/fuelcarrier.x
+/build:Models/fuelcarrier.fbx
 
 #begin Models/fuelcell.png
 /importer:TextureImporter
@@ -223,6 +211,18 @@
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
 /build:Models/pyramid10uR.x
+
+#begin Models/ShipDiffuse.tga
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/ShipDiffuse.tga
 
 #begin Models/sphere1uR.x
 /importer:XImporter

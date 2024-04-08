@@ -21,13 +21,13 @@ In order to control the `FuelCarrier`, you need input from a `keyboard` or `game
 - Single-state
 - Two-state.
 
-### single-state approach
+### Single-state approach
 
 In a single-state approach, input is determined from a single snapshot of the controller, taken during the execution of the `Update` method. Any actions that need to be taken by the game are initiated, thus enabling game play to move forward. This approach is demonstrated by [How To: Detect Whether a Controller Button Is Pressed]().
 
 However, when discrete input is required, the single-state approach does not solve the problem. For instance, suppose a game is designed to fire one bullet for every press of a key or button. If you use the single-state approach, multiple bullets are fired per key or button press. This happens because human reflexes are slower than the standard update cycle of the game. Even a very quick player is going to have a key or button pressed for at least a few update cycles (unless the game uses a fixed-step approach). In order to fire a single bullet every time a key or button is pressed, you must look for a current state where a specific key or button is released and a previous state where that same key or button was pressed. This condition is only satisfied at the instant when the key or button transitions from pressed to released.
 
-### two-state approach
+### Two-state approach
 
 By using the two-state approach, we track both the current state of the controller and the previous state. This allows the game to determine single occurrences of player action, such as a key or button press. With this approach, it does not matter how slow (or fast) the player's reflexes are. The input is only valid at that moment when the previous and current input states match the criteria determined by the input code. This approach is demonstrated by [How To: Detect Whether a Controller Button Has Been Pressed]() This Frame and [How To: Detect Whether a Key Is Pressed]().
 
@@ -40,17 +40,17 @@ It turns out that if you do any amount of MonoGame game development, you often r
 
 This code is an example of "future-proofing." If you were to add the capability to blow up a barrier with a missile, you would already have the necessary code to use the two-state approach.
 
-Implementation begins in the `FuelCellGame.cs` file. Add the following code after the declaration of the `graphics` data member:
+Implementation begins in the `FuelCellGame.cs` file. Add the following code after the declaration of the `barriers` data member that we added in the last chapter:
 
 ```csharp
 // States to store input values
-KeyboardState lastKeyboardState = new KeyboardState();
-KeyboardState currentKeyboardState = new KeyboardState();
-GamePadState lastGamePadState = new GamePadState();
-GamePadState currentGamePadState = new GamePadState();
+private KeyboardState lastKeyboardState = new KeyboardState();
+private KeyboardState currentKeyboardState = new KeyboardState();
+private GamePadState lastGamePadState = new GamePadState();
+private GamePadState currentGamePadState = new GamePadState();
 ```
 
-Now, in the existing `Update` method, initialize the variables at the beginning of the method:
+Now, in the existing `Update` method, initialize the variables at the beginning of the method, after the call to `Exit` the game:
 
 ```csharp
 // Update input from sources, Keyboard and GamePad
@@ -177,7 +177,7 @@ if (currentKeyboardState.IsKeyDown(Keys.Escape) || currentGamePadState.Buttons.B
 }
 ```
 
-The game now checks for both keyboard (`ESC` key) and gamepad input (`Back` button) when the player wishes to exit the game.
+The game now checks for both keyboard (`ESC` key) and gamepad input (`Back` button) when the player wishes to exit the game using he new state data we are polling in `Update`.
 
 After the usual drill of rebuilding the project and running it, drive the fuel carrier freely around the map. Test out the boundary code by driving to the edge of the playing field. You will notice that you stop moving until you choose a new direction. The control schema implementation was pretty easy but, coming up, the game really starts to come together... which requires a lot of coding!
 

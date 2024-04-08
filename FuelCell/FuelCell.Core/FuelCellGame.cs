@@ -29,29 +29,30 @@ namespace FuelCell
     {
         // Resources for drawing.
         private GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        SpriteFont statsFont;
+        private SpriteBatch spriteBatch;
+        private SpriteFont statsFont;
         private GameObject ground;
         private Camera gameCamera;
-        Random random;
-        GameState currentGameState = GameState.Loading;
+        private Random random;
+        private GameState currentGameState = GameState.Loading;
 
         // Game objects
-        FuelCarrier fuelCarrier;
-        FuelCell[] fuelCells;
-        Barrier[] barriers;
+        private FuelCarrier fuelCarrier;
+        private FuelCell[] fuelCells;
+        private Barrier[] barriers;
 
-        GameObject boundingSphere;
+        private GameObject boundingSphere;
 
-        int retrievedFuelCells = 0;
-        TimeSpan startTime, roundTimer, roundTime;
-        float aspectRatio;
+        private int retrievedFuelCells = 0;
+        private TimeSpan startTime, roundTimer, roundTime;
+        private float aspectRatio;
         private IInputState inputState;
         private Song backgroundMusic;
 
         public FuelCellGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
             random = new Random();
             roundTime = GameConstants.RoundTime;
             graphics.PreferredBackBufferWidth = 853;
@@ -202,7 +203,7 @@ namespace FuelCell
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Black);
 
             switch (currentGameState)
             {

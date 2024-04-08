@@ -11,12 +11,14 @@ namespace FuelCell
     {
         public float ForwardDirection { get; set; }
         public int MaxRange { get; set; }
+        private Vector3 startPosition = new Vector3(0, GameConstants.HeightOffset, 0);
         private SoundEffect engineRumble;
 
         public FuelCarrier()
             : base()
         {
             ForwardDirection = 0.0f;
+            Position = startPosition;
             MaxRange = GameConstants.MaxRange;
         }
 
@@ -35,7 +37,7 @@ namespace FuelCell
 
         internal void Reset()
         {
-            Position = Vector3.Zero;
+            Position = startPosition;
             ForwardDirection = 0f;
         }
 
