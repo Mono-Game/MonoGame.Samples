@@ -1,6 +1,6 @@
 # FuelCell Example Game
 
-![FuelCell Sample](../Images/FuelCell-Sample.jpg)
+![FuelCell Sample](../Images/FuelCell-Sample.gif)
 
 The purpose of this multipart topic is to educate you about various strategies and challenges encountered during the development of a simple 3D game. The FuelCell diary focuses on developing a basic 3D game with a simple goal: collecting objects scattered randomly around a playing field that is populated with randomly placed barriers. The components of FuelCell are deliberately limited to provide a clear picture of the structure and scope of the game.
 
