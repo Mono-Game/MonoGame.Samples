@@ -202,7 +202,7 @@ To address this, we will finish off with a little refactoring of the project to 
 
 ### Next
 
-- [FuelCell: Casting Call](3-FuelCell-Casting-call.md)
+- [FuelCell: It is all about the input](Documentation/9-It-is-all-about-the-input.md)
 
 ### Conceptual
 

@@ -28,7 +28,7 @@ Each step in the series contains a list of important topics that are covered in 
   Discusses collision detection in a 3D game and demonstrates basic collision checking between the fuel carrier vehicle and the other game objects on the playing field.
 - [FuelCell: Finishing Touches](Documentation/7-FuelCell-Finishing%20Touches.md)
   Discusses some finishing touches in the development of the FuelCell game.
-- [FuelCell: Brining the noise](Documentation/8-FuelCell-Bringing-the-noise.md)
+- [FuelCell: Bringing the noise](Documentation/8-FuelCell-Bringing-the-noise.md)
   Discusses breaking the silence and making sounds and music.
 - [FuelCell: It is all about the input](Documentation/9-It-is-all-about-the-input.md)
   Discusses a key factor about handling input in a game.
