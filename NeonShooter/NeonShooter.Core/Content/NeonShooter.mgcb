@@ -3,7 +3,7 @@
 
 /outputDir:bin
 /intermediateDir:obj
-/platform:WindowsStoreApp
+/platform:DesktopGL
 /config:
 /profile:Reach
 /compress:False

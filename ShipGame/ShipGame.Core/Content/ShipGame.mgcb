@@ -3,14 +3,14 @@
 
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:Android
+/platform:DesktopGL
 /config:
 /profile:Reach
 /compress:False
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\ShipGame.Dependencies\NormalMappingModelProcessor\bin\Debug\net6.0\NormalMappingModelProcessor.dll
+/reference:..\..\ShipGame.Dependencies\NormalMappingModelProcessor\bin\Debug\net8.0\NormalMappingModelProcessor.dll
 
 #---------------------------------- Content ---------------------------------#
 
