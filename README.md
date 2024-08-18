@@ -1,4 +1,4 @@
-# MonoGame 3.8.1 Samples
+# MonoGame 3.8.2 Samples
 
 <p align="center">
 <br/>
