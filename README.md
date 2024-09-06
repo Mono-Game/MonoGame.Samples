@@ -38,7 +38,7 @@ A new template sample is also available which guides through the building of a M
 
 These samples can either be opened and built in Visual Studio for Mac or Windows, alternatively they can be built with the .NET Core tool chain (with the exception of the Windows UWP sample, which is Windows 10 only).
 
-For more details on building projects with the .NET Core tools, please see [this guide on the MonoGame documentation site](https://docs.monogame.net/articles/packaging_games.html).
+For more details on building projects with the .NET Core tools, please see [this guide on the MonoGame documentation site](https://docs.monogame.net/articles/getting_started/packaging_games.html).
 
 ## Supported platforms
 
