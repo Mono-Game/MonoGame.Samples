@@ -67,6 +67,10 @@ Within each project, there are the following projects:
 * BoxCollider - a collision library for the project.
 * NormalMappingModelProcessor - A custom [content pipeline](https://monogame.net/articles/content_pipeline/why_content_pipeline.html) processor for the models in the Game.
 
+> **NOTE** in order to run the project, the `NormalMappingModelProcessor` needs to be built in `Debug` mode at least once.  The [dependency path](https://github.com/MonoGame/MonoGame.Samples/blob/9e36bf676a8e825a1c1eb2afc41ba596e4a74720/ShipGame/ShipGame.Core/Content/ShipGame.mgcb#L13) to the processor dll in the `.mgcb` file is (for the moment) fixed.
+>
+> You can either build for `debug` or change the path to where a built version of the `NormalMappingModelProcessor` is located to run the project, else you will get "Processor" errors in the MGCB tool.
+
 The code is split up this way in order to share the same central game code for all platforms.  Each platform initializes the `ShipGameGame` Game class in the core project to run the game.
 
 ## Playing Ship Game
