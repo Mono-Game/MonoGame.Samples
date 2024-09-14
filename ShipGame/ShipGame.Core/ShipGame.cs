@@ -32,6 +32,7 @@ namespace ShipGame
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "ShipGame"; 
 
             soundManager = new SoundManager();
             game = new GameManager(soundManager);

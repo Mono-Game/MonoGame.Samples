@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\ShipGame.Dependencies\NormalMappingModelProcessor\bin\Debug\net8.0\NormalMappingModelProcessor.dll
+/reference:..\..\ShipGame.Dependencies\NormalMappingModelProcessor\bin\Release\net8.0\NormalMappingModelProcessor.dll
 
 #---------------------------------- Content ---------------------------------#
 
