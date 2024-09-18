@@ -225,7 +225,7 @@ namespace Platformer2D
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null,null, globalTransformation);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null,null, globalTransformation);
 
             level.Draw(gameTime, spriteBatch);
 
