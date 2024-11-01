@@ -34,9 +34,13 @@ namespace NeonShooter
         {
 			Instance = this;
 			graphics = new GraphicsDeviceManager(this);
+            Window.Title = "Neon Shooter";
 
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
+#if !DEBUG
+            graphics.IsFullScreen = true;
+#endif
 
             bloom = new BloomComponent(this);
 			Components.Add(bloom);

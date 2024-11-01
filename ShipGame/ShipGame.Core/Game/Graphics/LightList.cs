@@ -13,6 +13,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 #endregion
 
@@ -24,6 +28,12 @@ namespace ShipGame
         public float radius;       // radius
         public Vector3 color;      // color
 
+        public Light()
+        {
+            position = Vector3.Zero;
+            radius = 1.0f;
+            color = Vector3.One;
+        }
         /// <summary>
         /// Create a new list of lights
         /// </summary>
@@ -63,6 +73,8 @@ namespace ShipGame
         // list of lights
         public List<Light> lights = new List<Light>();
 
+        public LightList() {}
+
         /// <summary>
         /// Saves the light list to a xml file
         /// </summary>
@@ -74,10 +86,29 @@ namespace ShipGame
             if (stream == null)
                 return false;
 
-            // serialize
-            XmlSerializer serializer = new XmlSerializer(typeof(LightList));
-            serializer.Serialize(stream, this);
-            serializer = null;
+            XDocument document = new XDocument ();
+            XElement amb = new XElement("ambient",
+                new XElement ("X", ambient.X),
+                new XElement ("Y", ambient.Y),
+                new XElement ("Z", ambient.Z));
+            document.Add ("LightList", amb, new XElement ("lights", () => {
+                List<XElement> contents = new List<XElement>();
+                foreach (Light e in lights) {
+                    XElement position = new XElement("position",
+                        new XElement ("X", e.position.X),
+                        new XElement ("Y", e.position.Y),
+                        new XElement ("Z", e.position.Z));
+                    XElement radius = new XElement ("radius", e.radius);
+                    XElement color = new XElement("color",
+                        new XElement ("X", e.color.X),
+                        new XElement ("Y", e.color.Y),
+                        new XElement ("Z", e.color.Z));
+                    contents.Add (new XElement("Light", position, radius, color));
+                }
+                return contents;
+            } )); 
+
+            document.Save (stream);
 
             // close
             stream.Close();
@@ -106,10 +137,35 @@ namespace ShipGame
                 return null;
 
             // load data
-            XmlSerializer serializer = new XmlSerializer(typeof(LightList));
-            LightList environmentLights = (LightList)serializer.Deserialize(stream);
-            serializer = null;
-
+            LightList environmentLights = new LightList();
+            XDocument document = XDocument.Load(stream);
+            XElement ambient = document.Element ("LightList").Element("ambient");
+            environmentLights.ambient = new Vector3(
+                float.Parse(ambient.Element("X")?.Value ?? "0.3"),
+                float.Parse(ambient.Element("Y")?.Value ?? "0.3"),
+                float.Parse(ambient.Element("Z")?.Value ?? "0.3")
+            );
+            var lightElements = document.Descendants("Light");
+            IEnumerable<Light> lights = lightElements.Select(lightElement => new Light
+            {
+                position = new Vector3(
+                    float.Parse(lightElement.Element("position")?.Element("X")?.Value ?? "0"),
+                    float.Parse(lightElement.Element("position")?.Element("Y")?.Value ?? "0"),
+                    float.Parse(lightElement.Element("position")?.Element("Z")?.Value ?? "0")
+                ),
+                radius = float.Parse(lightElement.Element("radius")?.Value ?? "1"),
+                color = new Vector3(
+                    float.Parse(lightElement.Element("color")?.Element("X")?.Value ?? "0"),
+                    float.Parse(lightElement.Element("color")?.Element("Y")?.Value ?? "0"),
+                    float.Parse(lightElement.Element("color")?.Element("Z")?.Value ?? "0")
+                )
+            });
+            foreach (Light light in lights)
+            {
+                environmentLights.lights.Add(light);
+            }
+            
+            
             // close
             stream.Close();
             stream = null;

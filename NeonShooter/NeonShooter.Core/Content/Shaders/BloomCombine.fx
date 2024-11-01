@@ -17,7 +17,7 @@ float4 AdjustSaturation(float4 color, float saturation)
 {
     // The constants 0.3, 0.59, and 0.11 are chosen because the
     // human eye is more sensitive to green light, and less to blue.
-    float grey = dot(color, float3(0.3, 0.59, 0.11));
+    float grey = dot(color, float4(0.3, 0.59, 0.11, 0.0));
 
     return lerp(grey, color, saturation);
 }
