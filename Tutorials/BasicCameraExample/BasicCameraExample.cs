@@ -179,11 +179,11 @@ public class BasicCameraExample : Game
         SetCameraDrawingState();
 
         // Ground drawn from the center of the scene
-        DrawModel(groundModel, Matrix.Identity, currentCameraView, currentCameraProjection);
+        groundModel.Draw(Matrix.Identity, currentCameraView, currentCameraProjection);
 
         // Ship model drawn from its current position / rotation
         if (currentCameraMode != CameraMode.FirstPerson) // Comment out this line if you want to see the inside of the ship :)
-            DrawModel(myModel, modelWorldPosition, currentCameraView, currentCameraProjection);
+            myModel.Draw(modelWorldPosition, currentCameraView, currentCameraProjection);
 
         // Draw Help Text and other HUD stuff
         DrawHUD();
@@ -399,30 +399,6 @@ public class BasicCameraExample : Game
     #endregion Camera Modes
 
     #region Draw Methods
-    void DrawModel(Model aModel, Matrix aWorld, Matrix aView, Matrix aProjection)
-    {
-        //Copy any parent transforms
-        Matrix[] transforms = new Matrix[aModel.Bones.Count];
-        aModel.CopyAbsoluteBoneTransformsTo(transforms);
-
-        //Draw the model, a model can have multiple meshes, so loop
-        foreach (ModelMesh mesh in aModel.Meshes)
-        {
-            //This is where the mesh orientation is set, as well as our camera and projection
-            foreach (BasicEffect effect in mesh.Effects)
-            {
-                effect.EnableDefaultLighting();
-                effect.PreferPerPixelLighting = true;
-                effect.World = transforms[mesh.ParentBone.Index] * aWorld;
-                effect.View = aView;
-                effect.Projection = aProjection;
-            }
-
-            //Draw the mesh, will use the effects set above.
-            mesh.Draw();
-        }
-    }
-
     void DrawHUD()
     {
         _spriteBatch.Begin();
