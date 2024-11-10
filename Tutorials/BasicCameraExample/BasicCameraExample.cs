@@ -310,14 +310,8 @@ public class BasicCameraExample : Game
     {
         // Tracking view, the camera is always in the same position but changes the view matrix to "look" towards a target.
 
-        // Create a vector pointing the direction the camera is facing.  
-        Vector3 transformedReference = Vector3.Transform(modelPosition, Matrix.Identity);
-
-        // Calculate the position the camera is looking at.
-        Vector3 cameraLookat = transformedReference + modelPosition;
-
         // Set up our world matrix, view matrix and projection matrix.
-        UpdateCameraView(cameraFixedPosition, cameraLookat);
+        UpdateCameraView(cameraFixedPosition, modelPosition);
     }
 
     void UpdateFirstPersonCamera()
