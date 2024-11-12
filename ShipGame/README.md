@@ -248,5 +248,5 @@ The projectile manager holds all currently active projectiles. A projectile is c
 
 Several contributors have helped to support this sample:
 
-* [Charles (NemoKrad) Humphries](https://nemokrad.itch.io/) - Fixed and updated the Shaders from the original XNA samples.
+* [Charles (NemoKrad) Humphrey](https://nemokrad.itch.io/) - Fixed and updated the Shaders from the original XNA samples.
 * [Grace Martin](https://www.artstation.com/gracemartin) - Rebuilt and re-textured Level 1, as the XNA originals had several issues.
