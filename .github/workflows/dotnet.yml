@@ -1,0 +1,30 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "3.8.2" ]
+  pull_request:
+    branches: [ "3.8.2" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Archive Tutorial/BasicCameraExample
+      uses: actions/upload-artifact@v4
+      with:
+        path: Tutorials/BasicCameraExample/**
+    - name: Archive ShipGame
+      uses: actions/upload-artifact@v4
+      with:
+        path: ShipGame/**
