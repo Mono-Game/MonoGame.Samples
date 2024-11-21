@@ -25,8 +25,28 @@ jobs:
       with:
         name: BasicCameraExample
         path: Tutorials/BasicCameraExample/**
+        include-hidden-files: true
     - name: Archive ShipGame
       uses: actions/upload-artifact@v4
       with:
         name: ShipGame
         path: ShipGame/**
+        include-hidden-files: true
+    - name: Archive NeonShooter
+      uses: actions/upload-artifact@v4
+      with:
+        name: NeonShooter
+        path: NeonShooter/**
+        include-hidden-files: true
+    - name: Archive Platformer2D
+      uses: actions/upload-artifact@v4
+      with:
+        name: Platformer2D
+        path: Platformer2D/**
+        include-hidden-files: true
+    - name: Archive AutoPong
+      uses: actions/upload-artifact@v4
+      with:
+        name: AutoPong
+        path: AutoPong/**
+        include-hidden-files: true
