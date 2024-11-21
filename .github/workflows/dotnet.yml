@@ -56,3 +56,27 @@ jobs:
         name: FuelCell
         path: FuelCell/**
         include-hidden-files: true
+
+  deploy:
+      name: Deploy
+      needs: [ build ]
+      runs-on: ubuntu-latest
+      if: ${{ github.event_name == 'push' }}
+      permissions:
+          packages: write
+          contents: write
+      steps:
+          - name: Clone Repository
+            uses: actions/checkout@v4
+          - name: Expose GitHub Runtime
+            uses: crazy-max/ghaction-github-runtime@v3
+          - name: Make a Release
+            if: github.ref_type == 'tag'
+            uses: ncipollo/release-action@v1
+            with:
+              name: 'MonoGame ${{ github.ref_name }}'
+              tag: ${{ github.ref_name }}
+              allowUpdates: true
+              removeArtifacts: true
+              artifacts: "*.zip"
+              token: ${{ secrets.GITHUB_TOKEN }}
