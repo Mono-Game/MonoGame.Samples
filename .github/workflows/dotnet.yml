@@ -50,3 +50,9 @@ jobs:
         name: AutoPong
         path: AutoPong/**
         include-hidden-files: true
+    - name: Archive FuelCell
+      uses: actions/upload-artifact@v4
+      with:
+        name: FuelCell
+        path: FuelCell/**
+        include-hidden-files: true
