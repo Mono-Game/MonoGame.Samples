@@ -715,7 +715,7 @@ namespace ShipGame
                         players[0].Camera3rdPerson == false);
 
                     // draw missile count
-                    font.DrawText(FontType.ArialMedium,
+                    font.DrawText(FontType.MediumFont,
                         players[0].MissileCount.ToString(),
                         new Vector2(rect.Right - 138, rect.Bottom - 120),
                         Color.LightCyan);
@@ -740,7 +740,7 @@ namespace ShipGame
                         players[0].Camera3rdPerson == false);
 
                     // draw missile count
-                    font.DrawText(FontType.ArialMedium,
+                    font.DrawText(FontType.MediumFont,
                         players[0].MissileCount.ToString(),
                         new Vector2(rect.Right - 138, rect.Bottom - 125),
                         Color.LightCyan);
@@ -763,7 +763,7 @@ namespace ShipGame
                         players[1].Camera3rdPerson == false);
 
                     // draw missile count
-                    font.DrawText(FontType.ArialMedium,
+                    font.DrawText(FontType.MediumFont,
                         players[1].MissileCount.ToString(),
                         new Vector2(rect.Right - 138, rect.Bottom - 125),
                         Color.LightCyan);
@@ -776,11 +776,11 @@ namespace ShipGame
                         damageColor, BlendState.AlphaBlend);
 
                 // draw score
-                font.DrawText(FontType.ArialLarge,
+                font.DrawText(FontType.LargeFont,
                     players[0].Score.ToString(),
                     new Vector2(rect.Width / 2 - 20, 20),
                     Color.LightCyan);
-                font.DrawText(FontType.ArialLarge,
+                font.DrawText(FontType.LargeFont,
                     players[1].Score.ToString(),
                     new Vector2(rect.Width * 3 / 2 - 20, 20),
                     Color.LightCyan);
