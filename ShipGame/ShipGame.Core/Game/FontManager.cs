@@ -20,9 +20,9 @@ namespace ShipGame
     // supported font types and sizes
     public enum FontType
     {
-        ArialSmall = 0,
-        ArialMedium,
-        ArialLarge
+        SmallFont = 0,
+        MediumFont,
+        LargeFont
     };
 
     public class FontManager : IDisposable
@@ -53,9 +53,9 @@ namespace ShipGame
         /// </summary>
         public void LoadContent(ContentManager content)
         {
-            fonts.Add(content.Load<SpriteFont>("fonts/ArialS"));
-            fonts.Add(content.Load<SpriteFont>("fonts/ArialM"));
-            fonts.Add(content.Load<SpriteFont>("fonts/ArialL"));
+            fonts.Add(content.Load<SpriteFont>("fonts/SmallFont"));
+            fonts.Add(content.Load<SpriteFont>("fonts/MediumFont"));
+            fonts.Add(content.Load<SpriteFont>("fonts/LargeFont"));
         }
 
         /// <summary>
