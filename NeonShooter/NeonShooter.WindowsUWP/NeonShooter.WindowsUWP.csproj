@@ -190,8 +190,8 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.13</Version>
     </PackageReference>
-    <PackageReference Include="MonoGame.Framework.WindowsUniversal" Version="3.8.2.1105" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
+    <PackageReference Include="MonoGame.Framework.WindowsUniversal" Version="3.8.*" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\NeonShooter.Core\Content\NeonShooter.mgcb" Link="Content\NeonShooter.mgcb" />
