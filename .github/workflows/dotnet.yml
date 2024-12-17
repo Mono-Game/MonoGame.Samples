@@ -70,6 +70,9 @@ jobs:
         path: Platformer2D/**
         include-hidden-files: true
 
+    - name: Build ShipGame COntent Processor in Release mode
+      run: dotnet build ShipGame/ShipGame.Dependencies/NormalMappingModelProcessor/NormalMappingModelProcessor.csproj --configuration Release
+
     - name: Build Windows Binary for ShipGame
       run: dotnet build ShipGame/ShipGame.WindowsDX/ShipGame.WindowsDX.csproj
 
