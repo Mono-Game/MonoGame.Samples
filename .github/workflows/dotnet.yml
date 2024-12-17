@@ -1,0 +1,82 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "3.8.2" ]
+  pull_request:
+    branches: [ "3.8.2" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Archive Tutorial/BasicCameraExample
+      uses: actions/upload-artifact@v4
+      with:
+        name: BasicCameraExample
+        path: Tutorials/BasicCameraExample/**
+        include-hidden-files: true
+    - name: Archive ShipGame
+      uses: actions/upload-artifact@v4
+      with:
+        name: ShipGame
+        path: ShipGame/**
+        include-hidden-files: true
+    - name: Archive NeonShooter
+      uses: actions/upload-artifact@v4
+      with:
+        name: NeonShooter
+        path: NeonShooter/**
+        include-hidden-files: true
+    - name: Archive Platformer2D
+      uses: actions/upload-artifact@v4
+      with:
+        name: Platformer2D
+        path: Platformer2D/**
+        include-hidden-files: true
+    - name: Archive AutoPong
+      uses: actions/upload-artifact@v4
+      with:
+        name: AutoPong
+        path: AutoPong/**
+        include-hidden-files: true
+    - name: Archive FuelCell
+      uses: actions/upload-artifact@v4
+      with:
+        name: FuelCell
+        path: FuelCell/**
+        include-hidden-files: true
+
+  deploy:
+      name: Deploy
+      needs: [ build ]
+      runs-on: ubuntu-latest
+      if: ${{ github.event_name == 'push' }}
+      permissions:
+          packages: write
+          contents: write
+      steps:
+          - name: Clone Repository
+            uses: actions/checkout@v4
+          - name: Expose GitHub Runtime
+            uses: crazy-max/ghaction-github-runtime@v3
+          - name: Make a Release
+            if: github.ref_type == 'tag'
+            uses: ncipollo/release-action@v1
+            with:
+              name: 'MonoGame ${{ github.ref_name }}'
+              tag: ${{ github.ref_name }}
+              allowUpdates: true
+              removeArtifacts: true
+              artifacts: "*.zip"
+              token: ${{ secrets.GITHUB_TOKEN }}
