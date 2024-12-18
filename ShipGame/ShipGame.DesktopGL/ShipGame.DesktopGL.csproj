@@ -11,14 +11,6 @@
     <ApplicationIcon>../ShipGame.Core/ShipGame.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="../ShipGame.Core/ShipGame.ico" />
-    <None Remove="../ShipGame.Core/ShipGame.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="../ShipGame.Core/ShipGame.ico" />
-    <EmbeddedResource Include="../ShipGame.Core/ShipGame.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ShipGame.Core\ShipGame.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
