@@ -38,7 +38,11 @@ A new template sample is also available which guides through the building of a M
 
 These samples can either be opened and built in Visual Studio for Mac or Windows, alternatively they can be built with the .NET Core tool chain (with the exception of the Windows UWP sample, which is Windows 10 only).
 
-For more details on building projects with the .NET Core tools, please see [this guide on the MonoGame documentation site](https://docs.monogame.net/articles/getting_started/packaging_games.html).
+All the sample projects currently refererence version `3.8.*` of our released nugets. At time of writing `3.8.2.1105`, the current stable release. If you want to build and test these samples against a newer set of nugets, go to each directory's `.config/dotnet-tools.json` file and modfify the `"version": "3.8.2.1105"` attribute to a newer one. This includes using CI built nugets that look like `3.8.*.*-develop`.
+
+> **Note:** If using CI nugets, be sure to unzip the nugets to an accessible directory. Then make sure that you add the directory to the list of nuget sources on your machine. Something like:  `dotnet nuget add source [unzipped-directory-location] -n MG-Nugets`
+
+For more details on building projects with the .NET Core tools, please see [this guide on the MonoGame documentation site](https://docs.monogame.net/articles/getting_started/packaging_games.html) and for more details on [nuget package sources](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-add-source).
 
 ## Supported platforms
 
@@ -52,6 +56,6 @@ The MonoGame samples demonstrate all the public platforms available for use.
 * Android (Android)
 * iOS (iOS)
 
-> Note, to build a project for iOS or Mac, you will need a MAC.  They will build on Windows but cannot be published unless built on a Mac.
+> **Note:** to build a project for iOS or Mac, you will need a MAC.  They will build on Windows but cannot be published unless built on a Mac.
 
 For more details on the platforms supported by MonoGame, please see the [Platforms Guide](https://docs.monogame.net/articles/platforms/0_platforms.html) on the MonoGame Documentation site

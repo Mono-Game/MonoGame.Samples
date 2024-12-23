@@ -334,7 +334,7 @@ namespace ShipGame
 
                 // draw fps
                 //fontManager.DrawText(
-                //    FontType.ArialSmall,
+                //    FontType.SmallFont,
                 //    "FPS: " + frameRate,
                 //    new Vector2(gd.Viewport.Width - 80, 0), Color.White);
 

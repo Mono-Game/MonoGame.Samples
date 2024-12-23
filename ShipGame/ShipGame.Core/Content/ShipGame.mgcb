@@ -4,7 +4,7 @@
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
 /platform:DesktopGL
-/config:
+/config:$(Configuration)
 /profile:Reach
 /compress:False
 
@@ -74,26 +74,26 @@
 /processorParam:TextureFormat=Color
 /build:explosions/SpawnGrid_16.tga
 
-#begin fonts/ArialL.spritefont
+#begin fonts/LargeFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:fonts/ArialL.spritefont
+/build:fonts/LargeFont.spritefont
 
-#begin fonts/ArialM.spritefont
+#begin fonts/MediumFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:fonts/ArialM.spritefont
+/build:fonts/MediumFont.spritefont
 
-#begin fonts/ArialS.spritefont
+#begin fonts/SmallFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:fonts/ArialS.spritefont
+/build:fonts/SmallFont.spritefont
 
 #begin levels/level1/level1_collision.fbx
 /importer:FbxImporter

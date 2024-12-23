@@ -11,8 +11,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -20,41 +19,68 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    
+    - name: Build Windows Binary for Tutorial/BasicCameraExample
+      run: dotnet build Tutorials/BasicCameraExample/BasicCameraExample.sln
+
     - name: Archive Tutorial/BasicCameraExample
       uses: actions/upload-artifact@v4
       with:
         name: BasicCameraExample
         path: Tutorials/BasicCameraExample/**
         include-hidden-files: true
-    - name: Archive ShipGame
-      uses: actions/upload-artifact@v4
-      with:
-        name: ShipGame
-        path: ShipGame/**
-        include-hidden-files: true
-    - name: Archive NeonShooter
-      uses: actions/upload-artifact@v4
-      with:
-        name: NeonShooter
-        path: NeonShooter/**
-        include-hidden-files: true
-    - name: Archive Platformer2D
-      uses: actions/upload-artifact@v4
-      with:
-        name: Platformer2D
-        path: Platformer2D/**
-        include-hidden-files: true
+
+    - name: Build Windows Binary for AutoPong
+      run: dotnet build AutoPong/AutoPong.WindowsDX/AutoPong.WindowsDX.csproj
+  
     - name: Archive AutoPong
       uses: actions/upload-artifact@v4
       with:
         name: AutoPong
         path: AutoPong/**
         include-hidden-files: true
+
+    - name: Build Windows Binary for FuelCell
+      run: dotnet build FuelCell/FuelCell.WindowsDX/FuelCell.WindowsDX.csproj
+
     - name: Archive FuelCell
       uses: actions/upload-artifact@v4
       with:
         name: FuelCell
         path: FuelCell/**
+        include-hidden-files: true
+
+    - name: Build Windows Binary for NeonShooter
+      run: dotnet build NeonShooter/NeonShooter.WindowsDX/NeonShooter.WindowsDX.csproj
+
+    - name: Archive NeonShooter
+      uses: actions/upload-artifact@v4
+      with:
+        name: NeonShooter
+        path: NeonShooter/**
+        include-hidden-files: true
+
+    - name: Build Windows Binary for Platformer2D
+      run: dotnet build Platformer2D/Platformer2D.WindowsDX/Platformer2D.WindowsDX.csproj
+
+    - name: Archive Platformer2D
+      uses: actions/upload-artifact@v4
+      with:
+        name: Platformer2D
+        path: Platformer2D/**
+        include-hidden-files: true
+
+    - name: Build ShipGame COntent Processor in Release mode
+      run: dotnet build ShipGame/ShipGame.Dependencies/NormalMappingModelProcessor/NormalMappingModelProcessor.csproj --configuration Release
+
+    - name: Build Windows Binary for ShipGame
+      run: dotnet build ShipGame/ShipGame.WindowsDX/ShipGame.WindowsDX.csproj
+
+    - name: Archive ShipGame
+      uses: actions/upload-artifact@v4
+      with:
+        name: ShipGame
+        path: ShipGame/**
         include-hidden-files: true
 
   deploy:

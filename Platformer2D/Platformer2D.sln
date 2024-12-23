@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platformer2D.DesktopGL", "Platformer2D.DesktopGL\Platformer2D.DesktopGL.csproj", "{74BABA3E-D424-4620-9661-C1F767759A52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platformer2D.Core", "Platformer2D.Core\Platformer2D.Core.csproj", "{64C2A1E6-09A1-4F46-8765-8B780C70122D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{75DBB690-40CC-46CF-B201-F190F5CF804C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platformer2D.Android", "Platformer2D.Android\Platformer2D.Android.csproj", "{4E1A4A78-F079-47C5-909F-FEF38E120091}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platformer2D.iOS", "Platformer2D.iOS\Platformer2D.iOS.csproj", "{7234F83E-51D9-4BE2-9795-568B9A1764F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platformer2D.WindowsDX", "Platformer2D.WindowsDX\Platformer2D.WindowsDX.csproj", "{D936BF4C-AE14-4ADF-9C24-2A6B585713BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74BABA3E-D424-4620-9661-C1F767759A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74BABA3E-D424-4620-9661-C1F767759A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74BABA3E-D424-4620-9661-C1F767759A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74BABA3E-D424-4620-9661-C1F767759A52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C2A1E6-09A1-4F46-8765-8B780C70122D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C2A1E6-09A1-4F46-8765-8B780C70122D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C2A1E6-09A1-4F46-8765-8B780C70122D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C2A1E6-09A1-4F46-8765-8B780C70122D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E1A4A78-F079-47C5-909F-FEF38E120091}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E1A4A78-F079-47C5-909F-FEF38E120091}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E1A4A78-F079-47C5-909F-FEF38E120091}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4E1A4A78-F079-47C5-909F-FEF38E120091}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E1A4A78-F079-47C5-909F-FEF38E120091}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E1A4A78-F079-47C5-909F-FEF38E120091}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D936BF4C-AE14-4ADF-9C24-2A6B585713BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D936BF4C-AE14-4ADF-9C24-2A6B585713BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D936BF4C-AE14-4ADF-9C24-2A6B585713BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D936BF4C-AE14-4ADF-9C24-2A6B585713BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{74BABA3E-D424-4620-9661-C1F767759A52} = {75DBB690-40CC-46CF-B201-F190F5CF804C}
+		{4E1A4A78-F079-47C5-909F-FEF38E120091} = {75DBB690-40CC-46CF-B201-F190F5CF804C}
+		{7234F83E-51D9-4BE2-9795-568B9A1764F4} = {75DBB690-40CC-46CF-B201-F190F5CF804C}
+		{D936BF4C-AE14-4ADF-9C24-2A6B585713BE} = {75DBB690-40CC-46CF-B201-F190F5CF804C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F72D49A5-A441-4121-B119-98D295CA3697}
+	EndGlobalSection
+EndGlobal

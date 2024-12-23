@@ -11,13 +11,13 @@ with.
     <!--
     Modify this string to change the font that will be imported.
     -->
-    <FontName>Arial</FontName>
+    <FontName>Roboto-Bold</FontName>
 
     <!--
     Size is a float value, measured in points. Modify this value to change
     the size of the font.
     -->
-    <Size>14</Size>
+    <Size>24</Size>
 
     <!--
     Spacing is a float value, measured in pixels. Modify this value to change
@@ -29,7 +29,7 @@ with.
     Style controls the style of the font. Valid entries are "Regular", "Bold", "Italic",
     and "Bold, Italic", and are case sensitive.
     -->
-    <Style>Regular</Style>
+    <Style>Bold</Style>
 
     <!--
     CharacterRegions control what letters are available in the font. Every
